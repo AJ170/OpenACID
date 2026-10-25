@@ -20,9 +20,11 @@ namespace Assets.Scripts.Native
 		{
 			get
 			{
-				if (m_nativeToolsMgr == null && Application.platform == RuntimePlatform.Android)
+				if (m_nativeToolsMgr == null)
 				{
-					m_nativeToolsMgr = new NativeToolsAndroid();
+					// Only the Android backend survived in the rip; everything else (PS Vita,
+					// editor) gets the generic one instead of null.
+					m_nativeToolsMgr = (Application.platform == RuntimePlatform.Android) ? new NativeToolsAndroid() : new NativeToolsGeneric();
 				}
 				return m_nativeToolsMgr;
 			}
