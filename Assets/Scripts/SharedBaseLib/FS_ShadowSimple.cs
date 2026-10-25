@@ -114,7 +114,7 @@ public class FS_ShadowSimple : MonoBehaviour
 		_isStatic = isStatic;
 		if (shadowMaterial == null)
 		{
-			shadowMaterial = (Material)Resources.Load("FS_ShadowMaterial");
+			shadowMaterial = (Material)Resources.Load("FS_ShadowMaterial", typeof(Material));
 			bool flag = shadowMaterial == null;
 		}
 		if (isStatic)

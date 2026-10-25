@@ -644,7 +644,7 @@ public class AcierCameraController : CameraController
 		m_activeLayerMask = LayerMaskBlockers;
 		AgentDataFilter = new TransformFilter(NavMeshAgent.transform, 0.1f, 0.05f, 2.5f, 0.05f, 0.1f);
 		Events = base.gameObject.AddComponentIfNotExist<CameraEvents>();
-		GameObject gameObject = UnityEngine.Resources.Load("Camera/CameraSetup") as GameObject;
+		GameObject gameObject = UnityEngine.Resources.Load("Camera/CameraSetup", typeof(GameObject)) as GameObject;
 		m_globalValues = gameObject.GetComponent<CameraValues>();
 		m_templates = new BBDictionary<int, ICameraState>();
 		GameObject gameObject2 = new GameObject("Templates");
@@ -652,7 +652,7 @@ public class AcierCameraController : CameraController
 		gameObject2.SetActive(false);
 		if (CollisionProbe == null)
 		{
-			GameObject gameObject3 = UnityEngine.Resources.Load("Camera/CameraCollisionProbe") as GameObject;
+			GameObject gameObject3 = UnityEngine.Resources.Load("Camera/CameraCollisionProbe", typeof(GameObject)) as GameObject;
 			if (gameObject3 != null)
 			{
 				UnityEngine.Object.Instantiate(gameObject3);

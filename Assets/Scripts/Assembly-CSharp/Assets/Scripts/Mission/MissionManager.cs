@@ -510,7 +510,7 @@ namespace Assets.Scripts.Mission
 			DoOutro = category != null && !category.Finished;
 			if (DoOutro)
 			{
-				GameObject original = UnityEngine.Resources.Load("Effects/Outro/TutorialOutro") as GameObject;
+				GameObject original = UnityEngine.Resources.Load("Effects/Outro/TutorialOutro", typeof(GameObject)) as GameObject;
 				GameObject gameObject = UnityEngine.Object.Instantiate(original);
 				Outro component = gameObject.GetComponent<Outro>();
 				if (component != null)

@@ -324,7 +324,7 @@ namespace Assets.Scripts.UI.InfoPopup
 				GameObject gameObject = prefabHandle.CachedInstance;
 				if (gameObject == null)
 				{
-					GameObject prefab = Resources.Load(prefabHandle.PrefabPath) as GameObject;
+					GameObject prefab = Resources.Load(prefabHandle.PrefabPath, typeof(GameObject)) as GameObject;
 					gameObject = (prefabHandle.CachedInstance = NGUITools.AddChild(m_contentParent.gameObject, prefab));
 					if (gameObject != null)
 					{

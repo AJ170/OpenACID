@@ -73,7 +73,7 @@ public class Vignette : MonoBehaviour
 		obj.transform.parent = base.transform;
 		MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
 		obj.AddComponent<MeshFilter>().sharedMesh = CreateVignetteMesh();
-		meshRenderer.material = Resources.Load("HUD/Materials/CameraEffects") as Material;
+		meshRenderer.material = Resources.Load("HUD/Materials/CameraEffects", typeof(Material)) as Material;
 		m_Renderer = meshRenderer;
 		return obj;
 	}

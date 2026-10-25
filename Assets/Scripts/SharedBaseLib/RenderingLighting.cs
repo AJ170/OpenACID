@@ -108,12 +108,12 @@ public class RenderingLighting : MonoBehaviour
 
 	private void LoadRampTexture()
 	{
-		m_rampTex = (Texture2D)Resources.Load("Character/ramps/character_shading_ramps");
+		m_rampTex = (Texture2D)Resources.Load("Character/ramps/character_shading_ramps", typeof(Texture2D));
 	}
 
 	public RenderingCharacterLightingSettings LoadDefaultCharacterLightSetup()
 	{
-		GameObject gameObject = Resources.Load("Character/RenderingSetup") as GameObject;
+		GameObject gameObject = Resources.Load("Character/RenderingSetup", typeof(GameObject)) as GameObject;
 		if (gameObject != null)
 		{
 			RenderingCharacterLightingSettings component = gameObject.GetComponent<RenderingCharacterLightingSettings>();
@@ -127,7 +127,7 @@ public class RenderingLighting : MonoBehaviour
 
 	public RenderingEnvironmentLightingSettings LoadDefaultEnvironmentLightSetup()
 	{
-		GameObject gameObject = Resources.Load("Character/RenderingSetup") as GameObject;
+		GameObject gameObject = Resources.Load("Character/RenderingSetup", typeof(GameObject)) as GameObject;
 		if (gameObject != null)
 		{
 			RenderingEnvironmentLightingSettings component = gameObject.GetComponent<RenderingEnvironmentLightingSettings>();

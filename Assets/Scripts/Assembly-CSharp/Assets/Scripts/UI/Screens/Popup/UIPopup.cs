@@ -501,7 +501,7 @@ namespace Assets.Scripts.UI.Screens.Popup
 			string text = this[_data.Type];
 			if (!string.IsNullOrEmpty(text))
 			{
-				GameObject gameObject = Resources.Load(text) as GameObject;
+				GameObject gameObject = Resources.Load(text, typeof(GameObject)) as GameObject;
 				UIWidget component = m_contentBox.GetComponent<UIWidget>();
 				UIWidget component2 = gameObject.GetComponent<UIWidget>();
 				component.width = component2.width;

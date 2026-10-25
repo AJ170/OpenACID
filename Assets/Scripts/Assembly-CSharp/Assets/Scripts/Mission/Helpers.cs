@@ -23,7 +23,7 @@ namespace Assets.Scripts.Mission
 
 		public static GameObject Instantiate(string _resource, bool _castShadow = false)
 		{
-			Object @object = Resources.Load(_resource);
+			Object @object = Resources.Load(_resource, typeof(GameObject));
 			GameObject gameObject = Object.Instantiate(@object) as GameObject;
 			gameObject.name = @object.name;
 			ApplyShadowRecieveAndCast(gameObject, false, _castShadow);
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Mission
 
 		public static GameObject Instantiate(string _resource, string _name, bool _castShadow = false)
 		{
-			Object original = Resources.Load(_resource);
+			Object original = Resources.Load(_resource, typeof(GameObject));
 			GameObject gameObject = Object.Instantiate(original) as GameObject;
 			gameObject.name = _name;
 			ApplyShadowRecieveAndCast(gameObject, false, _castShadow);

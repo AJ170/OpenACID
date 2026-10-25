@@ -398,7 +398,7 @@ namespace Assets.Scripts.UI.ScreenManager
 
 		private void CreateAndRegisterScreen(UIPath _path, string _name, Transform _parent)
 		{
-			GameObject gameObject = NGUITools.AddChild(_parent.gameObject, Resources.Load(_path) as GameObject);
+			GameObject gameObject = NGUITools.AddChild(_parent.gameObject, Resources.Load(_path, typeof(GameObject)) as GameObject);
 			if (gameObject != null)
 			{
 				UIScreen component = gameObject.GetComponent<UIScreen>();

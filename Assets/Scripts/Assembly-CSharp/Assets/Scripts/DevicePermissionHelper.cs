@@ -67,7 +67,7 @@ namespace Assets.Scripts
 		private static UIPopup CreateBarePopup(UIPath _path, string _name, Transform _parent)
 		{
 			UIPopup result = null;
-			GameObject gameObject = NGUITools.AddChild(_parent.gameObject, Resources.Load(_path) as GameObject);
+			GameObject gameObject = NGUITools.AddChild(_parent.gameObject, Resources.Load(_path, typeof(GameObject)) as GameObject);
 			if (gameObject != null)
 			{
 				UIScreen component = gameObject.GetComponent<UIScreen>();

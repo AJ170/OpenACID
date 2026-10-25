@@ -383,7 +383,7 @@ public class AcierInputHandler : InputHandler
 			UIGamepadHandler uIGamepadHandler = Object.FindObjectOfType<UIGamepadHandler>();
 			if (uIGamepadHandler == null)
 			{
-				GameObject gameObject = Object.Instantiate(UnityEngine.Resources.Load("UI/GamepadHandler/UIGamepadHandler") as GameObject);
+				GameObject gameObject = Object.Instantiate(UnityEngine.Resources.Load("UI/GamepadHandler/UIGamepadHandler", typeof(GameObject)) as GameObject);
 				if (gameObject != null)
 				{
 					UIGamepadHandler = gameObject.GetComponent<UIGamepadHandler>();
@@ -419,7 +419,7 @@ public class AcierInputHandler : InputHandler
 		{
 			if (m_parcourFeedback == null)
 			{
-				m_parcourFeedback = Object.Instantiate(UnityEngine.Resources.Load("Environment/Indicators/MoveInterpreter/ParcourFeedback/ParcourFeedback") as GameObject);
+				m_parcourFeedback = Object.Instantiate(UnityEngine.Resources.Load("Environment/Indicators/MoveInterpreter/ParcourFeedback/ParcourFeedback", typeof(GameObject)) as GameObject);
 			}
 		}
 		else if (m_parcourFeedback != null)

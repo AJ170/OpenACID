@@ -113,7 +113,7 @@ public class RenderingBlobShadows : MonoBehaviour
 
 	private void CreateShadowMaterial(ref Material _material, string _textureName)
 	{
-		Texture2D texture2D = Resources.Load(_textureName) as Texture2D;
+		Texture2D texture2D = Resources.Load(_textureName, typeof(Texture2D)) as Texture2D;
 		if (texture2D != null)
 		{
 			_material = new Material(Shader.Find("Hidden/FS_ShadowShader/UnlitAlphaBlend"));

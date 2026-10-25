@@ -23,7 +23,7 @@ namespace Assets.Scripts.Mission.AI.Helper
 			uint monoUsedSize = Profiler.GetMonoUsedSize();
 			Profiling.Start("AbstractTreeHolder::Init()", float.MaxValue);
 			DelegateHolder = _delegateHolder;
-			TextAsset textAsset = (TextAsset)Resources.Load(_assetPath);
+			TextAsset textAsset = (TextAsset)Resources.Load(_assetPath, typeof(TextAsset));
 			BehaviorTree = new BehaviorTree();
 			BehaviorTree.Init(DelegateHolder, textAsset, _preStartActionIndex);
 			Resources.UnloadAsset(textAsset);

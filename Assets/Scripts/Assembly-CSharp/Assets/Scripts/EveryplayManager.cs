@@ -63,7 +63,7 @@ namespace Assets.Scripts
 
 		public static void EnableEveryplaySettings(bool enable)
 		{
-			EveryplaySettings everyplaySettings = (EveryplaySettings)UnityEngine.Resources.Load("EveryplaySettings");
+			EveryplaySettings everyplaySettings = (EveryplaySettings)UnityEngine.Resources.Load("EveryplaySettings", typeof(EveryplaySettings));
 			everyplaySettings.iosSupportEnabled = (everyplaySettings.androidSupportEnabled = enable);
 		}
 
@@ -92,7 +92,7 @@ namespace Assets.Scripts
 				{
 					Object.Destroy(m_everyplayRoot);
 				}
-				EveryplaySettings everyplaySettings = (EveryplaySettings)UnityEngine.Resources.Load("EveryplaySettings");
+				EveryplaySettings everyplaySettings = (EveryplaySettings)UnityEngine.Resources.Load("EveryplaySettings", typeof(EveryplaySettings));
 				everyplaySettings.iosSupportEnabled = (everyplaySettings.androidSupportEnabled = false);
 				IsReadyForRecording = false;
 				Everyplay.ReadyForRecording -= OnReadyForRecording;

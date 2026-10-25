@@ -82,7 +82,7 @@ namespace Assets.Scripts.Mission.HUD
 			{
 				return;
 			}
-			GameObject gameObject = Resources.Load("UI/Logos/MissionOutro") as GameObject;
+			GameObject gameObject = Resources.Load("UI/Logos/MissionOutro", typeof(GameObject)) as GameObject;
 			if (!(gameObject != null))
 			{
 				return;

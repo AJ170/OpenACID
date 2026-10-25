@@ -60,7 +60,7 @@ namespace Assets.Scripts.UI.InfoPopup
 			m_parentWidget = _parentWidget;
 			m_arrowFadeBoundsWidget = ((!(_arrowFadeBoundsWidgetbool != null)) ? m_parentWidget : _arrowFadeBoundsWidgetbool);
 			FadeAtBorder = _fadeAtBorder;
-			GameObject prefab = Resources.Load("UI/Animus/Widgets/InfoPopup/SelectionArrow") as GameObject;
+			GameObject prefab = Resources.Load("UI/Animus/Widgets/InfoPopup/SelectionArrow", typeof(GameObject)) as GameObject;
 			UISprite component = NGUITools.AddChild(_parentWidget.gameObject, prefab).GetComponent<UISprite>();
 			UIRect.AnchorPoint leftAnchor = component.leftAnchor;
 			Transform target = base.transform;

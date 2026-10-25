@@ -63,7 +63,7 @@ namespace Assets.Scripts.Mission.Logic
 			gameObject.AddComponent<SlowMotionEventManager>();
 			GameObject gameObject3 = GameObject.FindGameObjectWithTag("Main");
 			gameObject3.BroadcastMessage("OnPlayerSpawned", gameObject, SendMessageOptions.DontRequireReceiver);
-			GameObject gameObject4 = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load("Effects/Prefabs/CriticalHealthEffect") as GameObject);
+			GameObject gameObject4 = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load("Effects/Prefabs/CriticalHealthEffect", typeof(GameObject)) as GameObject);
 			gameObject4.transform.parent = gameObject.transform;
 			Profiling.Stop();
 			return gameObject;

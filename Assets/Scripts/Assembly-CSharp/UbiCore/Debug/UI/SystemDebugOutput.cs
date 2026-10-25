@@ -139,7 +139,7 @@ namespace UbiCore.Debug.UI
 			base.transform.position = new Vector3(0.025f, 0.975f, 0f);
 			base.transform.parent = base.transform;
 			GetComponent<GUIText>().fontSize = 12;
-			GetComponent<GUIText>().font = Resources.Load("UBIGAME TEXT L BOLD 32") as Font;
+			GetComponent<GUIText>().font = Resources.Load("UBIGAME TEXT L BOLD 32", typeof(Font)) as Font;
 			m_frameTime = new DebugGraph("Frame-Time", new Rect(10f, 150f, (float)Screen.width - 20f, 200f), Color.white, Color.yellow, 600, 2, true);
 			m_frameTime.SetUnit("s");
 			m_frameTime.SetDataSetColor(Color.red, 0);

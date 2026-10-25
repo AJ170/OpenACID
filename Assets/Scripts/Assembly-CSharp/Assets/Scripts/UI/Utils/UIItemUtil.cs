@@ -123,7 +123,7 @@ namespace Assets.Scripts.UI.Utils
 			UIDataMapper instance = UbiCore.Utils.Singleton<UIDataMapper>.Instance;
 			BBDictionary<int, UIPath> playerLevelSprite = instance.PlayerLevelSprite;
 			_texture.ClearTexture();
-			_texture.mainTexture = UnityEngine.Resources.Load(playerLevelSprite[_avatarRank]) as Texture2D;
+			_texture.mainTexture = UnityEngine.Resources.Load(playerLevelSprite[_avatarRank], typeof(Texture2D)) as Texture2D;
 		}
 
 		public static void UpdateResourceItem(EResourceType _resourceType, Color _quality, bool _turnBackgroundOff, UIPortraitTexture _itemTexture, bool _isShopItem = false, ItemUVCoordType _uvCoordType = ItemUVCoordType.ENone, string _overrideColorDefGuid = "", float _desaturation = 0f)

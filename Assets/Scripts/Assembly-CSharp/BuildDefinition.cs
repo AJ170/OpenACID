@@ -184,7 +184,7 @@ public class BuildDefinition
 	{
 		UriType = EUriType.LocalFileSystem;
 		Debug.Log("BuildDefinition constructor");
-		TextAsset textAsset = UnityEngine.Resources.Load(Filename) as TextAsset;
+		TextAsset textAsset = UnityEngine.Resources.Load(Filename, typeof(TextAsset)) as TextAsset;
 		if (textAsset == null)
 		{
 			return;

@@ -407,7 +407,7 @@ public class Main : SharedMain, INativeShopMessageHandler
 
 	private static void SetupNetwork()
 	{
-		using (MemoryStream source = new MemoryStream(((TextAsset)UnityEngine.Resources.Load("Pinsets")).bytes))
+		using (MemoryStream source = new MemoryStream(((TextAsset)UnityEngine.Resources.Load("Pinsets", typeof(TextAsset))).bytes))
 		{
 			CertificateValidator.Enregister(new HostPinsetStore(source));
 		}
