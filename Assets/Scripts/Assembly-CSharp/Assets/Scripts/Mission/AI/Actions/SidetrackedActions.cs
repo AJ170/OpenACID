@@ -40,7 +40,16 @@ namespace Assets.Scripts.Mission.AI.Actions
 
 		private const float MaxTimeToArgueAfterSeduced = 2.5f;
 
-		private readonly NavMeshPath m_dummyPath = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private NavMeshPath m_dummyPath__lazy;
+
+		private NavMeshPath m_dummyPath
+		{
+			get
+			{
+				return m_dummyPath__lazy ?? (m_dummyPath__lazy = new NavMeshPath());
+			}
+		}
 
 		private NavMeshHit m_dummyHit;
 

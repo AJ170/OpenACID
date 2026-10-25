@@ -20,7 +20,12 @@ public class CameraStateRoofEdge : CameraStateAutoRotation
 
 	public CameraStateRoofEdge()
 	{
-		FetchAgentFacing();
+		// Runs while Unity deserialises the camera states: no native UnityEngine.Object
+		// comparisons allowed here, so test the reference only.
+		if ((object)AcierInputHandler.Instance != null)
+		{
+			m_agentFacing = -AcierInputHandler.Instance.RoofEdgeDetection.RoofEdgeNormal;
+		}
 	}
 
 	public override void CopyFrom(ICameraState _src)

@@ -42,7 +42,16 @@ namespace Assets.Scripts.Mission.Logic.Combat
 
 		private readonly CombatController m_combatController;
 
-		private readonly NavMeshPath m_path = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private NavMeshPath m_path__lazy;
+
+		private NavMeshPath m_path
+		{
+			get
+			{
+				return m_path__lazy ?? (m_path__lazy = new NavMeshPath());
+			}
+		}
 
 		private bool m_dead;
 

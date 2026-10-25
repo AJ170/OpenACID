@@ -12,7 +12,16 @@ namespace Assets.Scripts.Mission.Logic.RuleSystem.Triggers
 
 		private readonly bool m_PlaneDistance;
 
-		private static readonly NavMeshPath s_Path = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private static NavMeshPath s_Path__lazy;
+
+		private static NavMeshPath s_Path
+		{
+			get
+			{
+				return s_Path__lazy ?? (s_Path__lazy = new NavMeshPath());
+			}
+		}
 
 		protected EntityInRangeSkillTriggerBase(ETriggerType _type, IRule _owner, ETriggerFrequency _frequency, ETriggerCategoryFlags _categoryFlags, ETargetSource _targetSource, int _layerMask, bool _planeDistance)
 			: base(_type, _owner, _frequency, _categoryFlags, _targetSource)

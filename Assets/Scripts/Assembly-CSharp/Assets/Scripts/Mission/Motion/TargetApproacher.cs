@@ -62,15 +62,42 @@ namespace Assets.Scripts.Mission.Motion
 
 		private WeaponHandler.WeaponDesc m_rangedWeapon;
 
-		private readonly NavMeshPath m_pathToTarget = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private NavMeshPath m_pathToTarget__lazy;
 
-		private readonly NavMeshPath m_pathToLink = new NavMeshPath();
+		private NavMeshPath m_pathToTarget
+		{
+			get
+			{
+				return m_pathToTarget__lazy ?? (m_pathToTarget__lazy = new NavMeshPath());
+			}
+		}
+
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private NavMeshPath m_pathToLink__lazy;
+
+		private NavMeshPath m_pathToLink
+		{
+			get
+			{
+				return m_pathToLink__lazy ?? (m_pathToLink__lazy = new NavMeshPath());
+			}
+		}
 
 		private readonly SimpleGameTimer m_updateTimer = new SimpleGameTimer();
 
 		private static readonly BBList<OffMeshLinkManager.OffMeshLinkOctreeEntry> s_offMeshLinkBuffer = new BBList<OffMeshLinkManager.OffMeshLinkOctreeEntry>(50);
 
-		private static readonly NavMeshPath s_navMeshPath = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private static NavMeshPath s_navMeshPath__lazy;
+
+		private static NavMeshPath s_navMeshPath
+		{
+			get
+			{
+				return s_navMeshPath__lazy ?? (s_navMeshPath__lazy = new NavMeshPath());
+			}
+		}
 
 		private static NavMeshHit s_dummyHit;
 

@@ -31,7 +31,16 @@ namespace Assets.Scripts.Mission.Logic.Combat
 			4, 4, 1, 1, 3, 3
 		};
 
-		private static readonly NavMeshPath m_dummyPath = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private static NavMeshPath m_dummyPath__lazy;
+
+		private static NavMeshPath m_dummyPath
+		{
+			get
+			{
+				return m_dummyPath__lazy ?? (m_dummyPath__lazy = new NavMeshPath());
+			}
+		}
 
 		private static readonly Enum<SkillTypes> m_greedSkill = "Greed_01".ToEnum<SkillTypes>();
 

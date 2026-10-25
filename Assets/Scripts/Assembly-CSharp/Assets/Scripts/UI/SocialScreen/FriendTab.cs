@@ -50,7 +50,22 @@ namespace Assets.Scripts.UI.SocialScreen
 
 		public static FriendTab Current { get; private set; }
 
-		public FriendProfile Friend { get; private set; }
+		// Runtime data only. Explicitly non serialised: the editor otherwise walks the whole
+		// protobuf profile graph (depth limit warning, recursive serialisation error).
+		[NonSerialized]
+		private FriendProfile m_friend;
+
+		public FriendProfile Friend
+		{
+			get
+			{
+				return m_friend;
+			}
+			private set
+			{
+				m_friend = value;
+			}
+		}
 
 		public int Index { get; private set; }
 

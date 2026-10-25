@@ -17,6 +17,11 @@ Unity 2017.4.4f1 with the PS Vita (PSP2) module and the PSP2 SDK.
 Player settings are applied from code in `Assets/Editor/ACIDVitaBuild.cs` (IL2CPP, title
 `ACID00001`, +109 MB memory expansion, power mode C, gamma colour space).
 
+The build output is the Unity PSP2 layout (`PSVita.self`, `Media/`, `sce_sys/`,
+`sce_module/`); package it into a VPK the same way as your other Unity Vita projects.
+`Assets/Editor/ACIDDiagnostics.cs` has batch helpers that open every build scene or load
+every asset one by one, to attribute load-time errors.
+
 ## Shaders
 
 The rip only contained Unity 5.2 *compiled* GLES shaders (with junk bytes in front of every
@@ -59,6 +64,14 @@ Normal maps are read with `UnpackNormal`; import them as *Normal map* textures.
   `TypeModel` overrides, a lambda name clash, NGUI `ByteReader`, and the `Skills` string
   switch (the lost case label was recovered from the original assembly's string heap).
 - `link.xml` keeps IL2CPP from stripping the game assemblies.
+- Unity 5.4+ forbids engine calls while objects are being constructed/deserialised, which
+  5.2 tolerated:
+  - 13 `NavMeshPath` fields (combat, AI, movement) are now created on first use; before
+    this `CombatController` failed to construct at all.
+  - `CameraStateDead` no longer `new`s a MonoBehaviour (same fallback behaviour).
+  - `CameraStateRoofEdge`'s constructor uses a reference check, not a native one.
+  - `FriendTab.Friend` is explicitly non-serialised.
+  - `UIExtendedLabel` skips localisation in edit mode (only matters for the editor/build).
 
 ## PS Vita behaviour changes
 

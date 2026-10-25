@@ -76,7 +76,16 @@ namespace Assets.Scripts.Mission.Logic
 
 		public static readonly int WalkableMask = NavMeshLayers.WalkableLayerMaskPreset;
 
-		public static readonly NavMeshPath DummyPath = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private static NavMeshPath DummyPath__lazy;
+
+		public static NavMeshPath DummyPath
+		{
+			get
+			{
+				return DummyPath__lazy ?? (DummyPath__lazy = new NavMeshPath());
+			}
+		}
 
 		public static NavMeshHit DummyHit;
 

@@ -214,9 +214,27 @@ public class CombatController : MonoBehaviour, IEntityRemovedFromListHandler
 
 	private NavMeshHit m_dummyHit;
 
-	private readonly NavMeshPath m_pathPart1 = new NavMeshPath();
+	// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+	private NavMeshPath m_pathPart1__lazy;
 
-	private readonly NavMeshPath m_pathPart2 = new NavMeshPath();
+	private NavMeshPath m_pathPart1
+	{
+		get
+		{
+			return m_pathPart1__lazy ?? (m_pathPart1__lazy = new NavMeshPath());
+		}
+	}
+
+	// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+	private NavMeshPath m_pathPart2__lazy;
+
+	private NavMeshPath m_pathPart2
+	{
+		get
+		{
+			return m_pathPart2__lazy ?? (m_pathPart2__lazy = new NavMeshPath());
+		}
+	}
 
 	private float m_schedulerGlobalCooldownMultiplier = 1f;
 

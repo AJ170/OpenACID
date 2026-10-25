@@ -132,7 +132,16 @@ namespace UbiCore.Acier
 
 		private bool m_playNextRebound;
 
-		private readonly NavMeshPath m_path = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private NavMeshPath m_path__lazy;
+
+		private NavMeshPath m_path
+		{
+			get
+			{
+				return m_path__lazy ?? (m_path__lazy = new NavMeshPath());
+			}
+		}
 
 		private RaycastHit m_raycastHit;
 

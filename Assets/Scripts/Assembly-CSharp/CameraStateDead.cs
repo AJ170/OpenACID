@@ -5,7 +5,10 @@ using UnityEngine;
 public class CameraStateDead : CameraStateOrbit
 {
 	[SerializeField]
-	public DeadValues m_DeadValues = new DeadValues();
+	// The original initialised this with `new DeadValues()`, a detached MonoBehaviour that
+	// compares equal to null, so StartState always took the global values. Unity 2017 rejects
+	// that construction during deserialisation; leaving it null keeps the same behaviour.
+	public DeadValues m_DeadValues;
 
 	public override AcierCameraController.ECameraState StateType
 	{

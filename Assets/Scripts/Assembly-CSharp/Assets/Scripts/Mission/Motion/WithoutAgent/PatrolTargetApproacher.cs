@@ -21,7 +21,16 @@ namespace Assets.Scripts.Mission.Motion.WithoutAgent
 
 		private const float NoSpeedDeviationThreshold = 1.98f;
 
-		private readonly NavMeshPath m_dummyPath = new NavMeshPath();
+		// Created on first use: Unity 5.4+ forbids NavMeshPath construction in field initializers.
+		private NavMeshPath m_dummyPath__lazy;
+
+		private NavMeshPath m_dummyPath
+		{
+			get
+			{
+				return m_dummyPath__lazy ?? (m_dummyPath__lazy = new NavMeshPath());
+			}
+		}
 
 		public Assets.Scripts.Mission.Logic.Entities.Patrol PatrolEntity { get; private set; }
 

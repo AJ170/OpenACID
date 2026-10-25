@@ -170,6 +170,10 @@ public class UIExtendedLabel : UILabel
 	protected override void OnEnable()
 	{
 		base.OnEnable();
+		if (!Application.isPlaying)
+		{
+			return;  // edit mode (e.g. scenes loaded by a player build): Main and localisation do not exist
+		}
 		if (m_useLocalizedText)
 		{
 			OnLanguageChange();
