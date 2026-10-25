@@ -1,0 +1,50 @@
+// Replacement shader: SubShaders are picked by the "EagleVision" tag.
+#include "UnityCG.cginc"
+sampler2D _MainTex;
+float4 _MainTex_ST;
+float4 _RimColor;
+float _EagleVisionAmount;
+//@@PASS humanoid
+#pragma vertex vert
+#pragma fragment frag
+float4 vert(float4 vertex : POSITION) : SV_POSITION { return UnityObjectToClipPos(vertex); }
+fixed4 frag() : SV_Target { return fixed4(_RimColor.rgb * _EagleVisionAmount, 0.95); }
+//@@PASS particles
+#pragma vertex vert
+#pragma fragment frag
+struct v2f { float4 pos : SV_POSITION; fixed4 color : COLOR; float2 uv : TEXCOORD0; };
+v2f vert(appdata_full v)
+{
+    v2f o;
+    o.pos = UnityObjectToClipPos(v.vertex);
+    o.color = v.color;
+    o.uv = TRANSFORM_TEX(v.texcoord.xy, _MainTex);
+    return o;
+}
+fixed4 frag(v2f i) : SV_Target
+{
+    return fixed4(((2.0 * i.color) * (_EagleVisionAmount * tex2D(_MainTex, i.uv))).rgb, 1.0);
+}
+//@@PASS rgb shift
+#pragma vertex vert
+#pragma fragment frag
+float _RedShiftX;
+float _RedShiftY;
+float _GreenShiftX;
+float _GreenShiftY;
+float _BlueShiftX;
+float _BlueShiftY;
+struct v2f { float4 pos : SV_POSITION; float2 uv : TEXCOORD0; };
+v2f vert(appdata_full v)
+{
+    v2f o;
+    o.pos = UnityObjectToClipPos(v.vertex);
+    o.uv = v.texcoord.xy;
+    return o;
+}
+fixed4 frag(v2f i) : SV_Target
+{
+    return fixed4(tex2D(_MainTex, i.uv + float2(_RedShiftX, _RedShiftY)).r,
+                  tex2D(_MainTex, i.uv + float2(_GreenShiftX, _GreenShiftY)).g,
+                  tex2D(_MainTex, i.uv + float2(_BlueShiftX, _BlueShiftY)).b, 0.0);
+}

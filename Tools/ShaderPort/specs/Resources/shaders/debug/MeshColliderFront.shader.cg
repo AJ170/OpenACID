@@ -1,0 +1,13 @@
+#pragma vertex vert
+#pragma fragment frag
+#include "ACID/ACIDCommon.cginc"
+float4 vert(float4 vertex : POSITION) : SV_POSITION
+{
+    float4 p = UnityObjectToClipPos(vertex);
+    p.z = ACID_GLZToClip(ACID_ClipZToGL(p) - 4e-05, p.w);
+    return p;
+}
+//@@PASS depth
+fixed4 frag() : SV_Target { return fixed4(0.0, 0.0, 0.0, 0.0); }
+//@@PASS colour where the depth matches
+fixed4 frag() : SV_Target { return fixed4(0.0, 1.0, 0.0, 0.3); }

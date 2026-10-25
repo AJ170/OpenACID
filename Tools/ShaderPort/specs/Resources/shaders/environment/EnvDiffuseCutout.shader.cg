@@ -1,0 +1,6 @@
+//@@PASS
+#pragma vertex vertEnv
+#pragma fragment fragEnv
+#pragma multi_compile __ SHADOWS_SCREEN
+#define ACID_ENV_CUTOUT
+#include "ACID/ACIDEnvironment.cginc"

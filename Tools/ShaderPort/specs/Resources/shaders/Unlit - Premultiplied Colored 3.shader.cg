@@ -1,0 +1,7 @@
+//@@KEEP_SUBSHADERS 0
+//@@PASS
+#pragma vertex vertNGUI
+#pragma fragment fragNGUI
+#define NGUI_PREMUL
+#define NGUI_CLIP_RECT 3
+#include "ACID/ACIDNGUI.cginc"

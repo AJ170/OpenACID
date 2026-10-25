@@ -1,0 +1,55 @@
+//@@PASS
+// Camera facing beam strips. Vertex colour g picks the horizontal/vertical strip,
+// alpha is the position along the beam, tangent.w the strip length.
+#pragma vertex vert
+#pragma fragment frag
+#include "UnityCG.cginc"
+sampler2D _MainTex;
+float4 _TintColor;
+float4 _Frequency;
+float4 _Amplitude;
+float _Thickness;
+float _FadeDistance;
+float4 _CustomTime;
+struct v2f { float4 pos : SV_POSITION; half2 uv : TEXCOORD0; float3 worldPos : TEXCOORD1; half4 color : TEXCOORD2; };
+v2f vert(appdata_full v)
+{
+    v2f o;
+    const float3 up = float3(0.0, 1.0, 0.0);
+    float3 pos = mul(unity_ObjectToWorld, v.vertex).xyz;
+    float3 wnormal = mul((float3x3)unity_ObjectToWorld, v.normal);
+    float hv = v.color.g;
+
+    float4 wave = sin(wnormal.y * 6.283185 + (_Frequency * _CustomTime.zzzz) * (0.5 + wnormal.x * 0.5)) * _Amplitude;
+    float3 offs = lerp(float3(wave.xy, 0.0) + float3(wave.zw, 0.0),
+                       float3(wave.x, 0.0, wave.y) + float3(wave.z, 0.0, wave.w), hv);
+
+    float3 right = mul((float3x3)unity_ObjectToWorld, v.tangent.xyz);
+    right = normalize(float3(right.x, 0.0, right.z));
+    float3 side = cross(right, up);
+    pos += offs.x * side + offs.y * up;
+
+    float3 toCam = _WorldSpaceCameraPos - pos;
+    float3 local = right * toCam.z + up * toCam.y + side * toCam.x;
+    float2 d2 = lerp(local.xy, local.xz, hv);
+    float t = _Thickness * min(1.0, length(d2) * 0.1);
+    float2 size = lerp(float2(v.tangent.w, t), float2(t, v.tangent.w), hv) * (v.texcoord.xy * 2.0 - 1.0);
+
+    float3 viewDir = normalize(toCam);
+    float center = v.color.a - 0.4980392;
+    float centerFade = 1.0 - abs(center) * 2.0;
+    float3 horizontal = right * size.x + normalize(cross(right, viewDir)) * size.y + right * center * _FadeDistance;
+    float3 vertical = normalize(cross(viewDir, up)) * size.x + up * size.y + up * center * _FadeDistance;
+    pos += lerp(horizontal, vertical, hv);
+
+    o.worldPos = pos;
+    o.pos = mul(UNITY_MATRIX_VP, float4(pos, 1.0));
+    o.uv = lerp(v.texcoord1, v.texcoord, hv).xy;
+    float s = sin(wnormal.x * 6.283185 + _Time.z * (0.5 + wnormal.y * 0.5));
+    o.color = (2.0 * _TintColor) * (1.0 + s) * centerFade * 2.0;
+    return o;
+}
+fixed4 frag(v2f i) : SV_Target
+{
+    return tex2D(_MainTex, i.uv) * i.color * (1.0 / length(i.worldPos - _WorldSpaceCameraPos));
+}

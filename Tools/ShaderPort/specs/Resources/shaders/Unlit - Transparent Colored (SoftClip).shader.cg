@@ -1,0 +1,7 @@
+//@@KEEP_SUBSHADERS 0
+//@@PASS
+#pragma vertex vertNGUI
+#pragma fragment fragNGUI
+#define NGUI_COLORED
+#define NGUI_CLIP_SOFT
+#include "ACID/ACIDNGUI.cginc"

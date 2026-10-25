@@ -1,13 +1,15 @@
-½#Shader "Hidden/BlitScaleCopy" {
-Properties {
- _MainTex ("Texture", any) = "" { }
-}
+Shader "Hidden/Debug/MeshCollider (Clear Stencil)" {
 SubShader { 
+ Tags { "LIGHTMODE"="Always" "QUEUE"="Transparent+1" "RenderType"="Transparent" }
  Pass {
+  Tags { "LIGHTMODE"="Always" "QUEUE"="Transparent+1" "RenderType"="Transparent" }
   ZTest Always
   ZWrite Off
-  Cull Off
-  GpuProgramID 34673
+  Stencil {
+   Pass Replace
+  }
+  Blend SrcAlpha OneMinusSrcAlpha
+  GpuProgramID 9484
 Program "vp" {
 SubProgram "gles " {
 "!!GLES
@@ -15,26 +17,18 @@ SubProgram "gles " {
 
 #ifdef VERTEX
 attribute vec4 _glesVertex;
-attribute vec4 _glesMultiTexCoord0;
 uniform highp mat4 glstate_matrix_mvp;
-uniform highp vec4 _MainTex_ST;
-varying highp vec2 xlv_TEXCOORD0;
 void main ()
 {
   gl_Position = (glstate_matrix_mvp * _glesVertex);
-  xlv_TEXCOORD0 = ((_glesMultiTexCoord0.xy * _MainTex_ST.xy) + _MainTex_ST.zw);
 }
 
 
 #endif
 #ifdef FRAGMENT
-uniform sampler2D _MainTex;
-varying highp vec2 xlv_TEXCOORD0;
 void main ()
 {
-  lowp vec4 tmpvar_1;
-  tmpvar_1 = texture2D (_MainTex, xlv_TEXCOORD0);
-  gl_FragData[0] = tmpvar_1;
+  gl_FragData[0] = vec4(0.0, 0.0, 0.0, 0.0);
 }
 
 
@@ -121,10 +115,7 @@ uniform 	mediump vec4 unity_ColorSpaceDielectricSpec;
 uniform 	mediump vec4 unity_ColorSpaceLuminance;
 uniform 	mediump vec4 unity_Lightmap_HDR;
 uniform 	mediump vec4 unity_DynamicLightmap_HDR;
-uniform 	vec4 _MainTex_ST;
 in highp vec4 in_POSITION0;
-in highp vec2 in_TEXCOORD0;
-out highp vec2 vs_TEXCOORD0;
 highp vec4 t0;
 void main()
 {
@@ -132,7 +123,6 @@ void main()
     t0 = glstate_matrix_mvp[0] * in_POSITION0.xxxx + t0;
     t0 = glstate_matrix_mvp[2] * in_POSITION0.zzzz + t0;
     gl_Position = glstate_matrix_mvp[3] * in_POSITION0.wwww + t0;
-    vs_TEXCOORD0.xy = in_TEXCOORD0.xy * _MainTex_ST.xy + _MainTex_ST.zw;
     return;
 }
 
@@ -141,14 +131,10 @@ void main()
 #version 300 es
 precision highp float;
 precision highp int;
-uniform lowp sampler2D _MainTex;
-in highp vec2 vs_TEXCOORD0;
 layout(location = 0) out lowp vec4 SV_Target0;
-lowp vec4 t10_0;
 void main()
 {
-    t10_0 = texture(_MainTex, vs_TEXCOORD0.xy);
-    SV_Target0 = t10_0;
+    SV_Target0 = vec4(0.0, 0.0, 0.0, 0.0);
     return;
 }
 
@@ -166,5 +152,5 @@ SubProgram "gles3 " {
 }
  }
 }
-Fallback Off
+Fallback "Mobile/VertexLit"
 }

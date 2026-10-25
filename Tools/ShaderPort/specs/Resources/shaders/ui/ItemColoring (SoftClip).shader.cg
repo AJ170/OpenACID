@@ -1,0 +1,7 @@
+//@@PASS
+#pragma vertex vertUI
+#pragma fragment fragUI
+#pragma multi_compile BACKGROUND_OFF BACKGROUND_ON
+#define ACID_UI_ITEMCOLORING
+#define ACID_SOFTCLIP
+#include "ACID/ACIDUI.cginc"

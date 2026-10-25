@@ -1,0 +1,7 @@
+//@@PASS
+#pragma vertex vertChar
+#pragma fragment fragChar
+#pragma multi_compile __ SHADOWS_SCREEN
+#pragma multi_compile FX_OFF FX_NOISEGLOW FX_HIGHLIGHT
+#define ACID_CHAR_BODY
+#include "ACID/ACIDCharacter.cginc"

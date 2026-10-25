@@ -1,0 +1,6 @@
+//@@PASS
+#pragma vertex vertUI
+#pragma fragment fragUI
+#define ACID_UI_PORTRAIT_HEROIC
+#define ACID_SOFTCLIP
+#include "ACID/ACIDUI.cginc"

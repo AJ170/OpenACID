@@ -1,0 +1,5 @@
+//@@PASS
+#pragma vertex vertUI
+#pragma fragment fragUI
+#define ACID_UI_TEXT_OUTLINE
+#include "ACID/ACIDUI.cginc"

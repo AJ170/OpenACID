@@ -1,0 +1,11 @@
+//@@PASS depth pre-pass
+#pragma vertex vertDepth
+#pragma fragment fragDepth
+#include "ACID/ACIDDepthOnly.cginc"
+//@@PASS
+#pragma vertex vertEnv
+#pragma fragment fragEnv
+#pragma multi_compile SIMPLE_FADE FANCY_FADE RASTER_FADE
+#define ACID_ENV_BUMP
+#define ACID_ENV_FADE
+#include "ACID/ACIDEnvironment.cginc"
