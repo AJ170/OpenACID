@@ -1,0 +1,77 @@
+<Behaviors Title="TailTarget.xml" Description="Enter description...">
+  <Behavior BehaviorType="ParallelSequence" Name="TailTarget.xml">
+    <Children>
+      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_CanActCommon" />
+      <Behavior BehaviorType="ParallelSelector" Name="Main">
+        <Children>
+          <Behavior BehaviorType="ParallelSelector" Name="BeingThreatened">
+            <Children>
+              <Behavior BehaviorType="ParallelSequence" Name="BeingThreatenedEscortee">
+                <Children>
+                  <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsVictimType">
+                    <VictimParameters VictimType="Escortee" />
+                  </Behavior>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimThreatened" />
+                  <Behavior BehaviorType="ParallelSelector" Name="KilledOrThreatened">
+                    <Children>
+                      <Behavior BehaviorType="Sequence" Name="Killed">
+                        <Children>
+                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimHit" />
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_GetKilled">
+                            <MeleeParameters AttackMeleeType="UpLeft" />
+                          </Behavior>
+                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_RegisterVictimDead" />
+                        </Children>
+                      </Behavior>
+                      <Behavior BehaviorType="Sequence" Name="Shocked">
+                        <Children>
+                          <Behavior BehaviorType="Timer" Name="WaitForShout" WaitTime="1" MaxWaitTime="-1" />
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Turn">
+                            <TargetParameters Target="EscorteeClosestEnemy" />
+                          </Behavior>
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                            <IdleParameters IdleType="Shocked" CancelCurrentTask="False" />
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="Sequence" Name="BeingThreatenedCaptive">
+                <Children>
+                  <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsVictimType">
+                    <VictimParameters VictimType="Captive" />
+                  </Behavior>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimThreatened" />
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimAttacked" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Misc_GetExecutedOnGround" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_RegisterVictimDead" />
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="ParallelSequence" Name="Stare">
+            <Children>
+              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                <DetectionRangeParameters Range="Extended" />
+              </Behavior>
+              <Behavior BehaviorType="Inverter" Name="">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_Hiding" />
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_StareAtTarget" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="Sequence" Name="Patrol">
+            <Children>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_ReturnToPatrol" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_Patrol" />
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

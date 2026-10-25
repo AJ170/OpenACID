@@ -1,0 +1,41 @@
+namespace Assets.Scripts.Network.Model
+{
+	public enum EModificationType
+	{
+		Nothing = 0,
+		Fine = 1,
+		Polished = 2,
+		Balanced = 3,
+		Tapered = 4,
+		Baselic = 5,
+		Augsburger = 6,
+		Chartreuse = 7,
+		Fiorentine = 8,
+		Roman = 9,
+		Tempered = 10,
+		Gleaming = 11,
+		Colognian = 12,
+		Milanese = 13,
+		Ottoman = 14,
+		Burgundian = 15,
+		Insbrucker = 16,
+		Missaglian = 17,
+		Persian = 18,
+		Solid = 19,
+		Sharpened = 20,
+		Resplendent = 21,
+		Keen = 22,
+		Helmschmieder = 23,
+		Royal = 24,
+		Landshutter = 25,
+		Nuremberger = 26,
+		Passau = 27,
+		Flandrian = 28,
+		Superiour = 29,
+		Poisoned = 30,
+		Exquisite = 31,
+		Masterpiece = 32,
+		Jagged = 33,
+		Venetian = 34
+	}
+}

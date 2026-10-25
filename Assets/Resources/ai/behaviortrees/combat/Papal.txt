@@ -1,0 +1,56 @@
+<Behaviors Title="Combat/Papal.xml" Description="- Kill moves have no effect&#xA;- Always parry second hit&#xA;- Attack right after getting hit&#xA;- Attack three times in a row (interrupted if parried)&#xA;&#xA;">
+  <Behavior BehaviorType="ParallelSelector" Name="Combat/Papal.xml">
+    <Children>
+      <Behavior BehaviorType="Sequence" Name="Defence">
+        <Children>
+          <Behavior BehaviorType="Conditional" Name="" Delegate="IsAttacked" />
+          <Behavior BehaviorType="Selector" Name="">
+            <Children>
+              <Behavior BehaviorType="Sequence" Name="Dodge">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="DodgeRoll" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="EnableDodge" />
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="Sequence" Name="Parry second attack">
+                <Children>
+                  <Behavior BehaviorType="Enforcer" Name="" ForcedReturnCode="Success">
+                    <Children>
+                      <Behavior BehaviorType="Sequence" Name="">
+                        <Children>
+                          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="AttackedByComboCount">
+                            <CompareIntParameters Operator="GreaterOrEqual" Value="1" />
+                          </Behavior>
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetParry">
+                            <BoolParameters Value="True" />
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetParryKillMove">
+                    <BoolParameters Value="True" />
+                  </Behavior>
+                  <Behavior BehaviorType="Timer" Name="" WaitTime="0.5" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetParry">
+                    <BoolParameters Value="False" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="Sequence" Name="Attack">
+        <Children>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Cooldown">
+            <FloatParameters Value="1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="QueueActionWithWarning">
+            <FloatParameters Value="1" />
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

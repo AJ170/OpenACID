@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 8f4ac4b9290141b438516afc3bcd1405
+timeCreated: 1792934795
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 2
+  name:
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames:
+  - MDChamGothicL_NC
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  output:
+    hasEmptyFontData: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

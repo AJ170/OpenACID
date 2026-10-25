@@ -1,0 +1,34 @@
+<Behaviors Title="Combat/Militia.xml" Description="- Normal attacks&#xA;- Chance to flee when others die or flee.">
+  <Behavior BehaviorType="Enforcer" Name="Combat/Militia.xml" ForcedReturnCode="NotCalled">
+    <Children>
+      <Behavior BehaviorType="Sequence" Name="Attack">
+        <Children>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Cooldown">
+            <FloatParameters Value="1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="QueueActionWithWarning">
+            <FloatParameters Value="1" />
+          </Behavior>
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="Sequence" Name="Flee">
+        <Children>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="ConsumeQueuedAllyDied" />
+          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="FleeRoll">
+            <FloatParameters Value="2" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee" />
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="Sequence" Name="Flee">
+        <Children>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="ConsumeQueuedAllyFled" />
+          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="FleeRoll">
+            <FloatParameters Value="1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee" />
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

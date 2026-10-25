@@ -1,0 +1,30 @@
+<Behaviors Title="Crowd/CrowdBehavior.xml" Description="Enter description...">
+  <Behavior BehaviorType="ParallelSelector" Name="Crowd/CrowdBehavior.xml">
+    <Children>
+      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="ReactToHotspot" />
+      <Behavior BehaviorType="ParallelSequence" Name="">
+        <Children>
+          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="DistanceToNavMeshEdge">
+            <CompareFloatParameters Operator="GreaterOrEqual" Value="0.1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="StopAtStation" />
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="ParallelSequence" Name="">
+        <Children>
+          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="DistanceToNavMeshEdge">
+            <CompareFloatParameters Operator="LessOrEqual" Value="0.5" />
+          </Behavior>
+          <Behavior BehaviorType="Branch" Name="">
+            <Children>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="SetDestinationToNextNode" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="FollowPath" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Disable" />
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="FollowCrowdGraph" />
+    </Children>
+  </Behavior>
+</Behaviors>

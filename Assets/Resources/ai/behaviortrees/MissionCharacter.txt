@@ -1,0 +1,29 @@
+<Behaviors>
+  <Behavior BehaviorType="ParallelSequence" Name="Main">
+    <Children>
+      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_CanActCommon" />
+      <Behavior BehaviorType="Selector" Name="Main">
+        <Children>
+          <Behavior BehaviorType="Sequence" Name="ApproachMissionAlertedExit">
+            <Children>
+              <Behavior BehaviorType="ConditionalParameterized" Name="IsMissionAlerted" Delegate="Common_IsInInteractionCharacterMainState">
+                <StateMachineParameters State="CharacterInteractionMain_MissionAlerted" />
+              </Behavior>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Mission_ApproachMissionAlertedTarget" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="Enforcer" Name="Patrol Can be Canceled" ForcedReturnCode="Success">
+            <Children>
+               <Behavior BehaviorType="Sequence" Name="Patrol">
+				<Children>
+				  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_ReturnToPatrol" />
+				  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_Patrol" />
+				</Children>
+			  </Behavior>
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

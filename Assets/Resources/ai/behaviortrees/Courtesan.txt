@@ -1,0 +1,63 @@
+<Behaviors Title="Courtesan.xml" Description="Enter description...">
+  <Behavior BehaviorType="ParallelSequence" Name="Courtesan.xml">
+    <Children>
+      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_CanActCommon" />
+      <Behavior BehaviorType="Enforcer" Name="Always Check FleeConditions" ForcedReturnCode="Success">
+        <Children>
+          <Behavior BehaviorType="ParallelSelector" Name="FleeConditions">
+            <Children>
+              <Behavior BehaviorType="ParallelSequence" Name="FleeLeap">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_IsPerformingStrikingAssasination" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Flee_UpdateFleeTimer">
+                    <FleeReasonParameters Reason="StrikingAssassination" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="ParallelSequence" Name="FleeDefault">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_Active" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Flee_UpdateFleeTimer">
+                    <FleeReasonParameters Reason="Default" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="ParallelSelector" Name="Main">
+        <Children>
+          <Behavior BehaviorType="ParallelSequence" Name="Flee">
+            <Children>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="Flee_IsFleeTimerRunning" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_Flee" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="ParallelSequence" Name="Seduce">
+            <Children>
+              <Behavior BehaviorType="Prolongator" Name="SeduceLongerRandom" WaitTime="0" MaxWaitTime="3">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsSeducing" />
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="Sequence" Name="">
+                <Children>
+                  <Behavior BehaviorType="Timer" Name="" WaitTime="0" MaxWaitTime="3" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Courtesan_SeduceWalk" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Courtesan_SeduceGuards" />
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="Sequence" Name="Patrol">
+            <Children>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_ReturnToPatrol" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_Patrol" />
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

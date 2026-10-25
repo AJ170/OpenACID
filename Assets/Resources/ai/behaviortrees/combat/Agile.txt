@@ -1,0 +1,30 @@
+<Behaviors Title="Combat/Agile.xml" Description="- Always dodge when Idle/Getting hit&#xA;- Attack a second time if facing the back&#xA;">
+  <Behavior BehaviorType="Enforcer" Name="Combat/Agile.xml" ForcedReturnCode="NotCalled">
+    <Children>
+      <Behavior BehaviorType="Sequence" Name="Dodge">
+        <Children>
+          <Behavior BehaviorType="Conditional" Name="" Delegate="IsAttacked" />
+          <Behavior BehaviorType="Selector" Name="">
+            <Children>
+              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="DodgeRollNoFeint">
+                <FloatParameters Value="1" />
+              </Behavior>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="DodgeRoll" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="EnableDodge" />
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="Sequence" Name="Attack">
+        <Children>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Cooldown">
+            <FloatParameters Value="1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="QueueActionWithWarning">
+            <FloatParameters Value="1" />
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

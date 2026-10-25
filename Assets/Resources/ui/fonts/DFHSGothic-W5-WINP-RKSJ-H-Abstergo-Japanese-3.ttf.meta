@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: cd1a2eaf1c41755448b63b2635ab5b8b
+timeCreated: 1792934795
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 2
+  name:
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames:
+  - DFPHSGothic-W5
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  output:
+    hasEmptyFontData: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1149553302052225}
+  m_IsPrefabParent: 1
+--- !u!1 &1149553302052225
+GameObject:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - 4: {fileID: 4622140371934863}
+  - 114: {fileID: 114994556364683484}
+  m_Layer: 0
+  m_Name: OrbitRoof
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4622140371934863
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1149553302052225}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114994556364683484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1149553302052225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491253490aab6aa72b9aa83323fd1d07, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  m_cameraSpline: {fileID: 114634009320128944, guid: 2ed6c5e88b3ec254a8bdb6ed01b1ab3a, type: 2}
+  m_lookAtSpline: {fileID: 114569380582772053, guid: cea9a771f6a412b4497e7cc307bb5da9, type: 2}
+  cameraOffset: {x: 0, y: 5, z: -4}
+  lookAtOffset: {x: 0, y: 2, z: 0}
+  cameraDamping: 0
+  lookAtDamping: 0
+  referenceDamping: 0.1
+  raycastOffset: {x: 0, y: 0, z: 0}

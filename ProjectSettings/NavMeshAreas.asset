@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!126 &1
+NavMeshAreas:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  areas:
+  - name: Walkable
+    cost: 1
+  - name: Not Walkable
+    cost: 1
+  - name: Jump
+    cost: 2
+  - name: GroundSurface
+    cost: 0.1
+  - name: RoofSurface
+    cost: 0.1
+  - name: JumpHorizontal
+    cost: 0.8
+  - name: JumpDown
+    cost: 0.8
+  - name: Climb
+    cost: 2
+  - name: ClimbUpLadder
+    cost: 1.5
+  - name: ClimbDownLadder
+    cost: 1.5
+  - name: RunPassOver
+    cost: 0.8
+  - name: RunPassOverDown
+    cost: 0.8
+  - name: Balance
+    cost: 0.1
+  - name: PropSurface
+    cost: 5
+  - name: ParkourSequence
+    cost: 0.2
+  - name: JumpHorizontalToWall
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1
+  - name:
+    cost: 1

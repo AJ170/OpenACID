@@ -1,0 +1,5 @@
+<Behaviors>
+  <Behavior BehaviorType="Selector" Name="DoNothing">
+    <Children />
+  </Behavior>
+</Behaviors>

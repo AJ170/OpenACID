@@ -1,0 +1,13 @@
+<Behaviors Title="Combat/Player.xml" Description="Enter description...">
+  <Behavior BehaviorType="Enforcer" Name="Combat/Player.xml" ForcedReturnCode="NotCalled">
+    <Children>
+      <Behavior BehaviorType="Sequence" Name="Dodge">
+        <Children>
+          <Behavior BehaviorType="Conditional" Name="" Delegate="IsAttacked" />
+          <Behavior BehaviorType="Conditional" Name="" Delegate="DodgeRoll" />
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="EnableDodge" />
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

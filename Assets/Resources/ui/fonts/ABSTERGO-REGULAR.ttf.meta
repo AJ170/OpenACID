@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 0aab6255d88777e45bca8e099d32b3a2
+timeCreated: 1792934798
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 2
+  name:
+  fontSize: 38
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames:
+  - Abstergo-Regular
+  - "Abstergo-Regular\nDFHSGothic-W5-WIN-RKSJ-H-Abstergo-Japanese-1\nDFHSGothic-W5-WING-RKSJ-H-Abstergo-Japanese-2\nDFHSGothic-W5-WINP-RKSJ-H-Abstergo-Japanese-3\nDFPGB_H5-Abstergo-Simple-Chinese\nDFPT-Abstergo-Trad-Chinese\nMD_CGothic_L-Abstergo-Korean"
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  output:
+    hasEmptyFontData: 0
+  userData:
+  assetBundleName:
+  assetBundleVariant:

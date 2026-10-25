@@ -1,0 +1,43 @@
+<Behaviors Title="Combat/Wolfman.xml" Description="- Normal attack&#xA;- Dodge incoming attacks&#xA;When &lt; 3 allies:&#xA;  - Global attack cooldown reduced by 25%&#xA;When &gt;= 3 allies:&#xA;  - Global attack cooldown reduced by 50%&#xA;">
+  <Behavior BehaviorType="Enforcer" Name="Combat/Wolfman.xml" ForcedReturnCode="NotCalled">
+    <Children>
+      <Behavior BehaviorType="Sequence" Name="Dodge">
+        <Children>
+          <Behavior BehaviorType="Conditional" Name="" Delegate="IsAttacked" />
+          <Behavior BehaviorType="Selector" Name="">
+            <Children>
+              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="DodgeRollNoFeint">
+                <FloatParameters Value="1" />
+              </Behavior>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="DodgeRoll" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="EnableDodge" />
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="Sequence" Name="Attack">
+        <Children>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Cooldown">
+            <FloatParameters Value="1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="QueueActionWithWarning">
+            <FloatParameters Value="1" />
+          </Behavior>
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="Branch" Name="">
+        <Children>
+          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="AllyCount">
+            <CompareIntParameters Operator="LessOrEqual" Value="2" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetGlobalSchedulerCooldownMultiplier">
+            <FloatParameters Value="0.5" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetGlobalSchedulerCooldownMultiplier">
+            <FloatParameters Value="0.75" />
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

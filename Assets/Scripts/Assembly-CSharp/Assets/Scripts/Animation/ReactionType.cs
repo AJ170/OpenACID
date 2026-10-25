@@ -1,0 +1,40 @@
+namespace Assets.Scripts.Animation
+{
+	public enum ReactionType
+	{
+		Invalid = -1,
+		GetHit = 0,
+		DodgeJump = 1,
+		Stunned = 2,
+		ParryDeflect = 3,
+		StunningStrike = 4,
+		GetSeduced = 5,
+		PushBack = 6,
+		GetAssassinatedStealth = 7,
+		GetAssassinatedLeap = 8,
+		Die = 9,
+		GetKilledFromHaystack = 10,
+		GetKilledFromBench = 11,
+		DoctorThankBuy = 12,
+		DoctorNoBuy = 13,
+		SmokeBombReaction = 14,
+		AwarenessDismiss = 15,
+		GetAwarenessReaction = 16,
+		StumbleBackwardLight = 17,
+		StumbleBackwardHeavy = 18,
+		CloseRangePush = 19,
+		GetPushedByWalk = 20,
+		CoinThrowReaction = 21,
+		GetAssassinatedAirSingle = 22,
+		GetAssassinatedAirDouble = 23,
+		BlackjackReaction = 25,
+		StickyBombReaction = 26,
+		GetHurtOnGround = 32,
+		ThrowSandReaction = 33,
+		CancelClimbByPlayer = 36,
+		CancelClimbByDamage = 37,
+		StunnedOnGround = 38,
+		GetExecutedOnGround = 39,
+		ComboKillBase = 1100
+	}
+}

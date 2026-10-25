@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1044203500727770}
+  m_IsPrefabParent: 1
+--- !u!1 &1044203500727770
+GameObject:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - 4: {fileID: 4693539507958780}
+  - 114: {fileID: 114073001815286864}
+  m_Layer: 0
+  m_Name: Combat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4693539507958780
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044203500727770}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114073001815286864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044203500727770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f9118a91316fa297e8db264d991c9f, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  KillTokenDecayTime: 5
+  EnableAutoEnterCombat: 1
+  EnableAutoExitCombat: 1
+  AutoEnterCombatDistance: 9
+  AutoExitCombatDistance: 10
+  PlayerMaxAttackDistance: 3.5
+  MaxParticipantCount: 8
+  ExitCombatHoldIdle: 2
+  EnemyPositioningSensitivity: 1.5
+  EnemyMinAttackDistance: 2
+  EnemyMaxAttackDistance: 3
+  EnemyBestAttackDistance: 2.5
+  EnemyVariationAttackDistance: 0.5
+  EnemyCancelAttackThreshold: 2
+  EnemySolutionDistance: 2
+  EnemyAvoidanceRadius: 2
+  EnemyAvoidanceDamping: 2.19
+  EnemySurroundMaxRadius: 6
+  EnemySurroundIgnoreAngle: 15
+  EnemySurroundCoverAngle: 161.25
+  EnemySurroundDamping: 3.39
+  EnemyFinalDamping: 0.4
+  EnemyFallbackDamping: 0.05
+  EnemyFallbackFactorBase: -0.75
+  EnemyFallbackDistance: 3
+  EnemyStopParryDistance: 4
+  MaxCouldNotReachTargetTime: 1
+  MaxFullUpdateInterval: 0.49
+  MaxTargetDistance: 15
+  MaxTargetAngle: 60
+  EnableComboChangeTarget: 1
+  EnableKillTokenKillPreset: 1
+  EnableKillTokenKillRuntime: 1
+  KillTokenDecayDurationCombat: 5
+  KillTokenDecayDurationNormal: 3
+  KillTokenModeDecayDurationCombat: 5
+  KillTokenModeDecayDurationNormal: 3
+  EnableEnemyAttack: 1
+  EnemyBehaviourAllyFlagMaxAge: 5
+  ParryStanceDuration: 0.2
+  ForceAttackAnimationId: 0
+  AttackAnimationId: 1
+  ForceComboAnimationId: 0
+  ComboAnimationId: 1
+  ForceRandomAnimationParam: 0
+  RandomAnimationParam: -1
+  SchedulerGlobalCooldown: 4
+  AgentParrySpeed: 1
+  AgentStrafeSpeed: 2
+  AgentMoveSpeed: 5.12
+  AgentAcceleration: 25
+  AgentAngularSpeed: 1440
+  EnableFollowAgent: 1
+  FollowAgentDamping: 0.1
+  EnableSpeedBoost: 1
+  SpeedBoostFactor: 0.3
+  SpeedReduceFactor: 0.2
+  SpeedBoostThresholdMax: 7
+  SpeedBoostThresholdMin: 3.5
+  StayOnNavMeshDamping: 0.1
+  StrafeDistanceStart: 0.3
+  StrafeDistanceStop: 0.15
+  HitDistance: 1.4
+  HitTimeOffset: 0.2
+  HitCorrectionDamping: 0.1
+  SlowMotionParryKillMove: {fileID: 11400000, guid: a563768c3b05c91449194a84ebcae5f8, type: 2}
+  CombatUiData:
+    m_ReferenceScreenHeight: 1536
+    m_ShowHealthBars: 1
+    m_HealthBar_HitTime: 0.3
+    m_HealthBar_HitFalloffTime: 2.5
+    m_HealthBar_Offset2d: {x: 0, y: 0.27}
+    m_HealthBar_CustomScale: {x: 0.45, y: 0.5}
+    m_HealthBar_InterpolationType: 5
+    m_Digits_Offset2d: {x: 0, y: 10}
+    m_Digits_LifeTime: 1.4
+    m_Digits_LootLifetime: 3
+    m_Digits_FadeOutTime: 0.8
+    m_Digits_TargetOffset2d: {x: 0, y: 150}
+    m_Digits_MoveInterpolation: 5
+    m_Digits_ScaleInterpolation: 5
+    m_Digits_FadeInterpolation: 5
+    m_Digits_PositionBlendFactor: 5
+    m_Digits_ColorDefault: {r: 1, g: 1, b: 1, a: 1}
+    m_Digits_ColorHit: {r: 0.9647059, g: 0.8156863, b: 0, a: 1}
+    m_Digits_ColorCrit: {r: 1, g: 0, b: 0, a: 1}
+    m_Digits_ColorHeal: {r: 0.07058824, g: 0.7411765, b: 0, a: 1}
+    m_Digits_ColorTimer: {r: 0, g: 0, b: 0, a: 1}
+    m_Digits_ColorDodged: {r: 1, g: 1, b: 1, a: 1}
+    m_Digits_ColorDodgedMiss: {r: 1, g: 1, b: 1, a: 1}
+    m_Digits_ColorKillMoveDeflect: {r: 1, g: 1, b: 1, a: 1}
+    m_Digits_ColorCoins: {r: 1, g: 1, b: 1, a: 1}
+    m_Digits_ColorLockpicks: {r: 1, g: 1, b: 1, a: 1}
+    m_Digits_BaseScaleFactor: 2.5
+    m_Digits_ScaleDefault: 0.75
+    m_Digits_ScaleHit: 0.5
+    m_Digits_ScaleCrit: 0.75
+    m_Digits_ScaleHeal: 0.5
+    m_Digits_ScaleTimer: 0.75
+    m_Digits_ScaleDodged: 0.75
+    m_Digits_ScaleDodgedMiss: 0.75
+    m_Digits_ScaleKillMoveDeflect: 0.75
+    m_Digits_ScaleCoins: 0.75
+    m_Digits_ScaleItems: 0.9
+    m_Digits_ScaleLockpick: 0.5
+    m_Digits_BackgroundHit:
+    - background_damage_01
+    - background_damage_02
+    - background_damage_03
+    m_Digits_BackgroundHeal: background_heal
+    m_Digits_BackgroundTimer: background_timer
+    m_Digits_BackgroundGeneral: background_general
+    m_Vignette_Ease: 18
+    m_Vignette_Hit: {r: 0.93, g: 0, b: 0, a: 1}
+    m_Vignette_Hit_Min: 0.4
+    m_Vignette_Hit_Duration: 1.5
+    m_Combo_Offset2d: {x: 70, y: 10}
+    m_Combo_LifeTime: 1.4
+    m_Combo_FadeOutTime: 0.6
+    m_Combo_Movement2d: {x: -15, y: -30}
+    m_Combo_MoveInterpolation: 18
+    m_Combo_FadeInterpolation: 11
+    m_Combo_Color: {r: 0.93, g: 0, b: 0, a: 1}
+  DebugPlayerImmortal: 0
+  DebugEnemiesImmortal: 0
+  DebugDisableCriticalDamage: 0
+  DebugShowInfo: 0

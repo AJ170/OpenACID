@@ -1,0 +1,119 @@
+<Root>
+	<Excludes>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/DefaultEnemy.xml">
+			<Exclude behaviorName="AlertedRangedDraw" />
+			<Exclude behaviorName="RangedAttack" />
+			<Exclude behaviorName="RangedNotUnsheathed" />
+			<Exclude behaviorName="RangedWeaponDropped" />
+			
+			<Exclude behaviorName="InspectHidingSpot" />
+			<Exclude behaviorName="CollectHidingSpots" />
+			<Exclude behaviorName="ChooseHidingSpot" />
+			<Exclude behaviorName="NoHidingSpotsOrInRange" />
+			
+			<Exclude behaviorName="DropDisguise" />
+			<Exclude behaviorName="NotDisguised" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/ArcherEnemy.xml">
+			<Exclude behaviorName="RangedNotUnsheathed" />
+			<Exclude behaviorName="RangedStrafe" />
+			
+			<Exclude behaviorName="InspectHidingSpot" />
+			<Exclude behaviorName="CollectHidingSpots" />
+			<Exclude behaviorName="ChooseHidingSpot" />
+			<Exclude behaviorName="NoHidingSpotsOrInRange" />
+			
+			<Exclude behaviorName="DropDisguise" />
+			<Exclude behaviorName="NotDisguised" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/CrossbowEnemy.xml">
+			<Exclude behaviorName="InspectHidingSpot" />
+			<Exclude behaviorName="CollectHidingSpots" />
+			<Exclude behaviorName="ChooseHidingSpot" />
+			<Exclude behaviorName="NoHidingSpotsOrInRange" />
+			
+			<Exclude behaviorName="DropDisguise" />
+			<Exclude behaviorName="NotDisguised" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/SeekerEnemy.xml">
+			<Exclude behaviorName="AlertedRangedDraw" />
+			<Exclude behaviorName="RangedAttack" />
+			<Exclude behaviorName="RangedNotUnsheathed" />
+			<Exclude behaviorName="RangedWeaponDropped" />
+			
+			<Exclude behaviorName="SetUndefinedAtLastKnown" />
+			
+			<Exclude behaviorName="DropDisguise" />
+			<Exclude behaviorName="NotDisguised" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/DisguisedEnemy.xml">
+			<Exclude behaviorName="AlertedRangedDraw" />
+			<Exclude behaviorName="RangedAttack" />
+			<Exclude behaviorName="RangedNotUnsheathed" />
+			<Exclude behaviorName="RangedWeaponDropped" />
+			
+			<Exclude behaviorName="InspectHidingSpot" />
+			<Exclude behaviorName="CollectHidingSpots" />
+			<Exclude behaviorName="ChooseHidingSpot" />
+			<Exclude behaviorName="NoHidingSpotsOrInRange" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/DefaultCevilian.xml">
+			<Exclude behaviorName="BeingThreatenedVictim" />
+			<Exclude behaviorName="FleeShocked" />
+			<Exclude behaviorName="Stare" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/DefaultCevilianNoFlee.xml">
+			<Exclude behaviorName="Always Check FleeConditions" />
+			<Exclude behaviorName="FleeShocked" />
+			<Exclude behaviorName="Flee" />
+      <Exclude behaviorName="BeingThreatenedVictim" />
+			<Exclude behaviorName="Stare" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/DefaultCevilianShocked.xml">
+			<Exclude behaviorName="Flee" />
+      <Exclude behaviorName="BeingThreatenedVictim" />
+			<Exclude behaviorName="Stare" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/EscorteeCevilian.xml">
+      <Exclude behaviorName="Always Check FleeConditions" />
+			<Exclude behaviorName="FleeShocked" />
+			<Exclude behaviorName="Flee" />
+			<Exclude behaviorName="Greedy" />
+			<Exclude behaviorName="Stare" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/Doctor.xml">
+      <Exclude behaviorName="BeingThreatenedVictim" />
+			<Exclude behaviorName="Always Check FleeConditions" />
+			<Exclude behaviorName="FleeShocked" />
+			<Exclude behaviorName="Flee" />
+			<Exclude behaviorName="Greedy" />
+			<Exclude behaviorName="ReturnToPatrol" />
+			<Exclude behaviorName="Stare" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/TailTarget.xml">
+      <Exclude behaviorName="BeingThreatenedVictim" />
+			<Exclude behaviorName="Always Check FleeConditions" />
+			<Exclude behaviorName="FleeShocked" />
+			<Exclude behaviorName="Flee" />
+			<Exclude behaviorName="Greedy" />
+		</Tree>
+	</Excludes>
+	<Subsets>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/GenericEnemy.xml">
+			<Subset name="Assets/Resources/AI/BehaviorTrees/DefaultEnemy.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/DisguisedEnemy.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/ArcherEnemy.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/CrossbowEnemy.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/SeekerEnemy.xml" />
+		</Tree>
+		<Tree name="Assets/Resources/AI/BehaviorTrees/GenericCevilian.xml">
+			<Subset name="Assets/Resources/AI/BehaviorTrees/DefaultCevilian.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/DefaultCevilianNoFlee.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/DefaultCevilianShocked.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/TailTarget.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/EscorteeCevilian.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/Doctor.xml" />
+			<Subset name="Assets/Resources/AI/BehaviorTrees/TailTarget.xml" />
+		</Tree>
+	</Subsets>
+</Root>

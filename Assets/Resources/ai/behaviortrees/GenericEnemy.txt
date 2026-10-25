@@ -1,0 +1,755 @@
+<Behaviors Title="GenericEnemy.xml" Description="Enter description...">
+  <Behavior BehaviorType="ParallelSequence" Name="GenericEnemy.xml">
+    <Children>
+      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_CanActCommon" />
+      <Behavior BehaviorType="ParallelSelector" Name="Main">
+        <Children>
+          <Behavior BehaviorType="ParallelSequence" Name="TargetReactions">
+            <Children>
+              <Behavior BehaviorType="Inverter" Name="NotDisguised">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InDisguise" />
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="Selector" Name="Reactions">
+                <Children>
+                  <Behavior BehaviorType="Sequence" Name="DropDisguise">
+                    <Children>
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsDisguised" />
+                      <Behavior BehaviorType="Selector" Name="DetectedConditions">
+                        <Children>
+                          <Behavior BehaviorType="ParallelSequence" Name="DetectedInRange">
+                            <Children>
+                              <Behavior BehaviorType="ParallelSelector" Name="ExposedOrAlarmed">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InAlertedOrExposed" />
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_Alarmed" />
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_Active" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                <DetectionRangeParameters Range="Normal" />
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="DetectedByEagleVision">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Target_EagleVisionIsActive" />
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsInCameraLOS" />
+                            </Children>
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_SetDisguised">
+                        <BoolParameters Value="False" />
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="ParallelSequence" Name="ReactOnConditions">
+                    <Children>
+                      <Behavior BehaviorType="Inverter" Name="NotInNormalCondition">
+                        <Children>
+                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsInNormalCondition" />
+                        </Children>
+                      </Behavior>
+                      <Behavior BehaviorType="Selector" Name="Conditions">
+                        <Children>
+                          <Behavior BehaviorType="ParallelSequence" Name="StickyBombPanic">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsStickyBombPaniced" />
+                              <Behavior BehaviorType="Sequence" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetStickyBombPanic" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_IdleAtTargetStickyBombPanic" />
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="FleeingFromCombat">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsFleeingFromCombat" />
+                              <Behavior BehaviorType="Enforcer" Name="KeepFleeing" ForcedReturnCode="Success">
+                                <Children>
+                                  <Behavior BehaviorType="Branch" Name="AlarmOtherGuards">
+                                    <Children>
+                                      <Behavior BehaviorType="ParallelSequence" Name="">
+                                        <Children>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_ConflictCountBelowCap" />
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsFleeingFromCombatViral" />
+                                          <Behavior BehaviorType="Inverter" Name="">
+                                            <Children>
+                                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsSilenced" />
+                                            </Children>
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_AlarmNearGuards" />
+                                      <Behavior BehaviorType="Enforcer" Name="CombatFullOnce_NoAlarm" ForcedReturnCode="Running">
+                                        <Children />
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="ParallelSelector" Name="OnSightOrNot">
+                                <Children>
+                                  <Behavior BehaviorType="ParallelSequence" Name="FleeOnSight">
+                                    <Children>
+                                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                        <DetectionRangeParameters Range="Normal" />
+                                      </Behavior>
+                                      <Behavior BehaviorType="Sequence" Name="Flee">
+                                        <Children>
+                                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Flee_UpdateFleeSpeed">
+                                            <FleeReasonParameters Reason="FleeFromCombat" />
+                                          </Behavior>
+                                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_EnemyFleeFromCombat" />
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="Sequence" Name="FleeingAndWait">
+                                    <Children>
+                                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Flee_UpdateFleeSpeed">
+                                        <FleeReasonParameters Reason="FleeFromCombat" />
+                                      </Behavior>
+                                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_EnemyFleeFromCombat" />
+                                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_EnemyWait" />
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="WalkFromCombat">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsWalkingFromCombat" />
+                              <Behavior BehaviorType="Sequence" Name="Fleeing">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Flee_UpdateFleeSpeed">
+                                    <FleeReasonParameters Reason="WalkFromCombat" />
+                                  </Behavior>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_EnemyFleeFromCombat" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_EnemyWait" />
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="Confused">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsConfused" />
+                              <Behavior BehaviorType="BehaviorAction" Name="IfAlarmedStayAlarmed" Delegate="Misc_RestartAlarmedActivity" />
+                              <Behavior BehaviorType="Enforcer" Name="PreventChasing" ForcedReturnCode="Running">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                                    <IdleParameters IdleType="Searching" CancelCurrentTask="True" />
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="ApproachSweetMusicOrWait">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="AffectedBySweetMusic" Delegate="Common_IsLuredBySweetMusic" />
+                              <Behavior BehaviorType="Sequence" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_SweetMusicLureReaction" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetSweetMusic" />
+                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                                    <IdleParameters IdleType="Searching" CancelCurrentTask="True" />
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="Seduced">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsSeduced" />
+                              <Behavior BehaviorType="Sequence" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetSeduced" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_IdleAtTargetSeduced" />
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="Greedy">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsGreedy" />
+                              <Behavior BehaviorType="Sequence" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetGreedy" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_IdleAtTargetGreedy" />
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="JackInTheBox">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsJackBoxed" />
+                              <Behavior BehaviorType="Sequence" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_JackInTheBoxLureReaction" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetJackInTheBox" />
+                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                                    <IdleParameters IdleType="Searching" CancelCurrentTask="True" />
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="ThreatVictim">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsThreateningVictim" />
+                              <Behavior BehaviorType="ParallelSelector" Name="KillOrThreat">
+                                <Children>
+                                  <Behavior BehaviorType="ParallelSequence" Name="KillOrThreatEscortee">
+                                    <Children>
+                                      <Behavior BehaviorType="Inverter" Name="">
+                                        <Children>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_InCombat" />
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="Inverter" Name="">
+                                        <Children>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_TargetExposedInClosedRange" />
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsVictimType">
+                                        <VictimParameters VictimType="Escortee" />
+                                      </Behavior>
+                                      <Behavior BehaviorType="ParallelSelector" Name="KillOrThreatEscortee">
+                                        <Children>
+                                          <Behavior BehaviorType="ParallelSequence" Name="ThreateningFinished">
+                                            <Children>
+                                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsThreateningFinalized" />
+                                              <Behavior BehaviorType="Sequence" Name="Kill">
+                                                <Children>
+                                                  <Behavior BehaviorType="Inverter" Name="">
+                                                    <Children>
+                                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimHit" />
+                                                    </Children>
+                                                  </Behavior>
+                                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ActionKillEscortee" />
+                                                </Children>
+                                              </Behavior>
+                                            </Children>
+                                          </Behavior>
+                                          <Behavior BehaviorType="Sequence" Name="Threat">
+                                            <Children>
+                                              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_SetDisguised">
+                                                <BoolParameters Value="False" />
+                                              </Behavior>
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ShoutAtEscortee" />
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetThreatVictim" />
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_IdleAtTargetThreatVictim" />
+                                            </Children>
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="ParallelSequence" Name="KillOrThreatCaptive">
+                                    <Children>
+                                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsVictimType">
+                                        <VictimParameters VictimType="Captive" />
+                                      </Behavior>
+                                      <Behavior BehaviorType="Sequence" Name="KillOrThreatCaptive">
+                                        <Children>
+                                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_SetDisguised">
+                                            <BoolParameters Value="False" />
+                                          </Behavior>
+                                          <Behavior BehaviorType="ParallelSequence" Name="">
+                                            <Children>
+                                              <Behavior BehaviorType="ParallelSelector" Name="">
+                                                <Children>
+                                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_HasArrivedAtVictim" />
+                                                  <Behavior BehaviorType="ParallelSequence" Name="">
+                                                    <Children>
+                                                      <Behavior BehaviorType="Inverter" Name="">
+                                                        <Children>
+                                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_InCombat" />
+                                                        </Children>
+                                                      </Behavior>
+                                                      <Behavior BehaviorType="Inverter" Name="">
+                                                        <Children>
+                                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_TargetExposedInClosedRange" />
+                                                        </Children>
+                                                      </Behavior>
+                                                    </Children>
+                                                  </Behavior>
+                                                </Children>
+                                              </Behavior>
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetThreatVictim" />
+                                            </Children>
+                                          </Behavior>
+                                          <Behavior BehaviorType="Branch" Name="Threat">
+                                            <Children>
+                                              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsThreateningFinalized" />
+                                              <Behavior BehaviorType="Sequence" Name="Kill">
+                                                <Children>
+                                                  <Behavior BehaviorType="Inverter" Name="">
+                                                    <Children>
+                                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimHit" />
+                                                    </Children>
+                                                  </Behavior>
+                                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ActionKillCaptive" />
+                                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_EndThreatening" />
+                                                </Children>
+                                              </Behavior>
+                                              <Behavior BehaviorType="Enforcer" Name="" ForcedReturnCode="Success">
+                                                <Children>
+                                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_IdleAtTargetThreatVictim" />
+                                                </Children>
+                                              </Behavior>
+                                            </Children>
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="ParallelSequence" Name="Alarmed">
+                    <Children>
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_Alarmed" />
+                      <Behavior BehaviorType="ParallelSelector" Name="MeleeOrRange">
+                        <Children>
+                          <Behavior BehaviorType="ParallelSequence" Name="RangedAttack">
+                            <Children>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_HasRangedWeapon" />
+                              <Behavior BehaviorType="Inverter" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="ParallelSelector" Name="StopRangeCombat">
+                                    <Children>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_MeleeWeaponUnsheathedChoosen" />
+                                      <Behavior BehaviorType="ConditionalParameterized" Name="InCloseRange" Delegate="Target_InParameterRange">
+                                        <DetectionRangeParameters Range="Close" />
+                                      </Behavior>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_Active" />
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Target_Hiding" />
+                                      <Behavior BehaviorType="Inverter" Name="">
+                                        <Children>
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_MaxAngleVertical">
+                                            <AngleParameters Angle="50" Absolute="True" />
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="ParallelSequence" Name="ChaseOrAim">
+                                <Children>
+                                  <Behavior BehaviorType="ParallelSelector" Name="BreakChaseIfInRange">
+                                    <Children>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="RangedCombat_KeepChargingIsRunning" />
+                                      <Behavior BehaviorType="ConditionalParameterized" Name="InNormalRange" Delegate="Target_InParameterRange">
+                                        <DetectionRangeParameters Range="Normal" />
+                                      </Behavior>
+                                      <Behavior BehaviorType="ParallelSequence" Name="WaitForParcourEnd">
+                                        <Children>
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterMainState">
+                                            <StateMachineParameters State="CombatCharacterMain_Parcour" />
+                                          </Behavior>
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterDistance">
+                                            <DistanceParameters Distance="4" />
+                                          </Behavior>
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_MaxAngleVertical">
+                                            <AngleParameters Angle="20" Absolute="False" />
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="ParallelSequence" Name="ChaseNearPatrol">
+                                        <Children>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsWithinExtendedRangeOfPatrolPosition" />
+                                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_ApproachTarget" />
+                                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Turn">
+                                            <TargetParameters Target="StatTarget" />
+                                          </Behavior>
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="ReallyRangePlayerOrLastKnown" Delegate="Target_InParameterRange">
+                                            <DetectionRangeParameters Range="Normal" />
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="Enforcer" Name="StayInAiming" ForcedReturnCode="Success">
+                                    <Children>
+                                      <Behavior BehaviorType="Sequence" Name="Shoot">
+                                        <Children>
+                                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_SheathMelee" />
+                                          <Behavior BehaviorType="Enforcer" Name="ShootWhileAiming" ForcedReturnCode="Success">
+                                            <Children>
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="RangedCombat_AimWithRanged" />
+                                              <Behavior BehaviorType="BehaviorAction" Name="RangedStrafe" Delegate="RangedCombat_Strafe" />
+                                              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_IncreaseToNotoriety">
+                                                <FloatParameters Value="1" />
+                                              </Behavior>
+                                            </Children>
+                                          </Behavior>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="RangedCombat_ChargingIsFinished" />
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="InNormalRange" Delegate="Target_InParameterRange">
+                                            <DetectionRangeParameters Range="Normal" />
+                                          </Behavior>
+                                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="RangedCombat_ShootWithRanged" />
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="DaggerAttack">
+                            <Children>
+                              <Behavior BehaviorType="Inverter" Name="RangedWeaponDropped">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_HasRangedWeapon" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                <DetectionRangeParameters Range="Normal" />
+                              </Behavior>
+                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_PlayingTask">
+                                <AnimationTaskParameters Layer="Base" AnimationTaskType="Climb" />
+                              </Behavior>
+                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_MaxAngleVertical">
+                                <AngleParameters Angle="60" Absolute="True" />
+                              </Behavior>
+                              <Behavior BehaviorType="Wait" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="Inverter" Name="">
+                                    <Children>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="RangedCombat_ChargingIsRunning" />
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="Timer" Name="" WaitTime="0" MaxWaitTime="1" />
+                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="RangedCombat_ThrowDagger" />
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSelector" Name="ChaseOrCombat">
+                            <Children>
+                              <Behavior BehaviorType="ParallelSequence" Name="Combat">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_IsInCombatDistance" />
+                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="NotDisguised" Delegate="Misc_SetDisguised">
+                                    <BoolParameters Value="False" />
+                                  </Behavior>
+                                  <Behavior BehaviorType="Wait" Name="RangedNotUnsheathed">
+                                    <Children>
+                                      <Behavior BehaviorType="ParallelSelector" Name="">
+                                        <Children>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_IsRangedSheathed" />
+                                          <Behavior BehaviorType="Inverter" Name="">
+                                            <Children>
+                                              <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_HasRangedWeapon" />
+                                            </Children>
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_Combat" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="Sequence" Name="ChaseAndLookAround">
+                                <Children>
+                                  <Behavior BehaviorType="ParallelSelector" Name="NoHidingSpotsOrInRange">
+                                    <Children>
+                                      <Behavior BehaviorType="Inverter" Name="NoHidingSpots">
+                                        <Children>
+                                          <Behavior BehaviorType="Conditional" Name="" Delegate="Chase_HasHidingSpotsCollected" />
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InRangeNotHiding" />
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="BehaviorAction" Name="Chase" Delegate="Chase_ApproachTarget" />
+                                  <Behavior BehaviorType="Branch" Name="TurnOrSnap">
+                                    <Children>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InRangeNotHiding" />
+                                      <Behavior BehaviorType="Sequence" Name="TurnAndCollect">
+                                        <Children>
+                                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_TurnInLastKnownRotationY" />
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="Branch" Name="">
+                                        <Children>
+                                          <Behavior BehaviorType="ParallelSequence" Name="WaitForParcourEnd">
+                                            <Children>
+                                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterMainState">
+                                                <StateMachineParameters State="CombatCharacterMain_Parcour" />
+                                              </Behavior>
+                                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterDistance">
+                                                <DistanceParameters Distance="4" />
+                                              </Behavior>
+                                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_MaxAngleVertical">
+                                                <AngleParameters Angle="20" Absolute="False" />
+                                              </Behavior>
+                                            </Children>
+                                          </Behavior>
+                                          <Behavior BehaviorType="Sequence" Name="">
+                                            <Children>
+                                              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Turn">
+                                                <TargetParameters Target="StatTarget" />
+                                              </Behavior>
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_UnsheathMelee" />
+                                              <Behavior BehaviorType="ParallelSequence" Name="">
+                                                <Children>
+                                                  <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterMainState">
+                                                    <StateMachineParameters State="CombatCharacterMain_Parcour" />
+                                                  </Behavior>
+                                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                                                    <IdleParameters IdleType="HighProfile" CancelCurrentTask="False" />
+                                                  </Behavior>
+                                                </Children>
+                                              </Behavior>
+                                            </Children>
+                                          </Behavior>
+                                          <Behavior BehaviorType="Sequence" Name="TurnAndStopChasing">
+                                            <Children>
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_LookLeftOftLastKnownRotationY" />
+                                              <Behavior BehaviorType="Timer" Name="DelayNextTurning" WaitTime="1" MaxWaitTime="-1" />
+                                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_LookRightOftLastKnownRotationY" />
+                                              <Behavior BehaviorType="BehaviorAction" Name="CollectHidingSpots" Delegate="Chase_CollectHidingSpots" />
+                                              <Behavior BehaviorType="BehaviorAction" Name="ChooseHidingSpot" Delegate="Chase_ChooseHidingSpot" />
+                                              <Behavior BehaviorType="ParallelSequence" Name="SetUndefinedAtLastKnown">
+                                                <Children>
+                                                  <Behavior BehaviorType="Inverter" Name="NotInRange">
+                                                    <Children>
+                                                      <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InRangeNotHiding" />
+                                                    </Children>
+                                                  </Behavior>
+                                                  <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_SetCharacterAwareness">
+                                                    <StateMachineParameters State="CharacterAwareness_Undefined" />
+                                                  </Behavior>
+                                                </Children>
+                                              </Behavior>
+                                            </Children>
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="Sequence" Name="InspectHidingSpot">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Chase_HasHidingSpotsCollected" />
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_MoveToHidingSpot" />
+                                  <Behavior BehaviorType="ParallelSequence" Name="RouseAndInspectAtSameTime">
+                                    <Children>
+                                      <Behavior BehaviorType="Enforcer" Name="EnableParallelInspection" ForcedReturnCode="Success">
+                                        <Children>
+                                          <Behavior BehaviorType="Sequence" Name="RouseTarget">
+                                            <Children>
+                                              <Behavior BehaviorType="Conditional" Name="" Delegate="Chase_InspectionAtRouseTime" />
+                                              <Behavior BehaviorType="Branch" Name="Rouse">
+                                                <Children>
+                                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Chase_InspectionRouseForced" />
+                                                  <Behavior BehaviorType="ParallelSequence" Name="">
+                                                    <Children>
+                                                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Misc_PlayerShouldExitHidingSpot" />
+                                                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_IncreaseToNotoriety">
+                                                        <FloatParameters Value="100" />
+                                                      </Behavior>
+                                                    </Children>
+                                                  </Behavior>
+                                                </Children>
+                                              </Behavior>
+                                              <Behavior BehaviorType="BehaviorAction" Name="ClearHidingSpotList" Delegate="Chase_ClearHidingSpots" />
+                                            </Children>
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_InspectHidingSpot" />
+                                      <Behavior BehaviorType="Inverter" Name="NotInRange">
+                                        <Children>
+                                          <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                            <DetectionRangeParameters Range="Extended" />
+                                          </Behavior>
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="Inverter" Name="NoOtherSpot">
+                                        <Children>
+                                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_ChooseHidingSpot" />
+                                        </Children>
+                                      </Behavior>
+                                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_SetCharacterAwareness">
+                                        <StateMachineParameters State="CharacterAwareness_Undefined" />
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                </Children>
+                              </Behavior>
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Chase_Wait" />
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="ParallelSequence" Name="AlertedRangedDraw">
+                    <Children>
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InAlerted" />
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_AwarenessLow" />
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_HasRangedWeapon" />
+                      <Behavior BehaviorType="Branch" Name="">
+                        <Children>
+                          <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_IsRangedSheathed" />
+                          <Behavior BehaviorType="Sequence" Name="">
+                            <Children>
+                              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Turn">
+                                <TargetParameters Target="StatTarget" />
+                              </Behavior>
+                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="RangedCombat_UnsheathRanged" />
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="Enforcer" Name="StayInUnsheathed" ForcedReturnCode="Running">
+                            <Children />
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="Sequence" Name="ReactionOnCloseEncounter">
+                    <Children>
+                      <Behavior BehaviorType="ConditionalParameterized" Name="InCloseRange" Delegate="Target_InParameterRange">
+                        <DetectionRangeParameters Range="Close" />
+                      </Behavior>
+                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterMainState">
+                        <StateMachineParameters State="CombatCharacterMain_Roaming" />
+                      </Behavior>
+                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_UpdatePushDelay" />
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="React_IsPushDelayFinished" />
+                      <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_StartApproachTimer" />
+                      <Behavior BehaviorType="Sequence" Name="PushOrApproach">
+                        <Children>
+                          <Behavior BehaviorType="ParallelSequence" Name="">
+                            <Children>
+                              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                <DetectionRangeParameters Range="Normal" />
+                              </Behavior>
+                              <Behavior BehaviorType="Inverter" Name="MaxTimeNotReached">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="React_IsPushApproachFinished" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="Inverter" Name="NotHiding">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_Hiding" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_ApproachTargetForPush" />
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="ParallelSequence" Name="Push">
+                            <Children>
+                              <Behavior BehaviorType="ConditionalParameterized" Name="InPushDistance" Delegate="Target_InParameterDistance">
+                                <DistanceParameters Distance="0.7" />
+                              </Behavior>
+                              <Behavior BehaviorType="Inverter" Name="">
+                                <Children>
+                                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_Alarmed" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_Push" />
+                            </Children>
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="ParallelSequence" Name="ReactionOnAlertedPlayer">
+                    <Children>
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Target_InAlerted" />
+                      <Behavior BehaviorType="ParallelSequence" Name="ReactionOnAlertedPlayer">
+                        <Children>
+                          <Behavior BehaviorType="ParallelSelector" Name="InRangeOrTimer">
+                            <Children>
+                              <Behavior BehaviorType="Sequence" Name="InRange">
+                                <Children>
+                                  <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                    <DetectionRangeParameters Range="Normal" />
+                                  </Behavior>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_RestartWaitAfterStare" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="Conditional" Name="" Delegate="React_IsWaitAfterStareRunning" />
+                            </Children>
+                          </Behavior>
+                          <Behavior BehaviorType="Selector" Name="DismissOrStare">
+                            <Children>
+                              <Behavior BehaviorType="Sequence" Name="Dismiss">
+                                <Children>
+                                  <Behavior BehaviorType="Inverter" Name="NoCooldown">
+                                    <Children>
+                                      <Behavior BehaviorType="Conditional" Name="" Delegate="React_IsDismissCooldownRunning" />
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="Inverter" Name="NoDismissInClose">
+                                    <Children>
+                                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                                        <DetectionRangeParameters Range="Close" />
+                                      </Behavior>
+                                    </Children>
+                                  </Behavior>
+                                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_Dismiss" />
+                                </Children>
+                              </Behavior>
+                              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_StareAtTarget" />
+                            </Children>
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="ParallelSequence" Name="StopBeforeBeingAssassinated">
+                    <Children>
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsApproachedToBeAssassinated" />
+                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterDistance">
+                        <DistanceParameters Distance="2" />
+                      </Behavior>
+                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                        <IdleParameters IdleType="Neutral" CancelCurrentTask="True" />
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="ParallelSequence" Name="StopBeforeBeingSanded">
+                    <Children>
+                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsApproachedByAssassin">
+                        <InteractionReasonParameters InteractionReason="ThrowSand" />
+                      </Behavior>
+                      <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterDistance">
+                        <DistanceParameters Distance="6" />
+                      </Behavior>
+                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                        <IdleParameters IdleType="Neutral" CancelCurrentTask="True" />
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="Sequence" Name="Patrol">
+            <Children>
+              <Behavior BehaviorType="BehaviorAction" Name="ClearHidingSpotsBeforePatrolling" Delegate="Chase_ClearHidingSpots" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_ReturnToPatrol" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_Patrol" />
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

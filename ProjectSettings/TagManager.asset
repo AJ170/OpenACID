@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - MatchTarget
+  - TransformTarget
+  - Walkable
+  - GatherPositionsRoot
+  - ClimbMarker
+  - PatrolRoot
+  - Interactable
+  - Enemy
+  - GameOptions
+  - Weapon
+  - CameraVolumes
+  - InputPlayerCamRoot
+  - Main
+  - UiIconCamera
+  - StaticShadow
+  - UISharedRoot
+  - UIAnimusCamera
+  - Water
+  - NavMesh_Extras
+  - Introduction
+  - UIDownloadRoot
+  - Outro
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Character
+  - StaticOverlay
+  - StaticCollider_NoShadow
+  - UI_NonInteractable
+  - Interactors
+  - CameraBlocker
+  - StaticCollider_Shadow
+  - UI_Interactable
+  - UI3D
+  - OffMeshLink
+  - UIShared
+  - Reflection
+  - Skybox
+  - StaticCollider_NoShadow_CameraSeeThrough
+  - Backdrop
+  - Invisible
+  - MissionBarrier
+  - CameraCollisionProbe
+  - Mysterybox
+  - 
+  - 
+  - 
+  - Terrain4Mobile
+  - EveryplayHUD
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

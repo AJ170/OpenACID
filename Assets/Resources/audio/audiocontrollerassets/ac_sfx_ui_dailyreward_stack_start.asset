@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a72a4837bf94b87885767e9769aed42, type: 3}
+  m_Name: ac_sfx_ui_dailyreward_stack_start
+  m_EditorClassIdentifier:
+  m_guidString: 2b262600-bae1-423c-9172-9bd31d33fcfa

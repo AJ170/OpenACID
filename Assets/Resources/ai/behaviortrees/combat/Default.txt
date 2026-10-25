@@ -1,0 +1,16 @@
+<Behaviors Title="Combat/Default.xml" Description="- Normal attacks">
+  <Behavior BehaviorType="Enforcer" Name="Combat/Default.xml" ForcedReturnCode="NotCalled">
+    <Children>
+      <Behavior BehaviorType="Sequence" Name="Attack">
+        <Children>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Cooldown">
+            <FloatParameters Value="1" />
+          </Behavior>
+          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="QueueActionWithWarning">
+            <FloatParameters Value="1" />
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

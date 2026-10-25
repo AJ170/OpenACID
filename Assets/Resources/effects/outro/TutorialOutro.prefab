@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1351638907705852}
+  m_IsPrefabParent: 1
+--- !u!1 &1351638907705852
+GameObject:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - 4: {fileID: 4329379892700381}
+  - 111: {fileID: 111884486787745281}
+  - 114: {fileID: 114405630556565215}
+  - 114: {fileID: 114803163180624631}
+  m_Layer: 0
+  m_Name: TutorialOutro
+  m_TagString: Outro
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4329379892700381
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351638907705852}
+  m_LocalRotation: {x: 0, y: 0.82752794, z: 0, w: 0.5614246}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!111 &111884486787745281
+Animation:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351638907705852}
+  m_Enabled: 1
+  m_Animation: {fileID: 7400000, guid: 52d92437040a4414aaeeb228819ca14d, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 52d92437040a4414aaeeb228819ca14d, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &114405630556565215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351638907705852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599c65430a22a073ee2a6ea7ae289a17, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+--- !u!114 &114803163180624631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1351638907705852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97152add39a533b0c1bf8d69717a8a66, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  ForceStart: 0
+  ForceEnd: 0
+  Reverse: 1
+  TargetCameraFov: 0
+  TargetPlayerPosition: {x: -100.57, y: 23.14, z: -14.1}
+  TargetPlayerForward: {x: 0.866, y: 0, z: -0.5}
+  ReachTargetRadius: 5
+  RaysPrefab: {fileID: 1752827274318321, guid: 3a119510b399fff498d66b7c5c01fd2e, type: 2}
+  m_srcFogColor: {r: 1, g: 1, b: 1, a: 1}
+  m_raysColor: {r: 0.54509807, g: 0.54509807, b: 0.54509807, a: 1}
+  m_duration: 4
+  m_rayExp: 2
+  m_sceneExp: 4
+  m_skyExp: 4
+  m_zoneWidth: 10
+  m_zoneStart: -10
+  m_fadingFogDistance: 500
+  m_fadingFogDamping: 5

@@ -1,0 +1,143 @@
+<Behaviors Title="GenericCevilian.xml" Description="Enter description...">
+  <Behavior BehaviorType="ParallelSequence" Name="GenericCevilian.xml">
+    <Children>
+      <Behavior BehaviorType="Conditional" Name="" Delegate="Common_CanActCommon" />
+      <Behavior BehaviorType="Enforcer" Name="Always Check FleeConditions" ForcedReturnCode="Success">
+        <Children>
+          <Behavior BehaviorType="ParallelSelector" Name="Check Flee Conditions">
+            <Children>
+              <Behavior BehaviorType="ParallelSequence" Name="FleeFromCapture">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsFleeingFromCapture" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="FleeingFromCapture" Delegate="Flee_UpdateFleeTimer">
+                    <FleeReasonParameters Reason="FleeFromCapture" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsCaptured" />
+              <Behavior BehaviorType="ParallelSequence" Name="FleeLeap">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_IsPerformingStrikingAssasination" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="Leap" Delegate="Flee_UpdateFleeTimer">
+                    <FleeReasonParameters Reason="StrikingAssassination" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="ParallelSequence" Name="FleeDefault">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_Active" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="Default" Delegate="Flee_UpdateFleeTimer">
+                    <FleeReasonParameters Reason="Default" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="ParallelSequence" Name="FleeBombExplosion">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Combat_DidSeeBombExplosion" />
+                  <Behavior BehaviorType="BehaviorActionParameterized" Name="BombExplosion" Delegate="Flee_UpdateFleeTimer">
+                    <FleeReasonParameters Reason="BombExplosion" />
+                  </Behavior>
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+      <Behavior BehaviorType="ParallelSelector" Name="Main">
+        <Children>
+          <Behavior BehaviorType="ParallelSelector" Name="BeingThreatened">
+            <Children>
+              <Behavior BehaviorType="ParallelSequence" Name="BeingThreatenedEscortee">
+                <Children>
+                  <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsVictimType">
+                    <VictimParameters VictimType="Escortee" />
+                  </Behavior>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimThreatened" />
+                  <Behavior BehaviorType="ParallelSelector" Name="KilledOrThreatened">
+                    <Children>
+                      <Behavior BehaviorType="Sequence" Name="Killed">
+                        <Children>
+                          <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimHit" />
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_GetKilled">
+                            <MeleeParameters AttackMeleeType="UpLeft" />
+                          </Behavior>
+                          <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_RegisterVictimDead" />
+                        </Children>
+                      </Behavior>
+                      <Behavior BehaviorType="Sequence" Name="Shocked">
+                        <Children>
+                          <Behavior BehaviorType="Timer" Name="WaitForShout" WaitTime="1" MaxWaitTime="-1" />
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Turn">
+                            <TargetParameters Target="EscorteeClosestEnemy" />
+                          </Behavior>
+                          <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                            <IdleParameters IdleType="Shocked" CancelCurrentTask="False" />
+                          </Behavior>
+                        </Children>
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="Sequence" Name="BeingThreatenedCaptive">
+                <Children>
+                  <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Common_IsVictimType">
+                    <VictimParameters VictimType="Captive" />
+                  </Behavior>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimThreatened" />
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsVictimAttacked" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Misc_GetExecutedOnGround" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_RegisterVictimDead" />
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="ParallelSequence" Name="FleeShocked">
+            <Children>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="Flee_IsFleeTimerRunning" />
+              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="Misc_Idle">
+                <IdleParameters IdleType="Shocked" CancelCurrentTask="True" />
+              </Behavior>
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="ParallelSequence" Name="Flee">
+            <Children>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="Flee_IsFleeTimerRunning" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Flee_Flee" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="ParallelSequence" Name="Greedy">
+            <Children>
+              <Behavior BehaviorType="Conditional" Name="" Delegate="Common_IsGreedy" />
+              <Behavior BehaviorType="Sequence" Name="Killed">
+                <Children>
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_ApproachTargetGreedy" />
+                  <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Sidetracked_IdleAtTargetGreedy" />
+                </Children>
+              </Behavior>
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="ParallelSequence" Name="Stare">
+            <Children>
+              <Behavior BehaviorType="ConditionalParameterized" Name="" Delegate="Target_InParameterRange">
+                <DetectionRangeParameters Range="Extended" />
+              </Behavior>
+              <Behavior BehaviorType="Inverter" Name="">
+                <Children>
+                  <Behavior BehaviorType="Conditional" Name="" Delegate="Target_Hiding" />
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="React_StareAtTarget" />
+            </Children>
+          </Behavior>
+          <Behavior BehaviorType="Sequence" Name="Patrol">
+            <Children>
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_ReturnToPatrol" />
+              <Behavior BehaviorType="BehaviorAction" Name="" Delegate="Patrol_Patrol" />
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>

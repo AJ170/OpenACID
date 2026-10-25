@@ -1,0 +1,36 @@
+<Behaviors Title="Counter 3rd Attack" Description="- Normal attacks&#xA;- Chance to flee when others die or flee.">
+  <Behavior BehaviorType="Sequence" Name="Counter 3rd Attack">
+    <Children>
+      <Behavior BehaviorType="Conditional" Name="" Delegate="IsAttacked" />
+      <Behavior BehaviorType="Counter" Name="Count attacks" MaxCount="2" ResetDelay="2">
+        <Children>
+          <Behavior BehaviorType="Sequence" Name="">
+            <Children>
+              <Behavior BehaviorType="Timer" Name="" WaitTime="1" MaxWaitTime="-1" />
+              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetParry">
+                <BoolParameters Value="True" />
+              </Behavior>
+              <Behavior BehaviorType="ParallelSelector" Name="">
+                <Children>
+                  <Behavior BehaviorType="Sequence" Name="">
+                    <Children>
+                      <Behavior BehaviorType="Conditional" Name="" Delegate="IsAttacked" />
+                      <Behavior BehaviorType="Timer" Name="" WaitTime="0.5" MaxWaitTime="-1" />
+                      <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="QueueActionWithWarning">
+                        <FloatParameters Value="0.25" />
+                      </Behavior>
+                    </Children>
+                  </Behavior>
+                  <Behavior BehaviorType="Timer" Name="" WaitTime="2" MaxWaitTime="-1" />
+                </Children>
+              </Behavior>
+              <Behavior BehaviorType="BehaviorActionParameterized" Name="" Delegate="SetParry">
+                <BoolParameters Value="False" />
+              </Behavior>
+            </Children>
+          </Behavior>
+        </Children>
+      </Behavior>
+    </Children>
+  </Behavior>
+</Behaviors>
