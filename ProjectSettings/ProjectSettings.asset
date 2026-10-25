@@ -513,7 +513,7 @@ PlayerSettings:
   psp2PatchOriginalPackage: 
   psp2PackagePassword: yapnxrpMCARCr4zdGc81tBDKsMlaZTXC
   psp2KeystoneFile: 
-  psp2MemoryExpansionMode: 0
+  psp2MemoryExpansionMode: 3
   psp2DRMType: 0
   psp2StorageType: 0
   psp2MediaCapacity: 0
@@ -524,13 +524,13 @@ PlayerSettings:
   psp2TrophyCommId: 
   psp2TrophyPackagePath: 
   psp2PackagedResourcesPath: 
-  psp2SaveDataQuota: 0
+  psp2SaveDataQuota: 10240
   psp2ParentalLevel: 0
-  psp2ShortTitle: 
-  psp2ContentID: 
+  psp2ShortTitle: AC Identity
+  psp2ContentID: UP0000-ACID00001_00-0000000000000000
   psp2Category: 0
-  psp2MasterVersion: 
-  psp2AppVersion: 
+  psp2MasterVersion: 01.00
+  psp2AppVersion: 01.00
   psp2TVBootMode: 0
   psp2EnterButtonAssignment: 0
   psp2TVDisableEmu: 0
@@ -559,7 +559,8 @@ PlayerSettings:
   webGLCompressionFormat: 1
   scriptingDefineSymbols: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    PSP2: 1
   incrementalIl2cppBuild: {}
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 0

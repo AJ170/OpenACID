@@ -77,7 +77,8 @@ public class FxBasicBloom : BasePostFx
 		{
 			DrawIntoBloomCallback(m_BloomRt);
 		}
-		if (m_Settings.blurType == BloomSettings.BlurType.Sgx)
+		// The PS Vita GPU is an SGX: always use the variant without dependent texture reads.
+		if (m_Settings.blurType == BloomSettings.BlurType.Sgx || Application.platform == RuntimePlatform.PSP2)
 		{
 			m_MatIteration.EnableKeyword("SGX_ON");
 		}

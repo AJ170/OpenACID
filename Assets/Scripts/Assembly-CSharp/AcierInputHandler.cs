@@ -756,7 +756,7 @@ public class AcierInputHandler : InputHandler
 
 	private void UpdateTouches()
 	{
-		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.PSP2)
 		{
 			UpdateMobileTouches();
 		}

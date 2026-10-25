@@ -1,3 +1,5 @@
+#if UNITY_IOS
+// iOS Game Center backend; the GameCenter API does not exist in other players.
 using System;
 using System.Collections;
 using AcierProtocol;
@@ -221,3 +223,5 @@ namespace Assets.Scripts.Achievements
 		}
 	}
 }
+
+#endif

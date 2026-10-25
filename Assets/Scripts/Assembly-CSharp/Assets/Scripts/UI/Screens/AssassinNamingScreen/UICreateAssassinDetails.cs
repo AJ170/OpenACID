@@ -211,7 +211,7 @@ namespace Assets.Scripts.UI.Screens.AssassinNamingScreen
 			m_currentLastNameLocaId = m_lastNameLocaIds[UnityEngine.Random.Range(0, m_lastNameLocaIds.Length - 1)];
 			m_inputField.value = BuildName(m_currentFirstNameLocaId, m_currentLastNameLocaId);
 			m_inputField.defaultText = m_inputField.value;
-			if (!m_inputField.isSelected || !TouchScreenKeyboard.visible)
+			if (!m_inputField.isSelected || !TouchKeyboardCompat.visible)
 			{
 				m_inputField.isSelected = true;
 			}

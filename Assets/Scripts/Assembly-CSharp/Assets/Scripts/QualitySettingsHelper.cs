@@ -19,8 +19,12 @@ namespace Assets.Scripts
 			LowMid = 1,
 			HighMid = 2,
 			High = 3,
-			PC = 4
+			PC = 4,
+			PSVita = 5
 		}
+
+		// Index of the "PSVita" level in ProjectSettings/QualitySettings.asset.
+		public const int PSVitaQualityLevel = 6;
 
 		public static string OriginalDeviceIdentifier;
 
@@ -32,6 +36,10 @@ namespace Assets.Scripts
 		{
 			get
 			{
+				if (Application.platform == RuntimePlatform.PSP2)
+				{
+					return DeviceProfile.PSVita;
+				}
 				string graphicsDeviceName = SystemInfo.graphicsDeviceName;
 				DeviceProfile deviceProfile = DeviceProfile.Low;
 				if (graphicsDeviceName.Contains("Adreno"))
@@ -123,6 +131,18 @@ namespace Assets.Scripts
 				renderingLOD = EQualityShaderLOD.Maximum_500,
 				qualityLevel = 5,
 				crowdQuality = 0.65f,
+				virtualStickScale = 0f,
+				downScaling = false,
+				textureType = EQualityTextureType.Generic
+			});
+			// PS Vita: low quality bundles (unbumped _LQ shaders), native 960x544 instead of the
+			// half resolution "downScaling" path, vsync locked quality level.
+			FallbackQualityProfiles.Add((int)DeviceProfile.PSVita, new AcierProtocol.QualitySettings
+			{
+				assetBundleQuality = EQualityAssetBundle.Low,
+				renderingLOD = EQualityShaderLOD.Diffuse_200,
+				qualityLevel = PSVitaQualityLevel,
+				crowdQuality = 0.2f,
 				virtualStickScale = 0f,
 				downScaling = false,
 				textureType = EQualityTextureType.Generic

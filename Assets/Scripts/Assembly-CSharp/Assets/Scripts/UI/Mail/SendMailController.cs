@@ -119,7 +119,7 @@ namespace Assets.Scripts.UI.Mail
 
 		private void CheckForKeyBoardClose()
 		{
-			if (TouchScreenKeyboard.visible)
+			if (TouchKeyboardCompat.visible)
 			{
 				changedBodyText = m_body.value;
 			}

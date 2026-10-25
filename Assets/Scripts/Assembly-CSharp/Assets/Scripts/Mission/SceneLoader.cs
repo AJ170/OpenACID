@@ -318,8 +318,9 @@ namespace Assets.Scripts.Mission
 		{
 			LoadedMissionData = _missionData;
 			CurrentMissionDescription = Main.Instance.Startup.FillBundles(_missionData.MissionRootData);
-			if (InAnimus)
+			if (InAnimus || Application.platform == RuntimePlatform.PSP2)
 			{
+				// Phones ran missions at 25 fps; on PS Vita missions run at the vsync locked 60.
 				Application.targetFrameRate = 60;
 			}
 			else

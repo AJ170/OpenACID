@@ -84,6 +84,10 @@ public class Startup : MonoBehaviour
 	private void ApplyRenderQuality()
 	{
 		QualitySettings = Main.Instance.QualitySettings;
+		if (Application.platform == RuntimePlatform.PSP2)
+		{
+			QualitySettings = null;  // always use the PS Vita profile, never a server provided one
+		}
 		if (QualitySettings == null)
 		{
 			if (Main.Instance.IsNetworkEnabled)

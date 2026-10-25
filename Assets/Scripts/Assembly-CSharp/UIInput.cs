@@ -486,7 +486,7 @@ public class UIInput : MonoBehaviour
 		}
 		if (label != null && NGUITools.GetActive(this))
 		{
-			WaitForKeyboardToHide = TouchScreenKeyboard.visible;
+			WaitForKeyboardToHide = TouchKeyboardCompat.visible;
 			mSelectMe = Time.frameCount;
 		}
 	}
@@ -503,7 +503,7 @@ public class UIInput : MonoBehaviour
 			if (mKeyboard != null)
 			{
 				mWaitForKeyboard = false;
-				WaitForKeyboardToHide = TouchScreenKeyboard.visible;
+				WaitForKeyboardToHide = TouchKeyboardCompat.visible;
 				mKeyboard.active = false;
 				mKeyboard = null;
 			}
@@ -549,7 +549,7 @@ public class UIInput : MonoBehaviour
 				mKeyboard.active = false;
 				mKeyboard = null;
 			}
-			if (TouchScreenKeyboard.visible && mWaitingForKeyboardToHideMaxTime > RealTime.time)
+			if (TouchKeyboardCompat.visible && mWaitingForKeyboardToHideMaxTime > RealTime.time)
 			{
 				return;
 			}
@@ -563,7 +563,7 @@ public class UIInput : MonoBehaviour
 			mSelectionStart = ((!selectAllTextOnFocus) ? mSelectionEnd : 0);
 			label.color = activeTextColor;
 			mLastKeyboardShownTime = RealTime.time + 1.5f;
-			if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.WP8Player || Application.platform == RuntimePlatform.BlackBerryPlayer || Application.platform == RuntimePlatform.MetroPlayerARM || Application.platform == RuntimePlatform.MetroPlayerX64 || Application.platform == RuntimePlatform.MetroPlayerX86)
+			if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.PSP2 || Application.platform == RuntimePlatform.WP8Player || Application.platform == RuntimePlatform.BlackBerryPlayer || Application.platform == RuntimePlatform.MetroPlayerARM || Application.platform == RuntimePlatform.MetroPlayerX64 || Application.platform == RuntimePlatform.MetroPlayerX86)
 			{
 				TouchScreenKeyboardType touchScreenKeyboardType;
 				string text;
@@ -632,7 +632,7 @@ public class UIInput : MonoBehaviour
 				{
 					Submit();
 				}
-				WaitForKeyboardToHide = TouchScreenKeyboard.visible;
+				WaitForKeyboardToHide = TouchKeyboardCompat.visible;
 				mKeyboard.active = false;
 				mKeyboard = null;
 				isSelected = false;

@@ -388,7 +388,9 @@ public class Main : SharedMain, INativeShopMessageHandler
 		StateMachines.InitStateMachines();
 		UbiCore.Utils.Singleton<UiMain>.Initialize();
 		Singleton<EffectManager>.Instance.Init();
+#if UNITY_ANDROID || UNITY_IOS
 		Handheld.PlayFullScreenMovie("UbisoftLogo_AC4.mp4", Color.black, FullScreenMovieControlMode.Hidden);
+#endif
 		Startup = base.gameObject.AddComponentIfNotExist<Startup>();
 		WebProxyManager = base.gameObject.AddComponentIfNotExist<WebProxyMonitor>();
 		PushNotificationsProvider.Init();
@@ -686,7 +688,8 @@ public class Main : SharedMain, INativeShopMessageHandler
 		Singleton<StateManager>.Instance.PersistentStateManager.Initialize();
 		Singleton<StateManager>.Instance.CodexManager.Initialize();
 		yield return new WaitForEndOfFrame();
-		if (ShowLowEndDeviceWarning && (LowMemoryDevice || QualitySettings.lowEndDeviceWarning))
+		// On PS Vita LowMemoryDevice is always true (it picks the light UI atlases); no warning popup.
+		if (ShowLowEndDeviceWarning && Application.platform != RuntimePlatform.PSP2 && (LowMemoryDevice || QualitySettings.lowEndDeviceWarning))
 		{
 			bool wait = true;
 			PopUpButtonConfiguration.ButtonPressHandler handler = delegate

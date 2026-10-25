@@ -59,7 +59,7 @@ public class Rendering : MonoBehaviour
 
 	private void Start()
 	{
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.PSP2)
 		{
 			Application.targetFrameRate = 60;
 		}

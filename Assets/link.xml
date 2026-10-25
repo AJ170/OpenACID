@@ -1,0 +1,13 @@
+<!-- Keep IL2CPP's linker from stripping game code that is only reached through
+     reflection (protobuf contracts, serialized MonoBehaviours, SendMessage). -->
+<linker>
+  <assembly fullname="Assembly-CSharp" preserve="all"/>
+  <assembly fullname="Assembly-CSharp-firstpass" preserve="all"/>
+  <assembly fullname="AcierNetwork" preserve="all"/>
+  <assembly fullname="AcierProtocol" preserve="all"/>
+  <assembly fullname="AcierProtocolSerializer" preserve="all"/>
+  <assembly fullname="Mobile.Net" preserve="all"/>
+  <assembly fullname="SharedBaseLib" preserve="all"/>
+  <assembly fullname="SharedEnvironmentLib" preserve="all"/>
+  <assembly fullname="protobuf-net" preserve="all"/>
+</linker>

@@ -28,6 +28,10 @@ namespace UbiCore.Helpers
 			{
 			case RuntimePlatform.IPhonePlayer:
 				return EAssetBundlePlatform.iOS;
+			case RuntimePlatform.PSP2:
+				// Keep the Android file names so data from the Android CDN/cache layout is found.
+				// The bundles themselves still have to be rebuilt for PSP2.
+				return EAssetBundlePlatform.Android_Generic;
 			case RuntimePlatform.Android:
 				switch (_textureType)
 				{
@@ -97,6 +101,7 @@ namespace UbiCore.Helpers
 			case RuntimePlatform.IPhonePlayer:
 				return "FirstContact_iOS.xml";
 			case RuntimePlatform.Android:
+			case RuntimePlatform.PSP2:
 				return "FirstContact_Android.xml";
 			case RuntimePlatform.OSXEditor:
 			case RuntimePlatform.OSXPlayer:
@@ -124,7 +129,7 @@ namespace UbiCore.Helpers
 			RuntimePlatform platform = Application.platform;
 			if (platform != RuntimePlatform.OSXPlayer)
 			{
-				_url = ((!forceSlash && platform != 0 && platform != RuntimePlatform.IPhonePlayer && platform != RuntimePlatform.Android) ? _url.Replace("/", "\\") : _url.Replace("\\", "/"));
+				_url = ((!forceSlash && platform != 0 && platform != RuntimePlatform.IPhonePlayer && platform != RuntimePlatform.Android && platform != RuntimePlatform.PSP2) ? _url.Replace("/", "\\") : _url.Replace("\\", "/"));
 			}
 			else
 			{

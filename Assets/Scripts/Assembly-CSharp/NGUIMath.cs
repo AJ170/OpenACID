@@ -943,7 +943,7 @@ public static class NGUIMath
 		RuntimePlatform platform = Application.platform;
 		if (num == 0f)
 		{
-			num = ((platform != RuntimePlatform.Android && platform != RuntimePlatform.IPhonePlayer) ? 96f : 160f);
+			num = ((platform != RuntimePlatform.Android && platform != RuntimePlatform.IPhonePlayer && platform != RuntimePlatform.PSP2) ? 96f : 160f);
 		}
 		int num2 = Mathf.RoundToInt(height * (96f / num));
 		if ((num2 & 1) == 1)

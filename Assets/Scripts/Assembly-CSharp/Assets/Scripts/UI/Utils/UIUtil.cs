@@ -70,7 +70,7 @@ namespace Assets.Scripts.UI.Utils
 			if (MathHelper.Approximately(num, 0f))
 			{
 				RuntimePlatform platform = Application.platform;
-				num = ((platform != RuntimePlatform.Android && platform != RuntimePlatform.IPhonePlayer) ? 96f : 300f);
+				num = ((platform == RuntimePlatform.PSP2) ? 220f : ((platform != RuntimePlatform.Android && platform != RuntimePlatform.IPhonePlayer) ? 96f : 300f));  // PS Vita: 5" 960x544 panel
 			}
 			return num;
 		}
