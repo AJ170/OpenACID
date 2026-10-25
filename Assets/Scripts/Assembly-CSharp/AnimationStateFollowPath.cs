@@ -3,6 +3,7 @@ using Assets.Scripts.Animation;
 using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Motion;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationStateFollowPath : AnimationStateBase, IAnimatorEventListener
 {

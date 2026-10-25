@@ -5,6 +5,7 @@ using SharedBaseLib.System.Extensions;
 using UbiCore.Debug;
 using UbiCore.Helpers;
 using UnityEngine;
+using UnityEngine.AI;
 
 public static class EdgeDetector
 {

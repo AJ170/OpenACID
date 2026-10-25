@@ -3,6 +3,7 @@ using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Motion;
 using UbiCore.Debug;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ParcourPrediction : MonoBehaviour
 {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UbiCore.Helpers;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CrowdGraph : MonoBehaviour
 {

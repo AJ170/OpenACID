@@ -4,6 +4,7 @@ using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Motion;
 using SharedBaseLib.System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskRunPassOver : AnimationTaskBase, IAnimation, IParkourAnimation, IAnimatorEventListener
 {

@@ -9,6 +9,7 @@ using Database;
 using SharedBaseLib.Core;
 using UbiCore.Debug;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Humanoids
 {

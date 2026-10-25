@@ -3,6 +3,7 @@ using Assets.Scripts.Mission.Camera;
 using Assets.Scripts.Mission.Logic.Combat;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraStateCombat : CameraStateOrbit
 {

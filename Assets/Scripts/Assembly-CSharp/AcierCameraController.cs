@@ -12,6 +12,7 @@ using UbiCore.Debug;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AcierCameraController : CameraController
 {

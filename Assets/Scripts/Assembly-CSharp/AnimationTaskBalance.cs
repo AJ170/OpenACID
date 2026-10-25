@@ -4,6 +4,7 @@ using Assets.Scripts.Mission.Motion.Hotspots;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskBalance : AnimationTaskBase, IAnimation, IParkourAnimation
 {

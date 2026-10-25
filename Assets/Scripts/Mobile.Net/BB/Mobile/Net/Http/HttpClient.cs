@@ -180,7 +180,7 @@ namespace BB.Mobile.Net.Http
 
 		public HttpResult EndRequest(IAsyncResult asyncResult)
 		{
-			AsyncValueResult<HttpResult, OwnerContext<HttpClient, DeferredHttpRequest>> asyncValueResult = AsyncValueResult<HttpResult, OwnerContext<HttpClient, DeferredHttpRequest>>.Verify(asyncResult, (OwnerContext<HttpClient, DeferredHttpRequest> context) => context.Owner == this);
+			AsyncValueResult<HttpResult, OwnerContext<HttpClient, DeferredHttpRequest>> asyncValueResult = AsyncValueResult<HttpResult, OwnerContext<HttpClient, DeferredHttpRequest>>.Verify(asyncResult, (OwnerContext<HttpClient, DeferredHttpRequest> ownerContext) => ownerContext.Owner == this);
 			bool num = asyncValueResult.WaitForCompletion();
 			DeferredHttpRequest context = asyncValueResult.Context.Context;
 			if (num)
@@ -205,7 +205,7 @@ namespace BB.Mobile.Net.Http
 
 		public void AbortRequest(IAsyncResult asyncResult)
 		{
-			DeferredHttpRequest context2 = AsyncValueResult<HttpResult, OwnerContext<HttpClient, DeferredHttpRequest>>.Verify(asyncResult, (OwnerContext<HttpClient, DeferredHttpRequest> context) => context.Owner == this).Context.Context;
+			DeferredHttpRequest context2 = AsyncValueResult<HttpResult, OwnerContext<HttpClient, DeferredHttpRequest>>.Verify(asyncResult, (OwnerContext<HttpClient, DeferredHttpRequest> ownerContext) => ownerContext.Owner == this).Context.Context;
 			if (context2 != null)
 			{
 				context2.Dispose();

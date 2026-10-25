@@ -242,9 +242,5 @@ namespace Database
 			BodyAtlasMaterials = _s.SerializeListGeneric("BodyAtlasMaterials", BodyAtlasMaterials);
 		}
 
-		virtual EEra IReadonlyHumanoidDef.get_Age()
-		{
-			return base.Age;
-		}
 	}
 }

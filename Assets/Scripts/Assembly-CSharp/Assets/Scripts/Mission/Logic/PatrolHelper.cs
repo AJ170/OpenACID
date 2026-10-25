@@ -10,6 +10,7 @@ using Assets.Scripts.UI.Utils.Extensions;
 using SharedBaseLib.System;
 using UbiCore;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic
 {

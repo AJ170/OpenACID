@@ -22,6 +22,7 @@ using UbiCore.Mission.Loading;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Assets.Scripts.Mission
 {

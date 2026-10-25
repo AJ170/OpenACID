@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(OffMeshLink))]
 public class OffMeshLinkMeta : MonoBehaviour

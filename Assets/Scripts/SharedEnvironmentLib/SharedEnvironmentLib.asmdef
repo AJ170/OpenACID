@@ -1,0 +1,6 @@
+{
+    "name": "SharedEnvironmentLib",
+    "references": ["SharedBaseLib", "AcierProtocol"],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

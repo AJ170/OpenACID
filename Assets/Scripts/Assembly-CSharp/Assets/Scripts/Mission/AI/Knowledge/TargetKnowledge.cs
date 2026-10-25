@@ -7,6 +7,7 @@ using Assets.Scripts.Mission.Logic.StateMachines;
 using Assets.Scripts.Mission.Logic.Stats;
 using SharedBaseLib.System;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.AI.Knowledge
 {

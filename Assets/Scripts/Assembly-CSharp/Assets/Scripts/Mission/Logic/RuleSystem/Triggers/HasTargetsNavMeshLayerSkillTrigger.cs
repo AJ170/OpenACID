@@ -1,6 +1,7 @@
 using Assets.Scripts.Mission.Logic.Components;
 using Assets.Scripts.Mission.Logic.Stats;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.RuleSystem.Triggers
 {

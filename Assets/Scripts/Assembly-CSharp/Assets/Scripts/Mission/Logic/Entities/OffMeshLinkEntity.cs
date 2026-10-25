@@ -3,6 +3,7 @@ using Assets.Scripts.Mission.Logic.Components;
 using Assets.Scripts.Mission.Selection;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.Entities
 {

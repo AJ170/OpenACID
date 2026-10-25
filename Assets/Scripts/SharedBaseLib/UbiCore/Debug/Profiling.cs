@@ -5,6 +5,7 @@ using SharedBaseLib.Core;
 using UbiCore.Logging;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace UbiCore.Debug
 {

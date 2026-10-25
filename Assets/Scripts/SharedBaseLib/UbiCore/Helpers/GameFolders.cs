@@ -43,7 +43,7 @@ namespace UbiCore.Helpers
 			case RuntimePlatform.OSXEditor:
 			case RuntimePlatform.OSXPlayer:
 			case RuntimePlatform.WindowsPlayer:
-			case RuntimePlatform.WindowsWebPlayer:
+			case (RuntimePlatform)5 /* WindowsWebPlayer */:
 			case RuntimePlatform.WindowsEditor:
 				return EAssetBundlePlatform.Windows;
 			default:
@@ -101,7 +101,7 @@ namespace UbiCore.Helpers
 			case RuntimePlatform.OSXEditor:
 			case RuntimePlatform.OSXPlayer:
 			case RuntimePlatform.WindowsPlayer:
-			case RuntimePlatform.WindowsWebPlayer:
+			case (RuntimePlatform)5 /* WindowsWebPlayer */:
 			case RuntimePlatform.WindowsEditor:
 				return "FirstContact_Win.xml";
 			default:

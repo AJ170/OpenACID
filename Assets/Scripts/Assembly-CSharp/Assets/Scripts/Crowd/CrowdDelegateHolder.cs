@@ -5,6 +5,7 @@ using Assets.Scripts.Mission.AI.BehaviorLibrary.Components.Actions;
 using Assets.Scripts.Mission.AI.BehaviorLibrary.Components.Conditionals;
 using SharedBaseLib.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Crowd
 {

@@ -1512,19 +1512,5 @@ namespace Assets.Scripts.Network
 			});
 		}
 
-		virtual void INetworkDataStore.UpdateStaticsVersion(long _version)
-		{
-			UpdateStaticsVersion(_version);
-		}
-
-		virtual void INetworkDataStore.Update()
-		{
-			Update();
-		}
-
-		virtual void IShopDataStore.Update()
-		{
-			Update();
-		}
 	}
 }

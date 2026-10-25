@@ -12,6 +12,7 @@ using Assets.Scripts.Mission.Logic.Stats;
 using Assets.Scripts.Mission.UI.LogicInterface;
 using SharedBaseLib.System;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.Combat
 {

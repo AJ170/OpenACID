@@ -5,6 +5,7 @@ using Assets.Scripts.Mission.Logic.Entities;
 using SharedBaseLib.Core;
 using UbiCore;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Motion.WithoutAgent
 {

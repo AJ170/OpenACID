@@ -1,6 +1,7 @@
 using Assets.Scripts.Mission.Camera;
 using UbiCore.Messenger;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraStateVR : CameraStateRaycast
 {

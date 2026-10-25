@@ -23,6 +23,7 @@ using SharedBaseLib.System.Cache;
 using UbiCore.Helpers;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class Startup : MonoBehaviour
 {

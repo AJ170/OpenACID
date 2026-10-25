@@ -1,5 +1,6 @@
 using Assets.Scripts.Mission.Logic.Entities;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Motion.Hotspots
 {

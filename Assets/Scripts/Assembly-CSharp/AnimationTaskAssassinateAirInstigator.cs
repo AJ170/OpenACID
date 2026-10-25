@@ -1,5 +1,6 @@
 using Assets.Scripts.Animation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskAssassinateAirInstigator : AnimationTaskBase, IAnimatorEventListener
 {

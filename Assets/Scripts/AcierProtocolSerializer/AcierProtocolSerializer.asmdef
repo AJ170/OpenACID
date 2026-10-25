@@ -1,0 +1,6 @@
+{
+    "name": "AcierProtocolSerializer",
+    "references": ["AcierProtocol"],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

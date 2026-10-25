@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.AI;
 
 public static class DebugGizmos
 {

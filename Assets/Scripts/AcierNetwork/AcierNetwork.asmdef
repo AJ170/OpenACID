@@ -1,0 +1,6 @@
+{
+    "name": "AcierNetwork",
+    "references": ["SharedBaseLib"],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

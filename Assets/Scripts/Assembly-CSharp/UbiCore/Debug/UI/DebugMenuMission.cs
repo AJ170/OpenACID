@@ -26,6 +26,7 @@ using SharedBaseLib.System;
 using UbiCore.Helpers;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UbiCore.Debug.UI
 {

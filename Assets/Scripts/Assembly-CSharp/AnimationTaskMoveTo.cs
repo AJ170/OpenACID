@@ -2,6 +2,7 @@ using Assets.Scripts.Animation;
 using Assets.Scripts.Mission.Logic;
 using Assets.Scripts.Mission.Logic.Entities;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskMoveTo : AnimationTaskBase
 {

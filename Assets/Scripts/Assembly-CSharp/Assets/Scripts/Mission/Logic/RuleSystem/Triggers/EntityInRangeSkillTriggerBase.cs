@@ -2,6 +2,7 @@ using Assets.Scripts.Mission.Logic.Components;
 using Assets.Scripts.Mission.Logic.Stats;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.RuleSystem.Triggers
 {

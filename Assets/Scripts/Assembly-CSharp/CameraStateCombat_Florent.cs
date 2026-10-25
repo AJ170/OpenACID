@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Mission.Logic.Combat;
 using UbiCore.Debug;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraStateCombat_Florent : CameraStateBase_Florent
 {

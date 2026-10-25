@@ -10,6 +10,7 @@ using Mission;
 using SharedBaseLib.System;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 public static class CameraStateHelper
 {

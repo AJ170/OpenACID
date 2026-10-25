@@ -7,6 +7,7 @@ using AcierProtocol;
 using Assets.Scripts.UI.Utils;
 using SharedBaseLib.Serialization;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Assets.Scripts.Tracking
 {

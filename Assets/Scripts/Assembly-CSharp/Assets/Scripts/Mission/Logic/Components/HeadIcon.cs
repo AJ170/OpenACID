@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Assets.Scripts.Engine;
 using SharedBaseLib.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.Components
 {

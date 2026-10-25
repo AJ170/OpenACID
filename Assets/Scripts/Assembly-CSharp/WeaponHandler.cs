@@ -8,6 +8,7 @@ using SharedBaseLib.Core;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(AnimatorDataController))]
 [RequireComponent(typeof(Animator))]

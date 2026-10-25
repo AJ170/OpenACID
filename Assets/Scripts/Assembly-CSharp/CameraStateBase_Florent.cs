@@ -6,6 +6,7 @@ using UbiCore.Debug;
 using UbiCore.Messenger;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraStateBase_Florent : CameraStateBase, IInterpreter
 {

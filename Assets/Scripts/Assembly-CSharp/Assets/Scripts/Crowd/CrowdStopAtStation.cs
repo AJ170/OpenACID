@@ -2,6 +2,7 @@ using Assets.Scripts.Animation;
 using SharedBaseLib.Core;
 using UbiCore;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Crowd
 {

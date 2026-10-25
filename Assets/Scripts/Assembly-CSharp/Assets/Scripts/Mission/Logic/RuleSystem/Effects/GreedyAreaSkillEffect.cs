@@ -11,6 +11,7 @@ using SharedBaseLib.Core;
 using SharedBaseLib.System;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.RuleSystem.Effects
 {

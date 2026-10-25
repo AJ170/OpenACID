@@ -362,20 +362,6 @@ namespace Assets.Scripts.Mission.Definitions
 				}
 			}
 
-			virtual EEra MapGeneratorData.IMapGeneratorEntityDefinition.get_Age()
-			{
-				return base.Age;
-			}
-
-			virtual EEra MapGeneratorData.IMapGeneratorEntityDefinitionAccess.get_Age()
-			{
-				return base.Age;
-			}
-
-			virtual void MapGeneratorData.IMapGeneratorEntityDefinitionAccess.set_Age(EEra value)
-			{
-				base.Age = value;
-			}
 		}
 
 		public static readonly IStatsHelper[] StatsHelpers = new BBList<IStatsHelper>(NpcStats.StatsHelpers).Concat(new IStatsHelper[3]

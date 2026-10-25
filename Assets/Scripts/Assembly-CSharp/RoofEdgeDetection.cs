@@ -1,6 +1,7 @@
 using Assets.Scripts.Mission.Motion;
 using UbiCore.Debug;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RoofEdgeDetection : MonoBehaviour
 {

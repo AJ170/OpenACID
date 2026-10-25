@@ -1,6 +1,7 @@
 using Assets.Scripts.Animation.States;
 using Assets.Scripts.Mission.Utilities.AutoUpdating;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Animation.Tasks
 {

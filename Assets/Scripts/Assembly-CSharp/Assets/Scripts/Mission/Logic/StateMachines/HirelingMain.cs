@@ -10,6 +10,7 @@ using Assets.Scripts.Mission.UI.LogicInterface;
 using SharedBaseLib.System;
 using UbiCore.Messenger;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.StateMachines
 {

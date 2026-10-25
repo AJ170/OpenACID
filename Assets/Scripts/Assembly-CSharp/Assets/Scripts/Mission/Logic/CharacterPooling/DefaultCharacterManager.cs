@@ -14,6 +14,7 @@ using UbiCore.Debug;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.CharacterPooling
 {

@@ -136,20 +136,6 @@ namespace Assets.Scripts.Mission.Definitions
 				}
 			}
 
-			virtual EEra MapGeneratorData.IMapGeneratorEntityDefinition.get_Age()
-			{
-				return base.Age;
-			}
-
-			virtual EEra MapGeneratorData.IMapGeneratorEntityDefinitionAccess.get_Age()
-			{
-				return base.Age;
-			}
-
-			virtual void MapGeneratorData.IMapGeneratorEntityDefinitionAccess.set_Age(EEra value)
-			{
-				base.Age = value;
-			}
 		}
 
 		private readonly BBDictionary<GameID, InteractableObjectDefinition> m_DefinitionsByGameID = new BBDictionary<GameID, InteractableObjectDefinition>();

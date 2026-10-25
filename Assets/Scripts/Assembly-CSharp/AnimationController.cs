@@ -13,6 +13,7 @@ using UbiCore.Debug;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class AnimationController : MonoBehaviour, IAnimatorEventListener

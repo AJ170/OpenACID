@@ -2,6 +2,7 @@ using Assets.Scripts.Mission.AI.Knowledge;
 using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Motion;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.AI.NpcBehavior
 {

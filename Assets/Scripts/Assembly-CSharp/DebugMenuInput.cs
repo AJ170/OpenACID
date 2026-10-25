@@ -5,6 +5,7 @@ using InControl;
 using UbiCore.Acier;
 using UbiCore.Debug.UI;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DebugMenuInput : DebugMenuItem
 {

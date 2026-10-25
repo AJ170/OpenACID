@@ -3,6 +3,7 @@ using Assets.Scripts.Mission.Logic.Entities;
 using UbiCore.Debug;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Motion.Hotspots
 {

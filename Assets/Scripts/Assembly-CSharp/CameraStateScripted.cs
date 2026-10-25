@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Mission.Camera;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class CameraStateScripted : CameraStateRaycast
 {

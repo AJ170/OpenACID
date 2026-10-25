@@ -9,6 +9,7 @@ using UbiCore.Messenger;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskClimb : AnimationTaskBase, IAnimation, IParkourAnimation, IAnimatorEventListener
 {

@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 using Assets.Scripts.Animation.Tasks;
 using Assets.Scripts.Mission.AI.BehaviorLibrary.Components;
 using Assets.Scripts.Mission.AI.Helper;

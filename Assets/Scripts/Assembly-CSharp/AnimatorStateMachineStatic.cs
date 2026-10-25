@@ -8,6 +8,7 @@ using SharedBaseLib.Serialization;
 using UbiCore.Debug;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class AnimatorStateMachineStatic
 {

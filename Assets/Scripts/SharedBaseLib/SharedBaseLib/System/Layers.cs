@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace SharedBaseLib.System
 {

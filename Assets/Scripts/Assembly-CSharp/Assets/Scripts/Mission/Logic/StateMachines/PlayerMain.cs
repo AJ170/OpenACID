@@ -12,6 +12,7 @@ using SharedBaseLib.System;
 using UbiCore.Messenger;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.StateMachines
 {

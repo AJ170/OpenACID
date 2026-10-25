@@ -6,6 +6,7 @@ using UbiCore.Common;
 using UbiCore.Messenger;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraEvents : MonoBehaviour, IInterpreter
 {

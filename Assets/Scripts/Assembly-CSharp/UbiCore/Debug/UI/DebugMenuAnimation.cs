@@ -1,5 +1,6 @@
 using Assets.Scripts.Mission.Logic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UbiCore.Debug.UI
 {

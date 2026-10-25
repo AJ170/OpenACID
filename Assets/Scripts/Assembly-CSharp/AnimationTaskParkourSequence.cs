@@ -3,6 +3,7 @@ using Assets.Scripts.Animation;
 using Assets.Scripts.Mission.Logic.Entities;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskParkourSequence : AnimationTaskBase, IAnimation, IParkourAnimation
 {

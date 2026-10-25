@@ -16,6 +16,7 @@ using Assets.Scripts.Mission.Utilities;
 using SharedBaseLib.System;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.AI.Actions
 {

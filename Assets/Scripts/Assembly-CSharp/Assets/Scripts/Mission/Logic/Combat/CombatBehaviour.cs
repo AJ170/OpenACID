@@ -1,5 +1,6 @@
 using Assets.Scripts.Animation;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.Combat
 {

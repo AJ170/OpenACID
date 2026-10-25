@@ -1,6 +1,7 @@
 using Assets.Scripts.Animation;
 using Assets.Scripts.Mission.Logic.Entities;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Crowd
 {

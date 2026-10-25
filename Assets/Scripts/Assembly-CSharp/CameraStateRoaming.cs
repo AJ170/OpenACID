@@ -5,6 +5,7 @@ using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Logic.StateMachines;
 using Assets.Scripts.Mission.UI.LogicInterface;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraStateRoaming : CameraStateAutoRotation
 {

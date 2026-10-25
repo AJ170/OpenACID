@@ -947,19 +947,14 @@ namespace Assets.Scripts.Mission.Logic.Components
 				PreventMovementExceptionTypes preventMovementExceptionTypes = (PreventMovementExceptionTypes)assassinCharacter.EntityStats.Get_int(StatTypes.EStatType.Player_MovementPreventedException);
 				switch (definition.Type.Name)
 				{
-				default:
-				{
-					int num;
-					if (num == 1)
+				case "Eagle_Vision":
+					if (preventMovementExceptionTypes != PreventMovementExceptionTypes.PreventMovementException_EagleVision)
 					{
-						if (preventMovementExceptionTypes != PreventMovementExceptionTypes.PreventMovementException_EagleVision)
-						{
-							return false;
-						}
-						break;
+						return false;
 					}
+					break;
+				default:
 					return false;
-				}
 				case "Call_Hireling":
 					if (preventMovementExceptionTypes != PreventMovementExceptionTypes.PreventMovementException_Hireling)
 					{

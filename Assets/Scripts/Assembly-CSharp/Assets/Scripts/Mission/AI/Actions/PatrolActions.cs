@@ -7,6 +7,7 @@ using Assets.Scripts.Mission.Logic;
 using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Logic.StateMachines;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.AI.Actions
 {

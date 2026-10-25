@@ -20,6 +20,7 @@ using SharedBaseLib.Core;
 using UbiCore.Debug;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Assets.Scripts.Mission
 {

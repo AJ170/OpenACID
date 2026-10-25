@@ -5,6 +5,7 @@ using SharedBaseLib.Core;
 using SharedBaseLib.System.Extensions;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.Components
 {

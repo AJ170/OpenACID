@@ -12,6 +12,7 @@ using UbiCore.Messenger;
 using UbiCore.Mission.Motion;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UbiCore.Acier
 {

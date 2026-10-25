@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 using Assets.Scripts.Animation;
 using Assets.Scripts.Mission.Logic;
 using Assets.Scripts.Mission.Logic.Entities;

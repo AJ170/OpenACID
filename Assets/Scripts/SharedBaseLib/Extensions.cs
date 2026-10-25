@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SharedBaseLib.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 public static class Extensions
 {

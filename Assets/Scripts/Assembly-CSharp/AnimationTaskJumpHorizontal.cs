@@ -2,6 +2,7 @@ using Assets.Scripts.Animation;
 using Assets.Scripts.Mission.Logic.Entities;
 using SharedBaseLib.System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimationTaskJumpHorizontal : AnimationTaskBase, IAnimation, IParkourAnimation
 {

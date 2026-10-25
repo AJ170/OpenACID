@@ -4,6 +4,7 @@ using Assets.Scripts.Mission.Logic.Components;
 using Assets.Scripts.Mission.UI.LogicInterface;
 using Assets.Scripts.UI.Ingame;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EntityIcon : SmartIcon, IEntityIcon
 {
@@ -110,83 +111,9 @@ public class EntityIcon : SmartIcon, IEntityIcon
 		m_VisibleCached &= m_attached;
 	}
 
-	virtual void IEntityIcon.SetIcon(IconMaterial _icon)
+	void IEntityIcon.SetIcon(IconMaterial _icon)
 	{
 		((IconAttachment)this).SetIcon(_icon);
 	}
 
-	virtual void IEntityIcon.SetIcon(IconMaterial _icon, int _priority)
-	{
-		SetIcon(_icon, _priority);
-	}
-
-	virtual IconMaterial IEntityIcon.get_TopIcon()
-	{
-		return base.TopIcon;
-	}
-
-	virtual float IEntityIcon.get_FadingTime()
-	{
-		return base.FadingTime;
-	}
-
-	virtual void IEntityIcon.set_FadingTime(float value)
-	{
-		base.FadingTime = value;
-	}
-
-	virtual bool IEntityIcon.get_Visible()
-	{
-		return base.Visible;
-	}
-
-	virtual void IEntityIcon.set_Visible(bool value)
-	{
-		base.Visible = value;
-	}
-
-	virtual Func<bool> IEntityIcon.get_VisibilityPredicate()
-	{
-		return base.VisibilityPredicate;
-	}
-
-	virtual void IEntityIcon.set_VisibilityPredicate(Func<bool> value)
-	{
-		base.VisibilityPredicate = value;
-	}
-
-	virtual Vector3 IEntityIcon.get_Offset2D()
-	{
-		return base.Offset2D;
-	}
-
-	virtual void IEntityIcon.set_Offset2D(Vector3 value)
-	{
-		base.Offset2D = value;
-	}
-
-	virtual Vector3 IEntityIcon.get_Offset3D()
-	{
-		return base.Offset3D;
-	}
-
-	virtual void IEntityIcon.set_Offset3D(Vector3 value)
-	{
-		base.Offset3D = value;
-	}
-
-	virtual bool IEntityIcon.get_IsInteractable()
-	{
-		return base.IsInteractable;
-	}
-
-	virtual bool IEntityIcon.get_IsOnBorder()
-	{
-		return base.IsOnBorder;
-	}
-
-	virtual float IEntityIcon.get_IconSize()
-	{
-		return base.IconSize;
-	}
 }

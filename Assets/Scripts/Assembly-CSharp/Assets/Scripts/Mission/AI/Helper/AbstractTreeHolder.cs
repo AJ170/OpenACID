@@ -2,6 +2,7 @@ using Assets.Scripts.Mission.AI.BehaviorLibrary.Components;
 using UbiCore.Debug;
 using UbiCore.Mission.Ai;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Assets.Scripts.Mission.AI.Helper
 {

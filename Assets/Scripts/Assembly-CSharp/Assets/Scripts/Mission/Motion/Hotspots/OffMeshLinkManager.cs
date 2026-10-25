@@ -8,6 +8,7 @@ using UbiCore.Debug;
 using UbiCore.Helpers;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Motion.Hotspots
 {

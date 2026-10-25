@@ -11,6 +11,7 @@ using Assets.Scripts.UI.Utils;
 using SharedBaseLib.Core;
 using SharedBaseLib.Serialization;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Assets.Scripts.UI.Localization
 {

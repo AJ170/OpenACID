@@ -15,6 +15,7 @@ using Assets.Scripts.Mission.Utilities;
 using SharedBaseLib.System;
 using UbiCore;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.Combat
 {

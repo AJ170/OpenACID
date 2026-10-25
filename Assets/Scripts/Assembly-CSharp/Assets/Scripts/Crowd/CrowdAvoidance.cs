@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Mission.Logic.Entities;
 using SharedBaseLib.Core;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Crowd
 {

@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 namespace Assets.Scripts.Mission.Logic
 {
 	public enum EInteractionReason

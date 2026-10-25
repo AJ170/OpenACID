@@ -60024,11 +60024,11 @@ public sealed class AcierProtocolSerializer : TypeModel
 		return P_0;
 	}
 
-	private static void WriteMission(Mission P_0, ProtoWriter P_1)
+	private static void WriteMission(global::AcierProtocol.Mission P_0, ProtoWriter P_1)
 	{
-		if (P_0.GetType() != typeof(Mission))
+		if (P_0.GetType() != typeof(global::AcierProtocol.Mission))
 		{
-			TypeModel.ThrowUnexpectedSubtype(typeof(Mission), P_0.GetType());
+			TypeModel.ThrowUnexpectedSubtype(typeof(global::AcierProtocol.Mission), P_0.GetType());
 		}
 		string id = P_0.id;
 		if (id != null)
@@ -60233,7 +60233,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 		ProtoWriter.AppendExtensionData(P_0, P_1);
 	}
 
-	private static Mission ReadMission(Mission P_0, ProtoReader P_1)
+	private static global::AcierProtocol.Mission ReadMission(global::AcierProtocol.Mission P_0, ProtoReader P_1)
 	{
 		int num;
 		ERuntimeMissionType eRuntimeMissionType = default(ERuntimeMissionType);
@@ -60247,7 +60247,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission6 = new Mission();
+					global::AcierProtocol.Mission mission6 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission6, P_1);
 					P_0 = mission6;
 				}
@@ -60262,7 +60262,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission13 = new Mission();
+					global::AcierProtocol.Mission mission13 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission13, P_1);
 					P_0 = mission13;
 				}
@@ -60289,7 +60289,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission11 = new Mission();
+					global::AcierProtocol.Mission mission11 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission11, P_1);
 					P_0 = mission11;
 				}
@@ -60308,7 +60308,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission15 = new Mission();
+					global::AcierProtocol.Mission mission15 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission15, P_1);
 					P_0 = mission15;
 				}
@@ -60368,7 +60368,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission12 = new Mission();
+					global::AcierProtocol.Mission mission12 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission12, P_1);
 					P_0 = mission12;
 				}
@@ -60387,7 +60387,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission5 = new Mission();
+					global::AcierProtocol.Mission mission5 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission5, P_1);
 					P_0 = mission5;
 				}
@@ -60399,7 +60399,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission9 = new Mission();
+					global::AcierProtocol.Mission mission9 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission9, P_1);
 					P_0 = mission9;
 				}
@@ -60414,7 +60414,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission3 = new Mission();
+					global::AcierProtocol.Mission mission3 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission3, P_1);
 					P_0 = mission3;
 				}
@@ -60433,7 +60433,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission8 = new Mission();
+					global::AcierProtocol.Mission mission8 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission8, P_1);
 					P_0 = mission8;
 				}
@@ -60452,7 +60452,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission2 = new Mission();
+					global::AcierProtocol.Mission mission2 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission2, P_1);
 					P_0 = mission2;
 				}
@@ -60467,7 +60467,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission14 = new Mission();
+					global::AcierProtocol.Mission mission14 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission14, P_1);
 					P_0 = mission14;
 				}
@@ -60479,7 +60479,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission10 = new Mission();
+					global::AcierProtocol.Mission mission10 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission10, P_1);
 					P_0 = mission10;
 				}
@@ -60536,7 +60536,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission7 = new Mission();
+					global::AcierProtocol.Mission mission7 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission7, P_1);
 					P_0 = mission7;
 				}
@@ -60548,7 +60548,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			{
 				if (P_0 == null)
 				{
-					Mission mission4 = new Mission();
+					global::AcierProtocol.Mission mission4 = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission4, P_1);
 					P_0 = mission4;
 				}
@@ -60559,7 +60559,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			default:
 				if (P_0 == null)
 				{
-					Mission mission = new Mission();
+					global::AcierProtocol.Mission mission = new global::AcierProtocol.Mission();
 					ProtoReader.NoteObject(mission, P_1);
 					P_0 = mission;
 				}
@@ -60569,7 +60569,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 		}
 		if (P_0 == null)
 		{
-			Mission mission16 = new Mission();
+			global::AcierProtocol.Mission mission16 = new global::AcierProtocol.Mission();
 			ProtoReader.NoteObject(mission16, P_1);
 			P_0 = mission16;
 		}
@@ -62012,11 +62012,11 @@ public sealed class AcierProtocolSerializer : TypeModel
 			ProtoWriter.WriteFieldHeader(1, WireType.Variant, P_1);
 			ProtoWriter.WriteInt32(rankIdx, P_1);
 		}
-		Mission[] missions = P_0.missions;
+		global::AcierProtocol.Mission[] missions = P_0.missions;
 		if (missions != null)
 		{
-			Mission[] array = missions;
-			foreach (Mission obj in array)
+			global::AcierProtocol.Mission[] array = missions;
+			foreach (global::AcierProtocol.Mission obj in array)
 			{
 				if (obj != null)
 				{
@@ -62057,18 +62057,18 @@ public sealed class AcierProtocolSerializer : TypeModel
 					ProtoReader.NoteObject(rankMissions3, P_1);
 					P_0 = rankMissions3;
 				}
-				Mission[] missions = P_0.missions;
+				global::AcierProtocol.Mission[] missions = P_0.missions;
 				BasicList basicList = new BasicList();
 				int rankIdx = P_1.FieldNumber;
 				do
 				{
 					SubItemToken token = ProtoReader.StartSubItem(P_1);
-					Mission mission = ReadMission(null, P_1);
+					global::AcierProtocol.Mission mission = ReadMission(null, P_1);
 					ProtoReader.EndSubItem(token, P_1);
 					basicList.Add(mission);
 				}
 				while (P_1.TryReadFieldHeader(rankIdx));
-				Mission[] array = new Mission[(rankIdx = ((missions != null) ? missions.Length : 0)) + basicList.Count];
+				global::AcierProtocol.Mission[] array = new global::AcierProtocol.Mission[(rankIdx = ((missions != null) ? missions.Length : 0)) + basicList.Count];
 				if (rankIdx != 0)
 				{
 					missions.CopyTo(array, 0);
@@ -103621,7 +103621,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			ProtoWriter.WriteFieldHeader(6, WireType.String, P_1);
 			ProtoWriter.WriteString(createdMissionId, P_1);
 		}
-		Mission originalMission = P_0.originalMission;
+		global::AcierProtocol.Mission originalMission = P_0.originalMission;
 		if (originalMission != null)
 		{
 			ProtoWriter.WriteFieldHeader(7, WireType.String, P_1);
@@ -103735,11 +103735,11 @@ public sealed class AcierProtocolSerializer : TypeModel
 					ProtoReader.NoteObject(shareMissionAttachement4, P_1);
 					P_0 = shareMissionAttachement4;
 				}
-				Mission originalMission = P_0.originalMission;
+				global::AcierProtocol.Mission originalMission = P_0.originalMission;
 				SubItemToken token = ProtoReader.StartSubItem(P_1);
-				Mission mission = ReadMission(originalMission, P_1);
+				global::AcierProtocol.Mission mission = ReadMission(originalMission, P_1);
 				ProtoReader.EndSubItem(token, P_1);
-				Mission mission2 = mission;
+				global::AcierProtocol.Mission mission2 = mission;
 				if (mission2 != null)
 				{
 					P_0.originalMission = mission2;
@@ -113544,7 +113544,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 		return P_0;
 	}
 
-	protected new int GetKeyImpl(Type P_0)
+	protected override int GetKeyImpl(Type P_0)
 	{
 		object obj = knownTypes[P_0];
 		if (obj != null)
@@ -113554,7 +113554,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 		return -1;
 	}
 
-	protected internal new void Serialize(int P_0, object P_1, ProtoWriter P_2)
+	protected override void Serialize(int P_0, object P_1, ProtoWriter P_2)
 	{
 		switch (P_0 / 128)
 		{
@@ -114682,7 +114682,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 				WriteEntry((MaxFriendsMapping.Entry)P_1, P_2);
 				break;
 			case 370:
-				WriteMission((Mission)P_1, P_2);
+				WriteMission((global::AcierProtocol.Mission)P_1, P_2);
 				break;
 			case 371:
 				WriteMissionAchievementEntryContent((MissionAchievementEntryContent)P_1, P_2);
@@ -115607,7 +115607,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 		}
 	}
 
-	protected internal new object Deserialize(int P_0, object P_1, ProtoReader P_2)
+	protected override object Deserialize(int P_0, object P_1, ProtoReader P_2)
 	{
 		switch (P_0 / 128)
 		{
@@ -116365,7 +116365,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 			case 369:
 				return ReadEntry((MaxFriendsMapping.Entry)P_1, P_2);
 			case 370:
-				return ReadMission((Mission)P_1, P_2);
+				return ReadMission((global::AcierProtocol.Mission)P_1, P_2);
 			case 371:
 				return ReadMissionAchievementEntryContent((MissionAchievementEntryContent)P_1, P_2);
 			case 372:
@@ -118333,7 +118333,7 @@ public sealed class AcierProtocolSerializer : TypeModel
 		knownTypes.Add(typeof(MailTemplates.MailTemplate), 367);
 		knownTypes.Add(typeof(MaxFriendsMapping), 368);
 		knownTypes.Add(typeof(MaxFriendsMapping.Entry), 369);
-		knownTypes.Add(typeof(Mission), 370);
+		knownTypes.Add(typeof(global::AcierProtocol.Mission), 370);
 		knownTypes.Add(typeof(MissionAchievementEntryContent), 371);
 		knownTypes.Add(typeof(MissionAlternatives), 372);
 		knownTypes.Add(typeof(MissionAlternatives.Entry), 373);

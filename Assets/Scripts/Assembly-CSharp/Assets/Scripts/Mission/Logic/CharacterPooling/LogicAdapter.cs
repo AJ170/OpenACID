@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Mission.Definitions;
 using Assets.Scripts.Mission.Logic.Entities;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.CharacterPooling
 {

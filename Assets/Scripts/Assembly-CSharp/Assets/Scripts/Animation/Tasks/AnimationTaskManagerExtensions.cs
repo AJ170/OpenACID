@@ -11,6 +11,7 @@ using Assets.Scripts.Mission.Logic.StateMachines;
 using Assets.Scripts.Mission.Logic.Stats;
 using UbiCore.Messenger;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Animation.Tasks
 {

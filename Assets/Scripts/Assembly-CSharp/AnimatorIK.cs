@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using SharedBaseLib.System;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Animator), typeof(AnimationController))]
 public class AnimatorIK : MonoBehaviour

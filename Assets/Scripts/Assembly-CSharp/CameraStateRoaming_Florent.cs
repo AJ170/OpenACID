@@ -1,5 +1,6 @@
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraStateRoaming_Florent : CameraStateBase_Florent
 {

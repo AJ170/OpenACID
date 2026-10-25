@@ -1,5 +1,6 @@
 using SharedBaseLib.System;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UbiCore.Helpers
 {

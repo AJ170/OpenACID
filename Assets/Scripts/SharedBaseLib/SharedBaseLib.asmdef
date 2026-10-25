@@ -1,0 +1,6 @@
+{
+    "name": "SharedBaseLib",
+    "references": ["AcierProtocol", "Mobile.Net"],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

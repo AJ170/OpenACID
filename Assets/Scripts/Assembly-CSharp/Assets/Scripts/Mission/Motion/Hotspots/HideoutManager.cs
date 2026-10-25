@@ -5,6 +5,7 @@ using Assets.Scripts.Mission.Logic.StateMachines;
 using Database;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Motion.Hotspots
 {

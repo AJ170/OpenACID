@@ -88,7 +88,7 @@ namespace AcierNetwork.AssetBundles
 					float realtimeSinceStartup = Time.realtimeSinceStartup;
 					Instance.InvokeEvent(EBundleEvent.EProgress, this, 0.665f);
 					GameFolders.FixURL("file://" + zippedItem.CacheFile);
-					Bundle = AssetBundle.CreateFromFile(zippedItem.CacheFile);
+					Bundle = AssetBundle.LoadFromFile(zippedItem.CacheFile);
 					yield return new WaitForEndOfFrame();
 					Instance.InvokeEvent(EBundleEvent.EProgress, this, 0.83000004f);
 					break;
@@ -120,7 +120,7 @@ namespace AcierNetwork.AssetBundles
 					Loading = true;
 					string acierDataURL = GameFolders.GetAcierDataURL(BaseURL, Info.URL);
 					ZippedItem zippedItem = (ZippedItem)Singleton<Manager>.Instance.GetEntry(acierDataURL, (uint)Info.BuildNumber);
-					Bundle = AssetBundle.CreateFromFile(zippedItem.CacheFile);
+					Bundle = AssetBundle.LoadFromFile(zippedItem.CacheFile);
 					Unloaded = false;
 					Loading = false;
 				}

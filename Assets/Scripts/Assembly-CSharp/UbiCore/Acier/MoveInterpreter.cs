@@ -14,6 +14,7 @@ using UbiCore.Messenger;
 using UbiCore.Utils;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UbiCore.Acier
 {

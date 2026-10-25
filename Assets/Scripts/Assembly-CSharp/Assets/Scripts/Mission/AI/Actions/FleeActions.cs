@@ -17,6 +17,7 @@ using UbiCore;
 using UbiCore.Debug;
 using UbiCore.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.AI.Actions
 {

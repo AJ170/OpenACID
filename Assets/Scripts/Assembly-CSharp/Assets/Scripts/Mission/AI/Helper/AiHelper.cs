@@ -9,6 +9,7 @@ using Assets.Scripts.Mission.Logic.Entities;
 using Assets.Scripts.Mission.Logic.StateMachines;
 using Assets.Scripts.Mission.Motion;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.AI.Helper
 {

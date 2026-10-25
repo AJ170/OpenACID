@@ -8,6 +8,7 @@ using Assets.Scripts.Mission.Logic.RuleSystem.Effects;
 using Assets.Scripts.Mission.Logic.Stats;
 using UbiCore.Messenger;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Mission.Logic.StateMachines
 {

@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 using System;
 using Assets.Scripts.Mission.Definitions;
 using Assets.Scripts.Mission.Logic.Entities;

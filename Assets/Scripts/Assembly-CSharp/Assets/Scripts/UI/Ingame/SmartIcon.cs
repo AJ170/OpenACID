@@ -2,6 +2,7 @@ using System;
 using UbiCore;
 using UbiCore.Utils;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.UI.Ingame
 {

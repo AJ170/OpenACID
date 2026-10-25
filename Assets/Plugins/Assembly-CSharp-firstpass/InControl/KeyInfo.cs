@@ -145,7 +145,7 @@ namespace InControl
 		{
 			get
 			{
-				if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.OSXDashboardPlayer)
+				if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == (RuntimePlatform)3 /* OSXWebPlayer */ || Application.platform == (RuntimePlatform)4 /* OSXDashboardPlayer */)
 				{
 					return macName;
 				}

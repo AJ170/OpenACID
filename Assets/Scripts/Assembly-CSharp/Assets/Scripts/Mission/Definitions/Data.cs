@@ -110,15 +110,6 @@ namespace Assets.Scripts.Mission.Definitions
 				return -1;
 			}
 
-			virtual GameID IDefinition.get_GameID()
-			{
-				return base.GameID;
-			}
-
-			virtual string IDefinition.get_Name()
-			{
-				return base.Name;
-			}
 		}
 
 		public const string DefaultTemplateTypeName = "__DefaultTemplate";
