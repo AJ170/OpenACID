@@ -244,9 +244,18 @@ def fix_array_wrappers(text):
 
 def fix_particle_modules(text):
     """Unity 5.3 added CollisionModule.radiusScale (1 = the particle radius as before). The 5.2 data has none and it
-    loads as 0, which turns collided particles' positions into NaN (the butterflies of the city levels)."""
-    return re.sub(r'(^  CollisionModule:\n(?:    (?!radiusScale).*\n)*?    particleRadius: [^\n]*\n)(?!    radiusScale)',
+    loads as 0. World collisions at High quality (raycasts against the level's colliders) still turn particle positions
+    into NaN under 2017 (the butterflies of the city levels: Invalid AABB / IsFinite(outDistanceForSort) every frame);
+    Medium quality (voxel cache) does not, and is cheaper on the Vita."""
+    text = re.sub(r'(^  CollisionModule:\n(?:    (?!radiusScale).*\n)*?    particleRadius: [^\n]*\n)(?!    radiusScale)',
                   lambda m: m.group(1) + '    radiusScale: 1\n', text, flags=re.M)
+    return re.sub(r'(^  CollisionModule:\n(?:    serializedVersion: \d+\n)?    enabled: \d\n    type: 1\n(?:    (?!quality:).*\n)*?)    quality: 0\n',
+                  lambda m: m.group(1) + '    quality: 1\n', text, flags=re.M)
+
+
+def fix_lod_groups(text):
+    """The rip writes LOD fadeTransitionWidth as NaN (5.2 data has none); 0 is Unity's default."""
+    return text.replace('    fadeTransitionWidth: NaN\n', '    fadeTransitionWidth: 0\n')
 
 
 def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, manifest):
@@ -322,6 +331,10 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
                     text = fixed_text
                 if 'CollisionModule:' in text:
                     fixed_text = fix_particle_modules(text)
+                    changed = changed or fixed_text != text
+                    text = fixed_text
+                if 'fadeTransitionWidth: NaN' in text:
+                    fixed_text = fix_lod_groups(text)
                     changed = changed or fixed_text != text
                     text = fixed_text
                 if f.endswith('.mat') and DEAD_SHADER in text:
