@@ -1,0 +1,7 @@
+//@@DROP_PASSES 1
+//@@PASS shadow caster with wind sway (the SHADOWCOLLECTOR pass is obsolete and dropped)
+#pragma vertex vertGenShadow
+#pragma fragment fragGenShadow
+#pragma multi_compile_shadowcaster
+#define ACID_GEN_CUTOUT 1
+#include "ACID/ACIDGenerated.cginc"

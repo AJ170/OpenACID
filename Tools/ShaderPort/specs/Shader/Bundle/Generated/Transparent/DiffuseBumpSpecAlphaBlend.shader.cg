@@ -1,0 +1,9 @@
+//@@PASS
+#pragma vertex vertGen
+#pragma fragment fragGen
+#pragma multi_compile __ LIGHTMAP_ON
+#pragma multi_compile __ SHADOWS_SCREEN
+#define ACID_GEN_BUMP 1
+#define ACID_GEN_SPEC 1
+#define ACID_GEN_ALPHA 1
+#include "ACID/ACIDGenerated.cginc"

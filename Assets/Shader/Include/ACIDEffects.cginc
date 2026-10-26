@@ -1,6 +1,7 @@
 // Effects/Alpha, Effects/Additive, Effects/Additive (Overlay) and Effects/Godray.
 // Keywords: TINT_COLOR_ON (2x _TintColor), VERTEX_COLOR_ON, FOG_ON (game fog).
-// Define ACID_GODRAY for the godray fade terms.
+// Define ACID_GODRAY for the godray fade terms, ACID_FX_FOG_TO_BLACK for additive blending (fog fades the colour out
+// instead of mixing in the fog colour).
 #ifndef ACID_EFFECTS_INCLUDED
 #define ACID_EFFECTS_INCLUDED
 
@@ -81,6 +82,8 @@ fixed4 fragFX(v2f_fx i) : SV_Target
   #if defined(FOG_ON)
     c.rgb *= i.fog.x;  // additive: fade to black instead of to the fog colour
   #endif
+#elif defined(FOG_ON) && defined(ACID_FX_FOG_TO_BLACK)
+    c.rgb *= i.fog.x;
 #elif defined(FOG_ON)
     c.rgb = ACID_ApplyFog(c.rgb, i.fog);
 #endif

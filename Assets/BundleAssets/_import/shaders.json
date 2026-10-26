@@ -1,25 +1,4 @@
 {
  "084f2170cd14ab543883d234886b8227": "Animus/PrimitiveFloatingFloor",
- "0e38de0f3571a7948ab01a65304f4c11": "Barrier/Wall",
- "0ffe8f78d7d484340809570b1295e4f6": "Barrier/Beam",
- "2b9d12dd4f954a346b6880310a836b00": "Generated/Transparent/Cutout/DiffuseCutoutCullOff",
- "307f79cf7010f3b4fa0dbe6c40289da4": "Generated/DiffuseTex2DBias",
- "34fdfb933d990c34fae0e3064d196f8b": "Generated/Transparent/Cutout/DiffuseCutoutCullOffTex2DBias",
- "392a4cbae917dc2498ccf1b53bafab14": "Generated/DiffuseBumpWind",
- "4346cc8fa37c47046ab63c3ec1270056": "Skybox/Skybox",
- "5f78549409ac5004ba76bf8753f66dd9": "Generated/DiffuseBumpTex2DBias",
- "64addc83394507d42a554ff715ebc057": "T4M/4Splat",
- "8eb052dc697db3c4eba072018fffdbed": "Barrier/Wall",
- "8ec80e4a7eeff6944953f44a14365247": "Generated/DiffuseTextureBlendTex2DBias",
- "91c6a1d33d538354cbafda84b85a330f": "Generated/DiffuseSpecTex2DBias",
- "971644158c3790747a81e972ef265494": "Generated/Transparent/Cutout/DiffuseCutoutCullOnWind",
- "b7abf6c45b6cbfc429ce71ce846c77dc": "Effects/Additive (Eagle Vision)",
- "bc661d8173f8c414386c9b9febf00520": "Generated/DiffuseBump",
- "c2b0983755b484f48b7f27569ad6da59": "Effects/WeaponHighlight",
- "d6dd8ba282260f149814bf0f7daa625e": "Generated/Diffuse",
- "d85709fd45f8bd445951c13d79c5d3d6": "Generated/Transparent/DiffuseBumpSpecAlphaBlend",
- "e2d9c955ea98e564684df912ea52f92a": "Character/BfSkin",
- "e80ba52e856c48940834dab85ecf3cdf": "Generated/Transparent/Cutout/DiffuseCutoutCullOffWind",
- "f27e3eafb74c9c049ba3d1bbe7352b77": "Effects/Alpha (Overlay)",
- "f2c6134991b319f4680c4af5f9950f46": "Barrier/Beam"
+ "e2d9c955ea98e564684df912ea52f92a": "Character/BfSkin"
 }

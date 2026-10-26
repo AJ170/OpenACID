@@ -1,0 +1,72 @@
+// Ported from the Unity 5.2.3 compiled shader by Tools/ShaderPort/port_shaders.py.
+// Edit Tools/ShaderPort/specs/Shader/Bundle/Barrier/Wall.shader.cg, not this file.
+Shader "Barrier/Wall" {
+Properties {
+ _MainTex ("Billboard Texture", 2D) = "white" { }
+ _TintColor ("Tint Color", Color) = (0.5,0.5,0.5,1)
+}
+SubShader { 
+ Tags { "Queue"="Transparent+1" "IgnoreProjector"="true" "RenderType"="Transparent" }
+ Pass {
+  Tags { "Queue"="Transparent+1" "IgnoreProjector"="true" "RenderType"="Transparent" }
+  ZWrite Off
+  Cull Off
+  Blend One One
+  ColorMask RGB
+  CGPROGRAM
+  // tangent w: fade range)
+  #pragma vertex vert
+  #pragma fragment frag
+  #include "UnityCG.cginc"
+  sampler2D _MainTex;
+  float4 _TintColor;
+  struct appdata
+  {
+      float4 vertex : POSITION;
+      float3 normal : NORMAL;
+      float4 tangent : TANGENT;
+      float4 texcoord : TEXCOORD0;
+      fixed4 color : COLOR;
+  };
+  struct v2f
+  {
+      float4 pos : SV_POSITION;
+      float2 uv : TEXCOORD0;
+      half4 color : TEXCOORD1;
+      half4 glow : TEXCOORD2;
+      float3 normal : TEXCOORD3;
+      float3 worldPos : TEXCOORD4;
+  };
+  v2f vert(appdata v)
+  {
+      v2f o;
+      o.uv = v.texcoord.xy;
+      o.color = 2.0 * _TintColor * v.color.z;
+      float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+      float3 normal = mul((float3x3)unity_ObjectToWorld, v.normal);
+      float3 delta = worldPos - _WorldSpaceCameraPos;
+      float3 right = mul((float3x3)unity_ObjectToWorld, v.tangent.xyz);
+      right = normalize(float3(right.x, 0.0, right.z));
+      float3 d = abs(right * delta.z + float3(0.0, 1.0, 0.0) * delta.y + normal * delta.x);
+      o.glow = half4(min(1.0, 2.0 / d.x) * v.color.z * _TintColor.rgb, 0.0);
+      half fade = pow(min(1.0, 17.5 / d.x), 4.0);
+      fade = max(0.0, fade - saturate((d.z - v.tangent.w) * 0.05));
+      o.color.rgb *= fade;
+      o.glow.rgb *= fade;
+      o.normal = normal;
+      o.worldPos = worldPos;
+      o.pos = UnityObjectToClipPos(v.vertex);
+      return o;
+  }
+  fixed4 frag(v2f i) : SV_Target
+  {
+      fixed4 tex = tex2D(_MainTex, i.uv);
+      float f = dot(i.normal, normalize(i.worldPos - _WorldSpaceCameraPos));
+      f *= f;
+      f *= f;
+      return f * tex * i.color + i.glow * tex;
+  }
+  ENDCG
+ }
+}
+}
