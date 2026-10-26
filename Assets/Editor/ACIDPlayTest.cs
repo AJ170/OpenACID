@@ -10,7 +10,11 @@ using UnityEngine.SceneManagement;
 // and every warning / error / exception, takes a screenshot once the target scene has been loaded for a while, and
 // quits the editor. Play mode needs the normal editor, not -batchmode:
 //   Unity.exe -projectPath <path> -executeMethod ACIDPlayTest.Begin [-acidPlayTarget AnimusGlobe] [-acidPlayTimeout 900]
-//       -logFile Logs/playtest_editor.log
+//       [-acidPlayTap] -logFile Logs/playtest_editor.log
+// -acidPlayTap: once the target scene is loaded, "tap" the loading screen's Tap to Start (starts the mission) and take
+// the screenshot after that.
+// -acidPlayStay: keep playing after the screenshot (for someone to play; the log keeps going) until the timeout or
+// the editor is closed.
 // Results: Logs/playtest.txt (timeline + messages), Logs/playtest.png.
 [InitializeOnLoad]
 public static class ACIDPlayTest
@@ -19,6 +23,8 @@ public static class ACIDPlayTest
     private const string StartKey = "ACIDPlayTest.Start";
     private const string TargetKey = "ACIDPlayTest.Target";
     private const string TimeoutKey = "ACIDPlayTest.Timeout";
+    private const string TapKey = "ACIDPlayTest.Tap";
+    private const string StayKey = "ACIDPlayTest.Stay";
     private const string ReportPath = "Logs/playtest.txt";
     private const string ShotPath = "Logs/playtest.png";
     private const float SettleSeconds = 15f;
@@ -26,6 +32,8 @@ public static class ACIDPlayTest
     private static float s_targetSeenAt = -1f;
     private static bool s_shotTaken;
     private static string s_lastScenes = string.Empty;
+    private static bool s_tapped;
+    private static readonly System.Collections.Generic.Dictionary<int, string> s_animStates = new System.Collections.Generic.Dictionary<int, string>();
 
     static ACIDPlayTest()
     {
@@ -51,8 +59,55 @@ public static class ACIDPlayTest
         SessionState.SetString(StartKey, DateTime.Now.Ticks.ToString());
         SessionState.SetString(TargetKey, target);
         SessionState.SetInt(TimeoutKey, timeout);
+        SessionState.SetBool(TapKey, Array.IndexOf(args, "-acidPlayTap") >= 0);
+        SessionState.SetBool(StayKey, Array.IndexOf(args, "-acidPlayStay") >= 0);
         EditorSceneManager.OpenScene(EditorBuildSettings.scenes[0].path, OpenSceneMode.Single);
         EditorApplication.isPlaying = true;
+    }
+
+    // Every character animator's current state per layer (full path hash, map back with the controller's
+    // *_statemachine.bytes table), logged when it changes: shows where a character gets stuck.
+    private static void LogCharacterAnimators()
+    {
+        foreach (Animator animator in UnityEngine.Object.FindObjectsOfType<Animator>())
+        {
+            if (!animator.name.Contains("Character_") || animator.runtimeAnimatorController == null)
+            {
+                continue;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int layer = 0; layer < animator.layerCount; layer++)
+            {
+                AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(layer);
+                sb.AppendFormat("L{0}={1}{2} ", layer, info.fullPathHash, animator.IsInTransition(layer) ? "*" : string.Empty);
+            }
+            string now = sb.ToString();
+            string before;
+            int id = animator.GetInstanceID();
+            if (!s_animStates.TryGetValue(id, out before) || before != now)
+            {
+                s_animStates[id] = now;
+                Write("anim " + animator.name + " [" + animator.runtimeAnimatorController.name + "] " + now);
+            }
+        }
+    }
+
+    // UILoadingScreen.OnTapScreen once it waits for the tap (what touching the screen does).
+    private static bool TryTapLoadingScreen()
+    {
+        Type type = Type.GetType("Assets.Scripts.Mission.UI.UILoadingScreen, Assembly-CSharp");
+        object screen = (type == null) ? null : type.GetProperty("Instance", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static).GetValue(null, null);
+        if (screen == null)
+        {
+            return false;
+        }
+        object state = type.GetProperty("State", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(screen, null);
+        if (state == null || state.ToString() != "WaitForTap")
+        {
+            return false;
+        }
+        type.GetMethod("OnTapScreen", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(screen, null);
+        return true;
     }
 
     private static string Arg(string[] _args, string _name)
@@ -108,10 +163,24 @@ public static class ACIDPlayTest
             s_lastScenes = now;
             Write("scenes: " + now);
         }
+        if (s_targetSeenAt >= 0f)
+        {
+            LogCharacterAnimators();
+        }
         if (targetLoaded && s_targetSeenAt < 0f)
         {
             s_targetSeenAt = (float)Elapsed();
             Write("target scene loaded");
+        }
+        if (s_targetSeenAt >= 0f && SessionState.GetBool(TapKey, false) && !s_tapped)
+        {
+            if (TryTapLoadingScreen())
+            {
+                s_tapped = true;
+                s_targetSeenAt = (float)Elapsed();
+                Write("tapped the loading screen");
+            }
+            return;
         }
         if (s_targetSeenAt >= 0f && !s_shotTaken && Elapsed() - s_targetSeenAt > SettleSeconds)
         {
@@ -119,7 +188,7 @@ public static class ACIDPlayTest
             s_shotTaken = true;
             Write("screenshot " + ShotPath);
         }
-        bool done = s_shotTaken && Elapsed() - s_targetSeenAt > SettleSeconds + 3f;
+        bool done = s_shotTaken && Elapsed() - s_targetSeenAt > SettleSeconds + 3f && !SessionState.GetBool(StayKey, false);
         if (done || Elapsed() > SessionState.GetInt(TimeoutKey, 900))
         {
             Write(done ? "done" : "TIMEOUT");

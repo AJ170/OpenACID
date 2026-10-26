@@ -33,7 +33,7 @@ namespace Assets.Scripts.Mission.Motion.Hotspots
 		protected override void CreateObject(GameObject _go)
 		{
 			MissionHotspots component = UbiCore.Utils.Singleton<MissionManager>.Instance.MissionMain.GetComponent<MissionHotspots>();
-			if (component.HotspotIsActive(_go))
+			if (component == null || component.HotspotIsActive(_go))
 			{
 				Vector3 position = _go.transform.position;
 				Quaternion rotation = _go.transform.rotation;

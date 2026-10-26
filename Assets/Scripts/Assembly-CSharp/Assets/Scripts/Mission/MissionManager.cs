@@ -233,7 +233,8 @@ namespace Assets.Scripts.Mission
 			get
 			{
 				HeroicRankMapping.Entry[] heroicRankMapping = Singleton<StateManager>.Instance.TemplateManager.HeroicRankMapping;
-				if (heroicRankMapping == null)
+				// no table (offline) or no entry for this rank: unscaled
+				if (heroicRankMapping == null || MissionTargetRank < 0 || MissionTargetRank >= heroicRankMapping.Length)
 				{
 					return 1f;
 				}

@@ -100,12 +100,24 @@ public class CrowdGraph : MonoBehaviour
 		CrowdStations.Clear();
 		CrowdStationWeightSum = 0f;
 		CrowdStation[] array = UnityEngine.Object.FindObjectsOfType<CrowdStation>();
+		int skipped = 0;
 		foreach (CrowdStation crowdStation in array)
 		{
 			Renderer component = crowdStation.GetComponent<Renderer>();
-			float num = component.bounds.size.x * component.bounds.size.z;
+			float num = (component != null) ? (component.bounds.size.x * component.bounds.size.z) : 0f;
+			if (num * crowdStation.Weight <= 0f)
+			{
+				// Zero area or weight: never picked. Its cumulative key would repeat the previous station's
+				// and SortedList.Add throws, which aborted the whole mission start.
+				skipped++;
+				continue;
+			}
 			CrowdStationWeightSum += num * crowdStation.Weight;
 			CrowdStations.Add(CrowdStationWeightSum, crowdStation);
+		}
+		if (skipped > 0)
+		{
+			Debug.LogWarning("CrowdGraph: skipped " + skipped + " of " + array.Length + " crowd stations with no area or weight");
 		}
 		SceneBounds = SceneTools.GetSceneCollidersBounds();
 	}

@@ -29,6 +29,9 @@ import re
 import shutil
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python -I leaves the script folder out
+import animator_hierarchy  # noqa: E402
+
 GUID_RE = re.compile(r'^guid: ([0-9a-f]{32})', re.M)
 SHADER_NAME_RE = re.compile(r'^\s*Shader\s+"([^"]+)"', re.M)
 DEAD_SHADER = '0000000deadbeef15deadf00d0000000'
@@ -141,6 +144,110 @@ def lost_shader_names(bundle_path):
     return result
 
 
+BUILTIN_FILES = {'unity default resources': '0000000000000000e000000000000000',
+                 'unity_builtin_extra': '0000000000000000f000000000000000'}
+# YAML class ID, field, UnityPy type and typetree field of the component references the rip can lose
+LOST_REF_FIELDS = {33: ('m_Mesh', 'MeshFilter', 'm_Mesh'), 64: ('m_Mesh', 'MeshCollider', 'm_Mesh'),
+                   199: ('m_Mesh', 'ParticleSystemRenderer', 'm_Mesh'), 108: ('m_SpotCookie', 'Light', 'm_Cookie')}
+
+
+def lost_builtin_refs(bundle_path):
+    """(class ID, GameObject name) -> '{fileID: n, guid: g, type: 0}' for components of the original bundle that
+    reference a Unity built-in (Cube, Quad, default cookie, ...). With engine assets ignored the rip writes those
+    references as the 0000000deadbeef placeholder."""
+    try:
+        import UnityPy
+    except ImportError:
+        return {}
+    env = UnityPy.load(bundle_path)
+    names = {}
+    for obj in env.objects:
+        if obj.type.name == 'GameObject':
+            try:
+                names[(obj.assets_file.name, obj.path_id)] = obj.read_typetree().get('m_Name')
+            except Exception:
+                pass
+    result = {}
+    for class_id, (_, type_name, tree_field) in LOST_REF_FIELDS.items():
+        for obj in env.objects:
+            if obj.type.name != type_name:
+                continue
+            try:
+                tree = obj.read_typetree()
+                ref = tree[tree_field]
+                if ref['m_FileID'] == 0:
+                    continue
+                ext = obj.assets_file.externals[ref['m_FileID'] - 1].path.split('/')[-1]
+            except Exception:
+                continue
+            if ext in BUILTIN_FILES:
+                go = names.get((obj.assets_file.name, tree['m_GameObject']['m_PathID']))
+                value = '{fileID: %d, guid: %s, type: 0}' % (ref['m_PathID'], BUILTIN_FILES[ext])
+                # a name used with two different built-ins cannot be resolved by name
+                result[(class_id, go)] = value if result.get((class_id, go), value) == value else None
+    return result
+
+
+def restore_builtin_refs(text, refs):
+    """Put lost built-in references back into the components of one exported YAML file."""
+    docs = re.split(r'(?=^--- !u!)', text, flags=re.M)
+    go_names = {}
+    for d in docs:
+        m = re.match(r'--- !u!1 &(-?\d+)', d)
+        if m:
+            n = re.search(r'^  m_Name: ([^\n]*)$', d, re.M)
+            go_names[m.group(1)] = n.group(1) if n else None
+    fixed = 0
+    for i, d in enumerate(docs):
+        m = re.match(r'--- !u!(\d+) ', d)
+        if not m or int(m.group(1)) not in LOST_REF_FIELDS or DEAD_SHADER not in d:
+            continue
+        yaml_field = LOST_REF_FIELDS[int(m.group(1))][0]
+        go = re.search(r'^  m_GameObject: \{fileID: (-?\d+)\}', d, re.M)
+        value = refs.get((int(m.group(1)), go_names.get(go.group(1)) if go else None))
+        if value:
+            docs[i] = re.sub(r'(^  %s: )\{fileID: -?\d+, guid: %s, type: \d\}' % (yaml_field, DEAD_SHADER),
+                             lambda mm: mm.group(1) + value, d, flags=re.M)
+            fixed += docs[i] != d
+    return ''.join(docs), fixed
+
+
+KEY = re.compile(r'^( *)(- )?([^\s:#-][^:\n]*):$')
+
+
+def fix_array_wrappers(text):
+    """Serialized lists that the ripper read from a bundle's type tree come out with an extra 'Array:' level
+    (key: / Array: / - item). Unity cannot read that and leaves the list at its default; put the items (or [])
+    directly under the key."""
+    lines = text.split('\n')
+    out = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        m = KEY.match(line)
+        if m and i + 1 < len(lines):
+            col = len(m.group(1)) + (2 if m.group(2) else 0)
+            nxt = lines[i + 1]
+            if nxt == ' ' * (col + 2) + 'Array: []':
+                out.append(line + ' []')
+                i += 2
+                continue
+            if nxt == ' ' * (col + 2) + 'Array:':
+                out.append(line)
+                i += 2
+                continue
+        out.append(line)
+        i += 1
+    return '\n'.join(out)
+
+
+def fix_particle_modules(text):
+    """Unity 5.3 added CollisionModule.radiusScale (1 = the particle radius as before). The 5.2 data has none and it
+    loads as 0, which turns collided particles' positions into NaN (the butterflies of the city levels)."""
+    return re.sub(r'(^  CollisionModule:\n(?:    (?!radiusScale).*\n)*?    particleRadius: [^\n]*\n)(?!    radiusScale)',
+                  lambda m: m.group(1) + '    radiusScale: 1\n', text, flags=re.M)
+
+
 def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, manifest):
     src_root = os.path.join(args.rip, bundle)
     src_assets = os.path.join(src_root, 'Assets')
@@ -175,6 +282,7 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
                     os.makedirs(os.path.dirname(keep), exist_ok=True)
                     shutil.copyfile(p, keep)
     lost = None
+    builtin_refs = None
 
     # 2. copy, rewriting shader references
     copied = 0
@@ -202,6 +310,19 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
                         else:
                             shader_log.setdefault(guid, name)
                         changed = True
+                if f.endswith(('.unity', '.prefab')) and DEAD_SHADER in text:
+                    if builtin_refs is None:
+                        builtin_refs = lost_builtin_refs(os.path.join(args.bundles, index_entry['rel'])) if args.bundles else {}
+                    text, n = restore_builtin_refs(text, builtin_refs)
+                    changed = changed or n > 0
+                if 'Array:' in text:
+                    fixed_text = fix_array_wrappers(text)
+                    changed = changed or fixed_text != text
+                    text = fixed_text
+                if 'CollisionModule:' in text:
+                    fixed_text = fix_particle_modules(text)
+                    changed = changed or fixed_text != text
+                    text = fixed_text
                 if f.endswith('.mat') and DEAD_SHADER in text:
                     if lost is None:
                         lost = lost_shader_names(os.path.join(args.bundles, index_entry['rel'])) if args.bundles else {}
@@ -228,6 +349,10 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
             else:
                 shutil.copyfile(src, dst)
             copied += 1
+
+    # 2b. ripped AnimatorControllers are flat; put their states back into their sub-state machines
+    for path, result in animator_hierarchy.restore_folder(dst_root):
+        print('    %s: %s' % (os.path.basename(path), result))
 
     # 3. explicit asset names -> project paths. A container entry names an object of the bundle; the export names
     # each file after its object (m_Name + extension), so the object's name and type find it. Several entries can

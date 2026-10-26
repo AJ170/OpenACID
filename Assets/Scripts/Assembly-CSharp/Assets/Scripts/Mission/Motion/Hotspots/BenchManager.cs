@@ -39,7 +39,8 @@ namespace Assets.Scripts.Mission.Motion.Hotspots
 		protected override void CreateObject(GameObject _go)
 		{
 			MissionHotspots component = UbiCore.Utils.Singleton<MissionManager>.Instance.MissionMain.GetComponent<MissionHotspots>();
-			if (!component.HotspotIsActive(_go))
+			// no hotspot data (hand-authored offline missions): every hotspot is active, the game's own default
+			if (component != null && !component.HotspotIsActive(_go))
 			{
 				return;
 			}

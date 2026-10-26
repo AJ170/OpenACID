@@ -40,7 +40,21 @@ public class AnimatorIK : MonoBehaviour
 
 	public static float PinIKReleaseDamping = 0.25f;
 
-	private static LayerMask m_colliderMask = Layers.StaticCollidersLayersMaskPreset;
+	// Computed on first use: as a static initializer it ran while the first AnimatorIK was being constructed,
+	// where Unity 5.4+ forbids LayerMask.NameToLayer (the type then failed to initialise for good).
+	private static LayerMask? s_colliderMask;
+
+	private static LayerMask ColliderMask
+	{
+		get
+		{
+			if (!s_colliderMask.HasValue)
+			{
+				s_colliderMask = Layers.StaticCollidersLayersMaskPreset;
+			}
+			return s_colliderMask.Value;
+		}
+	}
 
 	private Animator m_animator;
 
@@ -283,7 +297,7 @@ public class AnimatorIK : MonoBehaviour
 		origin.y += MaxScanRange;
 		m_ray.origin = origin;
 		m_ray.direction = Vector3.down;
-		RaycastHit[] array = Physics.RaycastAll(m_ray, 2f * MaxScanRange, m_colliderMask);
+		RaycastHit[] array = Physics.RaycastAll(m_ray, 2f * MaxScanRange, ColliderMask);
 		if (array.Length == 0)
 		{
 			return false;
