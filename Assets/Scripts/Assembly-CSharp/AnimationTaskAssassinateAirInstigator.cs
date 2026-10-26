@@ -140,7 +140,7 @@ public class AnimationTaskAssassinateAirInstigator : AnimationTaskBase, IAnimato
 		{
 			TryStartMatching();
 		}
-		if (AnimationController.Animator.isMatchingTarget && m_matchTransform != null)
+		if (AnimationController.IsMatchingTarget && m_matchTransform != null)
 		{
 			Vector3 position = m_matchTransform.position;
 			Vector3 vector = m_matchPosition - position;
@@ -170,7 +170,7 @@ public class AnimationTaskAssassinateAirInstigator : AnimationTaskBase, IAnimato
 				m_matchPosition = m_targetPosition + m_targetRotation * SecondMatchOffset;
 				m_allowAlignment = true;
 			}
-			AnimationController.Animator.MatchTarget(m_matchPosition, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
+			AnimationController.MatchTarget(m_matchPosition, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
 			m_askMatch = false;
 		}
 	}

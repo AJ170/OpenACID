@@ -397,6 +397,103 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 
 	public Quaternion PreviousRotation { get; private set; }
 
+	// Target matching in script. Unity 2017's Animator.MatchTarget throws the character tens of metres on these clips
+	// (jump downs, climbing; once to the world origin), so the game's MatchTarget calls come here instead: between
+	// matchStart and matchEnd (normalized time of the current base layer state) the body part is steered onto the
+	// target, closing the remaining gap a frame at a time so it arrives at matchEnd.
+	private bool m_matching;
+
+	private Vector3 m_matchPosition;
+
+	private Quaternion m_matchRotation;
+
+	private AvatarTarget m_matchPart;
+
+	private MatchTargetWeightMask m_matchMask;
+
+	private float m_matchStart;
+
+	private float m_matchEnd;
+
+	private int m_matchState;
+
+	public bool IsMatchingTarget
+	{
+		get
+		{
+			return m_matching;
+		}
+	}
+
+	public void MatchTarget(Vector3 _position, Quaternion _rotation, AvatarTarget _part, MatchTargetWeightMask _mask, float _start, float _end)
+	{
+		m_matching = true;
+		m_matchPosition = _position;
+		m_matchRotation = _rotation;
+		m_matchPart = _part;
+		m_matchMask = _mask;
+		m_matchStart = _start;
+		m_matchEnd = _end;
+		m_matchState = Animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+	}
+
+	public void InterruptMatchTarget()
+	{
+		m_matching = false;
+	}
+
+	private Vector3 MatchPartPosition()
+	{
+		switch (m_matchPart)
+		{
+		case AvatarTarget.Body:
+			return Animator.bodyPosition;
+		case AvatarTarget.LeftFoot:
+			return Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
+		case AvatarTarget.RightFoot:
+			return Animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
+		case AvatarTarget.LeftHand:
+			return Animator.GetBoneTransform(HumanBodyBones.LeftHand).position;
+		case AvatarTarget.RightHand:
+			return Animator.GetBoneTransform(HumanBodyBones.RightHand).position;
+		default:
+			return base.transform.position;
+		}
+	}
+
+	private void ApplyMatchTarget()
+	{
+		AnimatorStateInfo state = Animator.GetCurrentAnimatorStateInfo(0);
+		if (state.fullPathHash != m_matchState)
+		{
+			m_matching = false;
+			return;
+		}
+		float time = state.normalizedTime;
+		if (m_matchEnd <= 1f && time > 1f && state.loop)
+		{
+			time %= 1f;
+		}
+		if (time < m_matchStart)
+		{
+			return;
+		}
+		float remaining = (m_matchEnd - time) * state.length;
+		float step = Time.deltaTime * Mathf.Abs(Animator.speed);
+		float weight = (remaining <= step) ? 1f : (step / remaining);
+		// where the body part ends up this frame: its last pose moved by this frame's root motion
+		Vector3 error = m_matchPosition - (MatchPartPosition() + (NextPosition - base.transform.position));
+		NextPosition += Vector3.Scale(error, m_matchMask.positionXYZWeight) * weight;
+		if (m_matchMask.rotationWeight > 0f)
+		{
+			NextRotation = Quaternion.Slerp(NextRotation, m_matchRotation, weight * m_matchMask.rotationWeight);
+		}
+		if (weight >= 1f)
+		{
+			m_matching = false;
+		}
+	}
+
 	public EntityId EntityId
 	{
 		get
@@ -680,9 +777,17 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 			OnUpdateRandom();
 			m_AnimatorStateMachine.Update();
 			m_TaskManager.OnUpdate();
+			if (m_matching)
+			{
+				ApplyMatchTarget();
+			}
 			Profiling.Start("Apply transforms", float.MaxValue);
 			float num = 0.01f * LogicMain.FrameTime;
 			num *= num;
+			if (Assets.Scripts.Offline.PortDebug.Enabled && (NextPosition - base.transform.position).sqrMagnitude > 4f && base.name.StartsWith("PlayerCharacter"))
+			{
+				Assets.Scripts.Offline.PortDebug.Log(string.Format("teleport {0}: {1} -> {2} (root motion {3}, state {4}, agent {5})", base.name, base.transform.position, NextPosition, Animator.deltaPosition, m_AnimatorStateMachine.GetStateNameByNameHash(m_AnimatorStateMachine.GetCurrentState()), Agent.nextPosition));
+			}
 			if ((NextPosition - base.transform.position).sqrMagnitude > num)
 			{
 				base.transform.position = NextPosition;

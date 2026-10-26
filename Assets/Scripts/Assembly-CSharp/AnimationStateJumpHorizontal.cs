@@ -145,7 +145,7 @@ public class AnimationStateJumpHorizontal : AnimationStateBase, IAnimation, IPar
 		if (!base.IsFinished)
 		{
 			AnimationController.FaceDirection(m_faceDirection);
-			if (AnimationController.Animator.isMatchingTarget && m_matchTransform != null)
+			if (AnimationController.IsMatchingTarget && m_matchTransform != null)
 			{
 				Vector3 position = m_matchTransform.position;
 				Vector3 vector = m_endPosition - position;
@@ -165,7 +165,7 @@ public class AnimationStateJumpHorizontal : AnimationStateBase, IAnimation, IPar
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		if (matchTargetData)
 		{
-			AnimationController.Animator.MatchTarget(m_endPosition + Vector3.up * MatchYOffset, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
+			AnimationController.MatchTarget(m_endPosition + Vector3.up * MatchYOffset, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
 			m_askMatch = false;
 			m_completeJumpTime = LogicMain.CurrentTime + (_matchEnd - currentAnimatorStateInfo.normalizedTime) * currentAnimatorStateInfo.length;
 		}

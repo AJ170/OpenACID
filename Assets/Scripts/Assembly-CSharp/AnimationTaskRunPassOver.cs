@@ -277,7 +277,7 @@ public class AnimationTaskRunPassOver : AnimationTaskBase, IAnimation, IParkourA
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		if (matchTargetData)
 		{
-			AnimationController.Animator.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime * 0f, _matchEnd);
+			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime * 0f, _matchEnd);
 			m_askMatch = false;
 		}
 	}
@@ -307,7 +307,7 @@ public class AnimationTaskRunPassOver : AnimationTaskBase, IAnimation, IParkourA
 		{
 			TryStartMatching();
 		}
-		if (AnimationController.Animator.isMatchingTarget && m_matchTransform != null)
+		if (AnimationController.IsMatchingTarget && m_matchTransform != null)
 		{
 			Vector3 position = m_matchTransform.position;
 			Vector3 vector = m_matchPoint - position;

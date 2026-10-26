@@ -248,7 +248,7 @@ public class AnimationTaskBlackjackInstigator : AnimationTaskBase, IAnimatorEven
 				vector2 = _hit.position;
 			}
 			AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
-			AnimationController.Animator.MatchTarget(vector2, m_targetRotation, AvatarTarget.Root, WeightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
+			AnimationController.MatchTarget(vector2, m_targetRotation, AvatarTarget.Root, WeightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
 		}
 	}
 }

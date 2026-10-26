@@ -143,10 +143,12 @@ public class AnimationStateJumpDown : AnimationStateBase, IAnimation, IParkourAn
 		m_completeJumpTime = LogicMain.CurrentTime + 3f;
 		m_jumpStartTime = LogicMain.CurrentTime;
 		m_waitForTurn = false;
+		Assets.Scripts.Offline.PortDebug.Log(string.Format("jumpdown start {0} -> {1} at {2}, fall {3:F2}s", m_startPosition, m_endPosition, AnimationController.transform.position, m_fallDuration));
 	}
 
 	public override void OnExit(bool _isCanceled)
 	{
+		Assets.Scripts.Offline.PortDebug.Log(string.Format("jumpdown exit canceled={0} at {1}, warp to {2}, target {3}", _isCanceled, AnimationController.transform.position, AnimationController.NextPosition, m_endPosition));
 		base.OnExit(_isCanceled);
 		AnimationController.Animator.SetCurrentLinkType(eLinkType.Invalid);
 		AnimationController.Animator.SetCurrentGeneralState(GeneralState.Default);
@@ -203,7 +205,7 @@ public class AnimationStateJumpDown : AnimationStateBase, IAnimation, IParkourAn
 		if (!base.IsFinished)
 		{
 			AnimationController.FaceDirection(m_faceDirection);
-			if (AnimationController.Animator.isMatchingTarget && m_matchTransform != null)
+			if (AnimationController.IsMatchingTarget && m_matchTransform != null)
 			{
 				Vector3 position = m_matchTransform.position;
 				Vector3 vector = m_endPosition - position;
@@ -302,7 +304,8 @@ public class AnimationStateJumpDown : AnimationStateBase, IAnimation, IParkourAn
 		{
 			m_completeJumpTime = LogicMain.CurrentTime + (_matchEnd - currentAnimatorStateInfo.normalizedTime) * currentAnimatorStateInfo.length;
 			m_matchTransform = AnimationController.Agent.transform.FindChildRecursive(m_matchBodyPart.ToString());
-			AnimationController.Animator.MatchTarget(m_endPosition + Vector3.up * MatchYOffset, Quaternion.identity, m_matchBodyPart, s_weightMask, _matchStart, _matchEnd);
+			Assets.Scripts.Offline.PortDebug.Log(string.Format("jumpdown match {0} to {1} over {2:F2}-{3:F2} (now {4:F2}, length {5:F2})", m_matchBodyPart, m_endPosition + Vector3.up * MatchYOffset, _matchStart, _matchEnd, currentAnimatorStateInfo.normalizedTime, currentAnimatorStateInfo.length));
+			AnimationController.MatchTarget(m_endPosition + Vector3.up * MatchYOffset, Quaternion.identity, m_matchBodyPart, s_weightMask, _matchStart, _matchEnd);
 			if (m_fallDuration > 0.5f)
 			{
 				AnimationController.Animator.speed = Mathf.Min(AnimationController.Animator.speed, (_matchEnd - _matchStart) * currentAnimatorStateInfo.length / m_fallDuration);

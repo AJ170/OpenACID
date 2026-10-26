@@ -527,7 +527,7 @@ public class AnimationTaskClimb : AnimationTaskBase, IAnimation, IParkourAnimati
 			m_landPosition = hit.position;
 		}
 		m_pinData.Clear();
-		AnimationController.Animator.InterruptMatchTarget(false);
+		AnimationController.InterruptMatchTarget();
 		Destination = m_landPosition;
 		PlayerHelper.Entity.SetLastFallHeight(num);
 		m_landFacing = AnimationController.NextRotation * Vector3.forward;
@@ -554,8 +554,8 @@ public class AnimationTaskClimb : AnimationTaskBase, IAnimation, IParkourAnimati
 		}
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		m_askMatch = false;
-		AnimationController.Animator.InterruptMatchTarget(false);
-		AnimationController.Animator.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime % 1f, _matchEnd);
+		AnimationController.InterruptMatchTarget();
+		AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime % 1f, _matchEnd);
 		float num = (_matchEnd - currentAnimatorStateInfo.normalizedTime % 1f) * currentAnimatorStateInfo.length;
 		if (Canceled)
 		{

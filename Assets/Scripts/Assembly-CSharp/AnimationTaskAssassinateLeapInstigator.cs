@@ -88,7 +88,7 @@ public class AnimationTaskAssassinateLeapInstigator : AnimationTaskBase, IAnimat
 			Vector3 vector2 = new Vector3(vector.z, vector.y, 0f - vector.x);
 			vector2 *= 0.35f;
 			vector += vector2;
-			AnimationController.Animator.MatchTarget(Target.transform.position + vector, Quaternion.identity, AvatarTarget.RightFoot, new MatchTargetWeightMask(new Vector3(1f, 0f, 1f), 0f), 0.05f, 0.23f);
+			AnimationController.MatchTarget(Target.transform.position + vector, Quaternion.identity, AvatarTarget.RightFoot, new MatchTargetWeightMask(new Vector3(1f, 0f, 1f), 0f), 0.05f, 0.23f);
 			AnimationController.Animator.SetCurrentActionType(ActionType.Default);
 			AnimationController.StateMachine.StateMachineEntered -= OnStateMachineEntered;
 		}

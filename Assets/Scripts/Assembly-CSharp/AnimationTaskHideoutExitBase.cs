@@ -81,7 +81,7 @@ public abstract class AnimationTaskHideoutExitBase : AnimationTaskBase
 		float _matchEnd = 0f;
 		if (AnimationHelper.GetMatchTargetData(AnimationController, out _matchStart, out _matchEnd, 0))
 		{
-			AnimationController.Animator.MatchTarget(m_Destination, Quaternion.identity, AvatarTarget.LeftFoot, s_WeightMask, _matchStart, _matchEnd);
+			AnimationController.MatchTarget(m_Destination, Quaternion.identity, AvatarTarget.LeftFoot, s_WeightMask, _matchStart, _matchEnd);
 		}
 	}
 

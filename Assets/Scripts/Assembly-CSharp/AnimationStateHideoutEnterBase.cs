@@ -121,7 +121,7 @@ public abstract class AnimationStateHideoutEnterBase : AnimationStateBase, IAnim
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		if (matchTargetData)
 		{
-			AnimationController.Animator.MatchTarget(m_CurrentMatchTarget, Quaternion.identity, m_CurrentMatchTargetIK, s_WeightMask, _matchStart, Mathf.Max(currentAnimatorStateInfo.normalizedTime + 0.01f, _matchEnd));
+			AnimationController.MatchTarget(m_CurrentMatchTarget, Quaternion.identity, m_CurrentMatchTargetIK, s_WeightMask, _matchStart, Mathf.Max(currentAnimatorStateInfo.normalizedTime + 0.01f, _matchEnd));
 			m_askMatch = false;
 		}
 	}

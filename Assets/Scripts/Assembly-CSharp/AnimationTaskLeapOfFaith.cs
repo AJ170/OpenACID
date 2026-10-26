@@ -216,7 +216,7 @@ public class AnimationTaskLeapOfFaith : AnimationTaskBase, IAnimatorEventListene
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		if (matchTargetData)
 		{
-			AnimationController.Animator.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
+			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
 			m_askMatch = false;
 		}
 	}
@@ -241,7 +241,7 @@ public class AnimationTaskLeapOfFaith : AnimationTaskBase, IAnimatorEventListene
 		{
 			TryStartMatching();
 		}
-		if (AnimationController.Animator.isMatchingTarget)
+		if (AnimationController.IsMatchingTarget)
 		{
 			Vector3 position = m_hipTransform.position;
 			Vector3 vector = m_matchPoint - position;

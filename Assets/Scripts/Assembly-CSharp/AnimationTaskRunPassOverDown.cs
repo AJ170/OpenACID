@@ -268,7 +268,7 @@ public class AnimationTaskRunPassOverDown : AnimationTaskBase, IAnimation, IPark
 		m_matchTransform = AnimationController.Agent.transform.FindChildRecursive(m_matchBodyPart.ToString());
 		if (matchTargetData)
 		{
-			AnimationController.Animator.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
+			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
 			m_askMatch = false;
 		}
 	}
@@ -294,7 +294,7 @@ public class AnimationTaskRunPassOverDown : AnimationTaskBase, IAnimation, IPark
 		{
 			TryStartMatching();
 		}
-		if (AnimationController.Animator.isMatchingTarget && m_matchTransform != null)
+		if (AnimationController.IsMatchingTarget && m_matchTransform != null)
 		{
 			Vector3 position = m_matchTransform.position;
 			Vector3 vector = m_matchPoint - position;
