@@ -277,7 +277,7 @@ public class AnimationTaskRunPassOver : AnimationTaskBase, IAnimation, IParkourA
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		if (matchTargetData)
 		{
-			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime * 0f, _matchEnd);
+			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime * 0f, _matchEnd, true);
 			m_askMatch = false;
 		}
 	}

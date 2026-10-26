@@ -268,7 +268,7 @@ public class AnimationTaskRunPassOverDown : AnimationTaskBase, IAnimation, IPark
 		m_matchTransform = AnimationController.Agent.transform.FindChildRecursive(m_matchBodyPart.ToString());
 		if (matchTargetData)
 		{
-			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd);
+			AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime, _matchEnd, true);
 			m_askMatch = false;
 		}
 	}

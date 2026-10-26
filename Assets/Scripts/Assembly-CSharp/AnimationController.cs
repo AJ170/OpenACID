@@ -398,10 +398,18 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 	public Quaternion PreviousRotation { get; private set; }
 
 	// Target matching in script. Unity 2017's Animator.MatchTarget throws the character tens of metres on these clips
-	// (jump downs, climbing; once to the world origin), so the game's MatchTarget calls come here instead: between
-	// matchStart and matchEnd (normalized time of the current base layer state) the body part is steered onto the
-	// target, closing the remaining gap a frame at a time so it arrives at matchEnd.
+	// (jump downs, climbing; once to the world origin), so the game's MatchTarget calls come here instead. The clips'
+	// own root motion in the match window is far off (the 50 cm drop clip sinks the root 10 m) and only made sense
+	// with Unity's correction, so inside the window (normalized time of the current base layer state) the root
+	// follows a path from where the window starts to the target instead: straight across, and for the height a
+	// gravity curve going down (slow, then fast) or its mirror going up. The clip still animates the body.
+	// Vaults (_followClip) keep their own root motion, which carries them over the obstacle, and are only steered:
+	// each frame closes the rest of the gap over the time left, so the body part arrives at matchEnd.
 	private bool m_matching;
+
+	private bool m_matchFollowClip;
+
+	private bool m_matchStarted;
 
 	private Vector3 m_matchPosition;
 
@@ -417,6 +425,14 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 
 	private int m_matchState;
 
+	private float m_matchFromTime;
+
+	private Vector3 m_matchFrom;
+
+	private Vector3 m_matchRootTarget;
+
+	private Quaternion m_matchFromRotation;
+
 	public bool IsMatchingTarget
 	{
 		get
@@ -427,7 +443,14 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 
 	public void MatchTarget(Vector3 _position, Quaternion _rotation, AvatarTarget _part, MatchTargetWeightMask _mask, float _start, float _end)
 	{
+		MatchTarget(_position, _rotation, _part, _mask, _start, _end, false);
+	}
+
+	public void MatchTarget(Vector3 _position, Quaternion _rotation, AvatarTarget _part, MatchTargetWeightMask _mask, float _start, float _end, bool _followClip)
+	{
 		m_matching = true;
+		m_matchFollowClip = _followClip;
+		m_matchStarted = false;
 		m_matchPosition = _position;
 		m_matchRotation = _rotation;
 		m_matchPart = _part;
@@ -461,6 +484,28 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 		}
 	}
 
+	// Offset from the root to the matched body part. Feet are matched to a point just above the ground (the callers add
+	// up to 0.2 m), so only their height counts, clamped to that.
+	private Vector3 MatchPartOffset()
+	{
+		Vector3 root = base.transform.position;
+		switch (m_matchPart)
+		{
+		case AvatarTarget.Body:
+			return Animator.bodyPosition - root;
+		case AvatarTarget.LeftFoot:
+			return new Vector3(0f, Mathf.Clamp(Animator.GetBoneTransform(HumanBodyBones.LeftFoot).position.y - root.y, 0f, 0.2f), 0f);
+		case AvatarTarget.RightFoot:
+			return new Vector3(0f, Mathf.Clamp(Animator.GetBoneTransform(HumanBodyBones.RightFoot).position.y - root.y, 0f, 0.2f), 0f);
+		case AvatarTarget.LeftHand:
+			return Animator.GetBoneTransform(HumanBodyBones.LeftHand).position - root;
+		case AvatarTarget.RightHand:
+			return Animator.GetBoneTransform(HumanBodyBones.RightHand).position - root;
+		default:
+			return Vector3.zero;
+		}
+	}
+
 	private void ApplyMatchTarget()
 	{
 		AnimatorStateInfo state = Animator.GetCurrentAnimatorStateInfo(0);
@@ -478,17 +523,50 @@ public class AnimationController : MonoBehaviour, IAnimatorEventListener
 		{
 			return;
 		}
-		float remaining = (m_matchEnd - time) * state.length;
-		float step = Time.deltaTime * Mathf.Abs(Animator.speed);
-		float weight = (remaining <= step) ? 1f : (step / remaining);
-		// where the body part ends up this frame: its last pose moved by this frame's root motion
-		Vector3 error = m_matchPosition - (MatchPartPosition() + (NextPosition - base.transform.position));
-		NextPosition += Vector3.Scale(error, m_matchMask.positionXYZWeight) * weight;
+		if (m_matchFollowClip)
+		{
+			if (!m_matchStarted)
+			{
+				m_matchStarted = true;
+				m_matchFrom = base.transform.position;
+			}
+			float remaining = (m_matchEnd - time) * state.length;
+			float step = Time.deltaTime * Mathf.Abs(Animator.speed);
+			float weight = (remaining <= step) ? 1f : (step / remaining);
+			// where the body part ends up this frame: its last pose moved by this frame's root motion
+			Vector3 error = m_matchPosition - (MatchPartPosition() + (NextPosition - base.transform.position));
+			NextPosition += Vector3.Scale(error, m_matchMask.positionXYZWeight) * weight;
+			// landing a foot below where the match began (vaulting down off a ledge): the clip sinks the root, so the
+			// knees went through the ground; keep the root on the landing height
+			bool foot = m_matchPart == AvatarTarget.LeftFoot || m_matchPart == AvatarTarget.RightFoot;
+			if (foot && m_matchPosition.y < m_matchFrom.y && NextPosition.y < m_matchPosition.y)
+			{
+				NextPosition = new Vector3(NextPosition.x, m_matchPosition.y, NextPosition.z);
+			}
+			if (weight >= 1f)
+			{
+				m_matching = false;
+			}
+			return;
+		}
+		if (!m_matchStarted)
+		{
+			m_matchStarted = true;
+			m_matchFromTime = time;
+			m_matchFrom = base.transform.position;
+			m_matchFromRotation = base.transform.rotation;
+			m_matchRootTarget = m_matchPosition - MatchPartOffset();
+		}
+		float w = (m_matchEnd > m_matchFromTime) ? Mathf.Clamp01((time - m_matchFromTime) / (m_matchEnd - m_matchFromTime)) : 1f;
+		float wy = (m_matchRootTarget.y < m_matchFrom.y) ? (w * w) : (1f - (1f - w) * (1f - w));
+		Vector3 path = new Vector3(Mathf.Lerp(m_matchFrom.x, m_matchRootTarget.x, w), Mathf.Lerp(m_matchFrom.y, m_matchRootTarget.y, wy), Mathf.Lerp(m_matchFrom.z, m_matchRootTarget.z, w));
+		Vector3 mask = m_matchMask.positionXYZWeight;
+		NextPosition = new Vector3(Mathf.Lerp(NextPosition.x, path.x, mask.x), Mathf.Lerp(NextPosition.y, path.y, mask.y), Mathf.Lerp(NextPosition.z, path.z, mask.z));
 		if (m_matchMask.rotationWeight > 0f)
 		{
-			NextRotation = Quaternion.Slerp(NextRotation, m_matchRotation, weight * m_matchMask.rotationWeight);
+			NextRotation = Quaternion.Slerp(NextRotation, Quaternion.Slerp(m_matchFromRotation, m_matchRotation, w), m_matchMask.rotationWeight);
 		}
-		if (weight >= 1f)
+		if (w >= 1f)
 		{
 			m_matching = false;
 		}
