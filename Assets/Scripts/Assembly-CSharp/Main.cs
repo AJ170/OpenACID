@@ -368,6 +368,10 @@ public class Main : SharedMain, INativeShopMessageHandler
 		UbiCore.Utils.Singleton<Timer>.Initialize();
 		UbiCore.Utils.Singleton<Timer>.Instance.smoothFactor = 0.17f;
 		BuildDefinition = new BuildDefinition();
+		if (OfflineMode.Enabled)
+		{
+			LocalBundles.Install();
+		}
 		UnityEngine.Debug.Log("Starting up ACID - FRODO");
 		yield return StartCoroutine(DevicePermissionHelper.Co_Initialize_Startup());
 		base.AndroidExternalStorage = new AndroidExternalStorage();
@@ -894,6 +898,8 @@ public class Main : SharedMain, INativeShopMessageHandler
 			TemplateManager templates = Singleton<StateManager>.Instance.TemplateManager;
 			templates.AvatarDefinition = OfflineMode.BuildAvatarClasses();
 			templates.TutorialCategoryMapping = OfflineMode.BuildTutorialMapping();
+			templates.XpPerLevelTable = OfflineMode.BuildXpTable();
+			OfflineMode.FillMissingStatics(templates);
 			Singleton<StateManager>.Instance.ProfileManager.SetOfflineProfile(OfflineMode.BuildProfile());
 			yield break;
 		}

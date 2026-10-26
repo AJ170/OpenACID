@@ -45,7 +45,8 @@ namespace UbiCore.Mission.Loading
 		{
 			SceneLoadingModel sceneLoadingModel = new SceneLoadingModel();
 			SceneLoadingData scene = (SceneLoadingData)m_currentRequest.Param;
-			if (!Application.CanStreamedLevelBeLoaded(scene.Scene))
+			bool localScene = Assets.Scripts.Offline.LocalBundles.HasScene(scene.Scene);
+			if (!localScene && !Application.CanStreamedLevelBeLoaded(scene.Scene))
 			{
 				base.Result = new QueryResult(RequestResult.Status.Failed);
 			}
@@ -53,7 +54,8 @@ namespace UbiCore.Mission.Loading
 			{
 				Singleton<UICameraManager>.Instance.PurgeManager();
 				Singleton<UIScreenManager>.Instance.PurgeManager();
-				AsyncOperation asyncResult2 = Application.LoadLevelAsync(scene.Scene);
+				// Editor: level scenes come from the imported bundles, not from the build settings.
+				AsyncOperation asyncResult2 = localScene ? Assets.Scripts.Offline.LocalBundles.LoadSceneAsync(scene.Scene) : Application.LoadLevelAsync(scene.Scene);
 				while (!asyncResult2.isDone)
 				{
 					m_currentRequest.Progress(asyncResult2.progress * 0.5f);

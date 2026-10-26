@@ -99,9 +99,9 @@ public class ButterflySystem : MonoBehaviour
 					base.gameObject.SetActive(false);
 					break;
 				}
-				if (Particles[i].lifetime < 0.5f)
+				if (Particles[i].remainingLifetime < 0.5f)
 				{
-					Particles[i].lifetime = ButterflyMovement.startLifetime;
+					Particles[i].remainingLifetime = ButterflyMovement.startLifetime;
 				}
 				if (position2.y > MaximumHeight)
 				{
@@ -132,9 +132,9 @@ public class ButterflySystem : MonoBehaviour
 					base.gameObject.SetActive(false);
 					break;
 				}
-				if (Particles[j].lifetime < 0.5f)
+				if (Particles[j].remainingLifetime < 0.5f)
 				{
-					Particles[j].lifetime = ButterflyMovement.startLifetime;
+					Particles[j].remainingLifetime = ButterflyMovement.startLifetime;
 				}
 				if (position3.y > MaximumHeight)
 				{

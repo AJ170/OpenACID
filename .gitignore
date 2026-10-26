@@ -16,3 +16,4 @@ Logs/
 /Assets/BundleAssets/*
 !/Assets/BundleAssets/_import/
 /Assets/BundleAssets.meta
+__pycache__/

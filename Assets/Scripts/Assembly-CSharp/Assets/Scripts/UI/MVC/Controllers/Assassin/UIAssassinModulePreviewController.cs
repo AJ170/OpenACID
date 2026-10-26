@@ -396,7 +396,7 @@ namespace Assets.Scripts.UI.MVC.Controllers.Assassin
 			playerPreviewIdleBehaviour.enabled = !_handle.IsPlaceHolder;
 			if (_handle.IsPlaceHolder && m_placeHolderMaterial != null)
 			{
-				Transform transform = gameObject.transform.FindChild("Body_LOD0");
+				Transform transform = gameObject.transform.Find("Body_LOD0");
 				if (transform != null)
 				{
 					SkinnedMeshRenderer component2 = transform.GetComponent<SkinnedMeshRenderer>();

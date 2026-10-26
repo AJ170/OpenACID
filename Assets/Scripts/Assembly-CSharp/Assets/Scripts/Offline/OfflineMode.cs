@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using AcierProtocol;
 using UnityEngine;
 
@@ -75,8 +76,8 @@ namespace Assets.Scripts.Offline
 
 		private const string AssassinId = "offline_ber01";
 
-		// Given to the intro tutorial as its "finished" entitlement: nobody owns it, so the intro counts as not done.
-		private const string IntroTutorialLock = "offline_tutorial_lock";
+		// Assassin levels of the placeholder XP curve.
+		private const int MaxLevel = 30;
 
 		// Enemy GUIDs used by the revival kit's mission files. They exist in the GameDB as other item types, so they
 		// are mapped to the GUID hash of a live NpcData definition before the lookup.
@@ -180,6 +181,69 @@ namespace Assets.Scripts.Offline
 			};
 		}
 
+		// The real XP curve came with the server statics and is not in the game database: a placeholder (level n
+		// needs 100 * (n - 1)^2 XP) until the original values are found.
+		public static XpPerLevelTable BuildXpTable()
+		{
+			XpPerLevelTable.Entry[] entries = new XpPerLevelTable.Entry[MaxLevel];
+			for (int i = 0; i < MaxLevel; i++)
+			{
+				entries[i] = new XpPerLevelTable.Entry
+				{
+					level = i + 1,
+					xp = 100L * i * i
+				};
+			}
+			return new XpPerLevelTable
+			{
+				entries = entries
+			};
+		}
+
+		// Every other server static the client did not get: an empty but valid instance (arrays empty, never null),
+		// so screens that list campaigns, ranks, shop entries, ... show nothing instead of failing. Nested objects
+		// are filled the same way, two levels deep.
+		public static void FillMissingStatics(object _templates)
+		{
+			foreach (PropertyInfo property in _templates.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+			{
+				if (property.CanRead && property.CanWrite && property.GetIndexParameters().Length == 0 && property.GetValue(_templates, null) == null)
+				{
+					object value = CreateEmpty(property.PropertyType, 2);
+					if (value != null)
+					{
+						property.SetValue(_templates, value, null);
+					}
+				}
+			}
+		}
+
+		private static object CreateEmpty(Type _type, int _depth)
+		{
+			if (_type.IsArray)
+			{
+				return Array.CreateInstance(_type.GetElementType(), 0);
+			}
+			if (_type == typeof(string) || !_type.IsClass || _type.IsAbstract || _type.GetConstructor(Type.EmptyTypes) == null)
+			{
+				return null;
+			}
+			object result = Activator.CreateInstance(_type);
+			foreach (PropertyInfo property in _type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+			{
+				if (!property.CanRead || !property.CanWrite || property.GetIndexParameters().Length != 0 || property.GetValue(result, null) != null)
+				{
+					continue;
+				}
+				object value = property.PropertyType.IsArray ? CreateEmpty(property.PropertyType, 0) : ((_depth > 1) ? CreateEmpty(property.PropertyType, _depth - 1) : null);
+				if (value != null)
+				{
+					property.SetValue(result, value, null);
+				}
+			}
+			return result;
+		}
+
 		public static TutorialCategoryMapping BuildTutorialMapping()
 		{
 			Array categories = Enum.GetValues(typeof(ETutorialCategory));
@@ -187,10 +251,12 @@ namespace Assets.Scripts.Offline
 			for (int i = 0; i < categories.Length; i++)
 			{
 				ETutorialCategory category = (ETutorialCategory)categories.GetValue(i);
+				// No entitlements either way: every tutorial counts as done, so the hub opens like a returning
+				// player's (no profile naming / intro flow). A mission is started with boot.txt instead.
 				entries[i] = new TutorialCategoryMapping.Entry
 				{
 					tutorialCategory = category,
-					grantedEntitlements = (category != ETutorialCategory.TutCatIntroMission) ? new string[0] : new string[1] { IntroTutorialLock },
+					grantedEntitlements = new string[0],
 					reqEntitlements = new string[0]
 				};
 			}

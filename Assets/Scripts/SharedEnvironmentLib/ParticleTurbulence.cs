@@ -293,9 +293,9 @@ public class ParticleTurbulence : MonoBehaviour
 					particles[i].velocity += desiredVelocity.normalized * attractorStrength[j] * deltaTime * (1f - Mathf.Clamp01(Vector3.Distance(particles[i].position, attractorPositions[j]) / attractorAttenuation[j]));
 				}
 			}
-			if (useAlphaMask && removeCurrentParticle && particles[i].lifetime >= particles[i].startLifetime - threshold)
+			if (useAlphaMask && removeCurrentParticle && particles[i].remainingLifetime >= particles[i].startLifetime - threshold)
 			{
-				particles[i].lifetime = 0f;
+				particles[i].remainingLifetime = 0f;
 				removeCurrentParticle = false;
 			}
 		}
@@ -334,7 +334,7 @@ public class ParticleTurbulence : MonoBehaviour
 				{
 					transformParticles[n].transform.LookAt(particles[n].position + particles[n].velocity);
 				}
-				if (!(particles[n].lifetime < 1f))
+				if (!(particles[n].remainingLifetime < 1f))
 				{
 					continue;
 				}
@@ -345,12 +345,12 @@ public class ParticleTurbulence : MonoBehaviour
 						Object.Destroy(transformParticles[n], detachedObjectDestructionTimeAfter);
 					}
 					transformParticles[n] = null;
-					particles[n].lifetime = -1f;
+					particles[n].remainingLifetime = -1f;
 				}
 				else
 				{
 					Object.DestroyImmediate(transformParticles[n]);
-					particles[n].lifetime = -1f;
+					particles[n].remainingLifetime = -1f;
 				}
 			}
 		}
@@ -427,7 +427,7 @@ public class ParticleTurbulence : MonoBehaviour
 			for (int num4 = 0; num4 < particleCount; num4++)
 			{
 				safeIndex = num4 % targets.Length;
-				if (particles[num4].startLifetime - particles[num4].lifetime <= 0.05f)
+				if (particles[num4].startLifetime - particles[num4].remainingLifetime <= 0.05f)
 				{
 					particles[num4].position = skinnedMeshTarget.transform.TransformPoint(skinnedMeshVertices[Random.Range(0, skinnedMeshVertices.Length)]);
 					continue;

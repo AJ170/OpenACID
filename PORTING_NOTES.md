@@ -128,6 +128,19 @@ bundles), Unity 5.2 Android ETC2. Pipeline:
    the project does not have yet; their disassembly is in `Tools/ShaderPort/bundle_originals/`.
 
 `Assets/BundleAssets/` is not in git (rerun step 4 to regenerate); `_import/` is.
+
+In the editor the imported bundles are used directly (`Offline/LocalBundles.cs`, installed at
+startup): `AssetBundleManager` treats a bundle listed in `_import/bundles.tsv` as local (no
+download, no bundle file) and loads its assets with the AssetDatabase; level scenes load by path.
+Bundle names are matched without platform and quality (`EnvAnimus_AnimusGlobe_Env`), so the
+game's AndroidGeneric / Low requests find the imported ETC2 High assets. Offline, the up-front
+download of every bundle is skipped.
+
+Unattended Play-mode test (normal editor, not batch mode):
+```
+Unity.exe -projectPath <this folder> -executeMethod ACIDPlayTest.Begin -acidPlayTarget AnimusGlobe -logFile Logs/playtest_editor.log
+```
+writes `Logs/playtest.txt` (scenes loaded, every warning/error) and `Logs/playtest.png`.
 ## Not done yet
 
 - **Bundle shaders.** 26 shaders used by the imported bundles exist only there (Animus globe,

@@ -65,7 +65,7 @@ namespace Assets.Scripts.Mission.Utilities
 			{
 				for (int i = 0; i < m_lodGroup.lodCount; i++)
 				{
-					Transform transform = base.transform.FindChild("Body_LOD" + i);
+					Transform transform = base.transform.Find("Body_LOD" + i);
 					if (transform != null)
 					{
 						m_OriginalBodies.Add(transform.gameObject);
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Mission.Utilities
 			}
 			else
 			{
-				Transform transform2 = base.transform.FindChild("Body_LOD0");
+				Transform transform2 = base.transform.Find("Body_LOD0");
 				if (transform2 != null)
 				{
 					m_OriginalBodies.Add(transform2.gameObject);

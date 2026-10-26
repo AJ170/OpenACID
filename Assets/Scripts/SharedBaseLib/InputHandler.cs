@@ -31,7 +31,7 @@ public class InputHandler : MonoBehaviour
 
 	public static T Find<T>(Transform _parent) where T : InputHandler
 	{
-		Transform transform = _parent.FindChild(m_name);
+		Transform transform = _parent.Find(m_name);
 		if (transform != null)
 		{
 			return transform.GetComponent<T>();

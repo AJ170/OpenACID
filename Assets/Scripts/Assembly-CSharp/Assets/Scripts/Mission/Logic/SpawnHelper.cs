@@ -88,7 +88,7 @@ namespace Assets.Scripts.Mission.Logic
 			NavMeshAgent component = gameObject.GetComponent<NavMeshAgent>();
 			component.avoidancePriority = 100;
 			component.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-			Transform transform = gameObject.transform.FindChild("Body_LOD0");
+			Transform transform = gameObject.transform.Find("Body_LOD0");
 			if (transform != null)
 			{
 				transform.gameObject.GetComponent<Renderer>().enabled = false;
@@ -122,7 +122,7 @@ namespace Assets.Scripts.Mission.Logic
 		public static HirelingCharacter SpawnHireling(AvatarData.IAvatarDefinition _definition, GameObject _go, EntityId _targetEntityId, Vector3 _position, Quaternion _rotation)
 		{
 			Profiling.Start("SpawnHelper::SpawnHireling", float.MaxValue);
-			Transform transform = _go.transform.FindChild("Body_LOD0");
+			Transform transform = _go.transform.Find("Body_LOD0");
 			if (transform != null)
 			{
 				transform.gameObject.GetComponent<Renderer>().enabled = true;

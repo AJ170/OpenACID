@@ -25,7 +25,7 @@ public class SpawnStuff : MonoBehaviour
 		if (Accesoir != null)
 		{
 			GameObject gameObject3 = Object.Instantiate(Accesoir);
-			gameObject3.transform.parent = gameObject.transform.FindChild("Head");
+			gameObject3.transform.parent = gameObject.transform.Find("Head");
 			gameObject3.transform.localPosition = Vector4.zero;
 			gameObject3.transform.localRotation = Quaternion.identity;
 		}

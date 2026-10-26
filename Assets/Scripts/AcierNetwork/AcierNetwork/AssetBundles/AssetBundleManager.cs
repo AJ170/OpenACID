@@ -42,11 +42,14 @@ namespace AcierNetwork.AssetBundles
 
 			internal readonly string FullURL;
 
+			// Served by AssetBundleManager.LocalSource instead of a bundle file (no download, no AssetBundle).
+			internal readonly bool Local;
+
 			internal bool Done
 			{
 				get
 				{
-					return Bundle != null;
+					return Bundle != null || (Local && !Unloaded);
 				}
 			}
 
@@ -63,6 +66,7 @@ namespace AcierNetwork.AssetBundles
 				BaseURL = _url;
 				Unloaded = true;
 				LoadOnDemand = Info.Type == AssetBundleInfo.EType.RuntimeAssets || Info.Type == AssetBundleInfo.EType.SoundContainer;
+				Local = LocalSource != null && LocalSource.Contains(Info.URL);
 			}
 
 			internal IEnumerator LoadAsync()
@@ -74,6 +78,11 @@ namespace AcierNetwork.AssetBundles
 				if (Loading)
 				{
 					yield return 0;
+					yield break;
+				}
+				if (Local)
+				{
+					Unloaded = false;
 					yield break;
 				}
 				Loading = true;
@@ -115,6 +124,10 @@ namespace AcierNetwork.AssetBundles
 
 			internal void Load()
 			{
+				if (Unloaded && Local)
+				{
+					Unloaded = false;
+				}
 				if (Unloaded)
 				{
 					Loading = true;
@@ -143,6 +156,8 @@ namespace AcierNetwork.AssetBundles
 		private const float c_DownloadPart = 0.5f;
 
 		private static AssetBundleManager s_instance;
+
+		public static ILocalBundleSource LocalSource { get; set; }
 
 		private readonly BBList<BundleInfo> m_DownloadQueue = new BBList<BundleInfo>();
 
@@ -342,7 +357,13 @@ namespace AcierNetwork.AssetBundles
 			LastError = null;
 			InvokeEvent(EBundleEvent.EStart, CurrentJob, 0f);
 			bool forced = bundleInfo.BuildNumber == 0;
-			if (!m_dictAssetBundleRefs.ContainsKey(bundleInfo.ToString()))
+			if (CurrentJob.Local && !m_dictAssetBundleRefs.ContainsKey(bundleInfo.ToString()))
+			{
+				yield return CurrentJob.Requesters[0].StartCoroutine(CurrentJob.LoadAsync());
+				m_dictAssetBundleRefs.Add(bundleInfo.ToString(), CurrentJob);
+				InvokeEvent(EBundleEvent.ESuccess, CurrentJob, 1f);
+			}
+			else if (!m_dictAssetBundleRefs.ContainsKey(bundleInfo.ToString()))
 			{
 				IEnumerator ite = Singleton<Manager>.Instance.PrepareFile(CurrentJob.FullURL, (uint)bundleInfo.BuildNumber, forced, Manager.GetCacheItemType(bundleInfo), (ulong)bundleInfo.AssetBundleFileSize);
 				while (ite.MoveNext())
@@ -453,6 +474,11 @@ namespace AcierNetwork.AssetBundles
 				{
 					CheckAutoUnload();
 				}
+				if (_info.Local)
+				{
+					// the game's bundles were built without main assets
+					return null;
+				}
 				return _info.Bundle.mainAsset;
 			}
 			return null;
@@ -470,6 +496,10 @@ namespace AcierNetwork.AssetBundles
 				if (_info.LoadOnDemand)
 				{
 					CheckAutoUnload();
+				}
+				if (_info.Local)
+				{
+					return LocalSource.LoadAsset(_info.Info.URL, _name, typeof(T)) as T;
 				}
 				if (!(_info.Bundle == null))
 				{

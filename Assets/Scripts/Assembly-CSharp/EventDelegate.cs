@@ -502,14 +502,8 @@ public class EventDelegate
 			}
 			catch (Exception ex)
 			{
-				if (ex.InnerException != null)
-				{
-					Debug.LogError(ex.InnerException.Message);
-				}
-				else
-				{
-					Debug.LogError(ex.Message);
-				}
+				// Full exception and the delegate (target object and method): the message alone did not say where.
+				Debug.LogError("EventDelegate " + eventDelegate + " on " + (eventDelegate.target != null ? eventDelegate.target.name : "null") + " failed: " + (ex.InnerException ?? ex), eventDelegate.target);
 			}
 			if (eventDelegate.oneShot)
 			{

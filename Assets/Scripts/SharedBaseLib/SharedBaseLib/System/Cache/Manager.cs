@@ -305,7 +305,8 @@ namespace SharedBaseLib.System.Cache
 			}
 			WaitForEndOfFrame wait = new WaitForEndOfFrame();
 			Uri val = new Uri(_name);
-			string srcFn = _name.Substring("file://".Length, _name.Length - "file://".Length);
+			// URLs are escaped (GameFolders.FixURL: spaces -> %20); the local file path is not.
+			string srcFn = Uri.UnescapeDataString(_name.Substring("file://".Length, _name.Length - "file://".Length));
 			PotentialConnectionIssue = false;
 			LastError = string.Empty;
 			ErrorReason = EErrorReason.None;

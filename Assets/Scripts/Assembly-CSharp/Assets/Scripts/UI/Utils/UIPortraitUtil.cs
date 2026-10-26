@@ -196,11 +196,21 @@ namespace Assets.Scripts.UI.Utils
 		{
 			GameDB db = Main.Instance.GameDB;
 			HumanoidDef humanoidDef = db.GetItem<HumanoidDef>(_humanoidId);
+			if (humanoidDef == null)
+			{
+				Debug.LogWarning("UIPortraitUtil: no HumanoidDef for " + _humanoidId + ", portrait skipped");
+				return;
+			}
 			humanoidDef.AssetBundleInfo.Provide(delegate(bool _success)
 			{
 				if (_success)
 				{
 					ItemDef heroicItemDef = db.GetItem<ItemDef>(_heroicRankItemRankId);
+					if (heroicItemDef == null)
+					{
+						Debug.LogWarning("UIPortraitUtil: no heroic rank ItemDef for " + _heroicRankItemRankId + ", portrait skipped");
+						return;
+					}
 					heroicItemDef.AssetBundleInfo.Provide(delegate(bool _heroicSuccess)
 					{
 						if (_heroicSuccess)

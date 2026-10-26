@@ -179,7 +179,7 @@ public class ParticleEffectsToolDynamic : MonoBehaviour
 						Vector3 position = new Vector3((float)numParticlesX * particleSys.startSize / 2f - num9 * particleSys.startSize - particleSys.startSize / 2f, (float)numParticlesY * particleSys.startSize / 2f - num8 * particleSys.startSize - particleSys.startSize / 2f, 0f);
 						array[num].position = position;
 						array[num].startLifetime = particleSys.startLifetime + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num9 + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num8;
-						array[num].lifetime = minLifeTime + particleSys.startLifetime - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num9 - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num8;
+						array[num].remainingLifetime = minLifeTime + particleSys.startLifetime - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num9 - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num8;
 						num++;
 					}
 				}
@@ -194,7 +194,7 @@ public class ParticleEffectsToolDynamic : MonoBehaviour
 						Vector3 vector2 = new Vector3((float)numParticlesX * particleSys.startSize / 2f - ((float)numParticlesX - num5) * particleSys.startSize + particleSys.startSize, (float)numParticlesY * particleSys.startSize / 2f - num4 * particleSys.startSize - particleSys.startSize, 0f);
 						array[num].position = vector2 - new Vector3(particleSys.startSize, 0f, 0f);
 						array[num].startLifetime = particleSys.startLifetime + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num5 + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num4;
-						array[num].lifetime = minLifeTime + particleSys.startLifetime - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num5 - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num4;
+						array[num].remainingLifetime = minLifeTime + particleSys.startLifetime - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num5 - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num4;
 						num++;
 					}
 				}
@@ -209,7 +209,7 @@ public class ParticleEffectsToolDynamic : MonoBehaviour
 						Vector3 vector3 = new Vector3((float)numParticlesX * particleSys.startSize / 2f - ((float)numParticlesX - num7) * particleSys.startSize + particleSys.startSize, (float)numParticlesY * particleSys.startSize / 2f - ((float)numParticlesY - num6) * particleSys.startSize + particleSys.startSize * 1.5f, 0f);
 						array[num].position = vector3 - new Vector3(particleSys.startSize, particleSys.startSize, 0f);
 						array[num].startLifetime = particleSys.startLifetime + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num7 + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num6;
-						array[num].lifetime = minLifeTime + particleSys.startLifetime - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num7 - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num6;
+						array[num].remainingLifetime = minLifeTime + particleSys.startLifetime - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num7 - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num6;
 						num++;
 					}
 				}
@@ -224,7 +224,7 @@ public class ParticleEffectsToolDynamic : MonoBehaviour
 						Vector3 vector = new Vector3((float)numParticlesX * particleSys.startSize / 2f - ((float)numParticlesX - ((float)numParticlesX - num3)) * particleSys.startSize - particleSys.startSize / 2f, (float)numParticlesY * particleSys.startSize / 2f - ((float)numParticlesY - num2) * particleSys.startSize + particleSys.startSize * 1.5f, 0f);
 						array[num].position = vector - new Vector3(0f, particleSys.startSize, 0f);
 						array[num].startLifetime = particleSys.startLifetime + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num3 + particleSys.startLifetime / (float)numParticlesX / (float)numParticlesY * num2;
-						array[num].lifetime = minLifeTime + particleSys.startLifetime - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num3 - array[num].lifetime / (float)numParticlesX / (float)numParticlesY * num2;
+						array[num].remainingLifetime = minLifeTime + particleSys.startLifetime - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num3 - array[num].remainingLifetime / (float)numParticlesX / (float)numParticlesY * num2;
 						num++;
 					}
 				}

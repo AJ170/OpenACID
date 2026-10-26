@@ -228,6 +228,11 @@ namespace Assets.Scripts.Mission.UI
 
 		public BBList<AssetBundleInfo> GetPreloadBundles(GameDB _db)
 		{
+			if (Assets.Scripts.Offline.OfflineMode.Enabled)
+			{
+				// Nothing to download up front: the content is on local storage and is opened when it is used.
+				return null;
+			}
 			HashSet<AssetBundleInfo> assetBundleInfos = _db.GetAssetBundleInfos();
 			BBList<AssetBundleInfo> bBList = null;
 			foreach (AssetBundleInfo item in assetBundleInfos)

@@ -39,6 +39,12 @@ namespace AcierNetwork.AssetBundles
 		{
 			get
 			{
+				if (m_Info.Local)
+				{
+					// served synchronously from AssetBundleManager.LocalSource in the constructor
+					WaitHandle.Set();
+					return true;
+				}
 				if (m_bundleLoadEnum != null && !m_bundleLoadEnum.MoveNext())
 				{
 					m_loadAssetEnum = m_Info.Bundle.LoadAssetAsync(m_Name, typeof(T));
@@ -59,6 +65,12 @@ namespace AcierNetwork.AssetBundles
 		{
 			m_Info = _info;
 			m_Name = _resource;
+			if (m_Info.Local)
+			{
+				m_Info.Load();
+				AsyncState = AssetBundleManager.LocalSource.LoadAsset(m_Info.Info.URL, m_Name, typeof(T));
+				return;
+			}
 			AssetBundleManager.Instance.AutoUnloadEnabled = false;
 			if (m_Info.Unloaded)
 			{

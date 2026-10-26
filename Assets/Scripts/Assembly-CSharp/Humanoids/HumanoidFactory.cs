@@ -266,7 +266,7 @@ namespace Humanoids
 		public GameObject AddHumanoidSkin(GameID _gameID, GameObject _target, ICharacterAppearance _appearance)
 		{
 			GameObject gameObject = CreateHumanoidFromDB(_gameID, false, _appearance);
-			Transform transform = gameObject.transform.FindChild("Body_LOD0");
+			Transform transform = gameObject.transform.Find("Body_LOD0");
 			if (transform != null)
 			{
 				transform.parent = _target.transform;
@@ -508,9 +508,9 @@ namespace Humanoids
 					skinnedMeshRenderer.sharedMaterial = list[0];
 					MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
 					skinnedMeshRenderer.GetPropertyBlock(materialPropertyBlock);
-					materialPropertyBlock.AddVector("_MainTex_Face", HumanoidFactoryHelpers.TextureOffset(list[1], "_MainTex"));
-					materialPropertyBlock.AddVector("_BumpMap_Face", HumanoidFactoryHelpers.TextureOffset(list[1], "_BumpMap"));
-					materialPropertyBlock.AddVector("_MaskTex_Face", HumanoidFactoryHelpers.TextureOffset(list[1], "_MaskTex"));
+					materialPropertyBlock.SetVector("_MainTex_Face", HumanoidFactoryHelpers.TextureOffset(list[1], "_MainTex"));
+					materialPropertyBlock.SetVector("_BumpMap_Face", HumanoidFactoryHelpers.TextureOffset(list[1], "_BumpMap"));
+					materialPropertyBlock.SetVector("_MaskTex_Face", HumanoidFactoryHelpers.TextureOffset(list[1], "_MaskTex"));
 					skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
 				}
 				else
@@ -626,9 +626,9 @@ namespace Humanoids
 					if (_def.AtlasPage != 0)
 					{
 						MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
-						materialPropertyBlock.AddVector("_MainTex_Face", HumanoidFactoryHelpers.TextureOffset(material3, "_MainTex"));
-						materialPropertyBlock.AddVector("_BumpMap_Face", HumanoidFactoryHelpers.TextureOffset(material3, "_BumpMap"));
-						materialPropertyBlock.AddVector("_MaskTex_Face", HumanoidFactoryHelpers.TextureOffset(material3, "_MaskTex"));
+						materialPropertyBlock.SetVector("_MainTex_Face", HumanoidFactoryHelpers.TextureOffset(material3, "_MainTex"));
+						materialPropertyBlock.SetVector("_BumpMap_Face", HumanoidFactoryHelpers.TextureOffset(material3, "_BumpMap"));
+						materialPropertyBlock.SetVector("_MaskTex_Face", HumanoidFactoryHelpers.TextureOffset(material3, "_MaskTex"));
 						renderer.SetPropertyBlock(materialPropertyBlock);
 					}
 					else
