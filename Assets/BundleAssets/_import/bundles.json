@@ -1,11 +1,23 @@
 {
  "EnvAnimus_AnimusGlobe_High_Env_AndroidETC2.unity3d": {
-  "assets": [],
+  "assets": [
+   {
+    "name": "Assets/Temp/AnimusGlobe_High_Android_ETC2/AnimusGlobe.unity",
+    "path": "Assets/BundleAssets/EnvAnimus_AnimusGlobe_High_Env_AndroidETC2/Temp/AnimusGlobe_High_Android_ETC2/AnimusGlobe.unity",
+    "type": "SceneAsset"
+   }
+  ],
   "bundle": "EnvAnimus_AnimusGlobe_High_Env_AndroidETC2",
   "scene": true
  },
  "EnvItaly_Firenze_santacroce_sunny_High_Env_AndroidETC2.unity3d": {
-  "assets": [],
+  "assets": [
+   {
+    "name": "Assets/Temp/Firenze_santacroce_sunny_High_Android_ETC2/Firenze_santacroce_sunny.unity",
+    "path": "Assets/BundleAssets/EnvItaly_Firenze_santacroce_sunny_High_Env_AndroidETC2/Temp/Firenze_santacroce_sunny_High_Android_ETC2/Firenze_santacroce_sunny.unity",
+    "type": "SceneAsset"
+   }
+  ],
   "bundle": "EnvItaly_Firenze_santacroce_sunny_High_Env_AndroidETC2",
   "scene": true
  },

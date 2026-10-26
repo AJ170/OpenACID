@@ -245,7 +245,10 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
     for c in index_entry['container']:
         key = c['name']
         obj = objects.get((bundle_file, c['path_id'])) if c['file_id'] == 0 else None
-        if obj is None or obj['type'] in NOT_LOADABLE:
+        if index_entry['scene_bundle']:
+            # a scene bundle's entries name the scene (path ID 0, no object)
+            obj = {'type': 'SceneAsset', 'name': os.path.splitext(os.path.basename(key))[0]}
+        elif obj is None or obj['type'] in NOT_LOADABLE:
             # scripts and built-in resources are listed in containers but never loaded from the bundle
             skipped += 1
             continue
@@ -271,6 +274,17 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
     manifest[index_entry['file']] = {'bundle': bundle, 'scene': index_entry['scene_bundle'], 'assets': entries}
     print('  imported %s: %d files, %d explicit assets' % (bundle, copied, len(entries)))
     return True
+
+
+def write_tsv(manifest, path):
+    """bundles.json flattened for the game code (JsonUtility cannot read it): one line per explicit asset,
+    bundle file <TAB> scene (0/1) <TAB> explicit name <TAB> type <TAB> project path."""
+    with open(path, 'w', encoding='utf-8', newline='\n') as fh:
+        for bundle_file in sorted(manifest):
+            entry = manifest[bundle_file]
+            for asset in entry['assets']:
+                fh.write('%s\t%d\t%s\t%s\t%s\n' % (bundle_file, 1 if entry['scene'] else 0, asset['name'],
+                                                   asset.get('type', ''), asset['path']))
 
 
 def main():
@@ -314,6 +328,7 @@ def main():
         json.dump(manifest, fh, indent=1, sort_keys=True)
     with open(shaders_path, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump(shader_log, fh, indent=1, sort_keys=True)
+    write_tsv(manifest, os.path.join(import_dir, 'bundles.tsv'))
     unresolved = sorted(set(shader_log.values()))
     print('shaders still to port (%d): %s' % (len(unresolved), ', '.join(unresolved)))
 

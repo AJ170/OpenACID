@@ -29,7 +29,10 @@ namespace UbiCore.Helpers
 			case RuntimePlatform.IPhonePlayer:
 				return EAssetBundlePlatform.iOS;
 			case RuntimePlatform.PSP2:
-				// Keep the Android file names so data from the Android CDN/cache layout is found.
+			case RuntimePlatform.WindowsEditor:
+			case RuntimePlatform.OSXEditor:
+				// Keep the Android file names so data from the Android CDN/cache layout is found (the game only ever
+				// shipped Android/iOS data; the editor uses the same files as the PS Vita).
 				// The bundles themselves still have to be rebuilt for PSP2.
 				return EAssetBundlePlatform.Android_Generic;
 			case RuntimePlatform.Android:
@@ -44,11 +47,9 @@ namespace UbiCore.Helpers
 				default:
 					throw new Exception("GetCurrentAssetbundlePlatform RuntimePlatform.Android " + _textureType);
 				}
-			case RuntimePlatform.OSXEditor:
 			case RuntimePlatform.OSXPlayer:
 			case RuntimePlatform.WindowsPlayer:
 			case (RuntimePlatform)5 /* WindowsWebPlayer */:
-			case RuntimePlatform.WindowsEditor:
 				return EAssetBundlePlatform.Windows;
 			default:
 				throw new Exception("GetCurrentAssetbundlePlatform Application.platform " + Application.platform);
@@ -102,12 +103,12 @@ namespace UbiCore.Helpers
 				return "FirstContact_iOS.xml";
 			case RuntimePlatform.Android:
 			case RuntimePlatform.PSP2:
-				return "FirstContact_Android.xml";
 			case RuntimePlatform.OSXEditor:
+			case RuntimePlatform.WindowsEditor:
+				return "FirstContact_Android.xml";
 			case RuntimePlatform.OSXPlayer:
 			case RuntimePlatform.WindowsPlayer:
 			case (RuntimePlatform)5 /* WindowsWebPlayer */:
-			case RuntimePlatform.WindowsEditor:
 				return "FirstContact_Win.xml";
 			default:
 				throw new Exception("GetFirstContactFilename() unknown platform " + Application.platform);
