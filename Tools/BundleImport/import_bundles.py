@@ -32,6 +32,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python -I leaves the script folder out
 import animator_hierarchy  # noqa: E402
 import clip_params  # noqa: E402
+import textures  # noqa: E402
 
 GUID_RE = re.compile(r'^guid: ([0-9a-f]{32})', re.M)
 SHADER_NAME_RE = re.compile(r'^\s*Shader\s+"([^"]+)"', re.M)
@@ -360,6 +361,12 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
                         fh.write(text.encode('utf-8', errors='surrogateescape'))
                 else:
                     shutil.copyfile(src, dst)
+            elif f.endswith('.png.meta'):
+                # the Android ETC2 format the rip forces on every texture -> each platform's own compression
+                with open(src, encoding='utf-8', errors='surrogateescape') as fh:
+                    text = fh.read()
+                with open(dst, 'w', encoding='utf-8', errors='surrogateescape', newline='') as fh:
+                    fh.write(textures.fix_texture_meta(text))
             else:
                 shutil.copyfile(src, dst)
             copied += 1
@@ -374,6 +381,12 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
         clips, curves, smoothed = clip_params.restore_folder(dst_root, os.path.join(args.bundles, index_entry['rel']), names)
         if clips or smoothed:
             print('    clips: %d parameter curves added to %d clips, tangents smoothed in %d' % (curves, clips, smoothed))
+
+    # 2d. raw ETC textures (lightmaps) -> PNG under the same GUID; the Vita cannot sample ETC
+    if args.bundles:
+        converted = textures.convert_raw_textures(dst_root, os.path.join(args.bundles, index_entry['rel']))
+        if converted:
+            print('    textures decoded from ETC to PNG: %s' % ', '.join(converted))
 
     # 3. explicit asset names -> project paths. A container entry names an object of the bundle; the export names
     # each file after its object (m_Name + extension), so the object's name and type find it. Several entries can

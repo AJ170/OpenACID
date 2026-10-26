@@ -141,14 +141,31 @@ Unattended Play-mode test (normal editor, not batch mode):
 Unity.exe -projectPath <this folder> -executeMethod ACIDPlayTest.Begin -acidPlayTarget AnimusGlobe -logFile Logs/playtest_editor.log
 ```
 writes `Logs/playtest.txt` (scenes loaded, every warning/error) and `Logs/playtest.png`.
+## PS Vita content
+
+The bundles are rebuilt for PSP2 from the imported assets and read straight from the data folder
+(no download, no cache):
+
+1. Import (`Tools/BundleImport/import_bundles.py`) also makes the textures Vita-ready
+   (`textures.py`): the rip forces the Android ETC2 format on every texture (set to automatic, so
+   PSP2 picks its own compression), and raw ETC textures (level lightmaps) are decoded to PNG under
+   the same GUID.
+2. **AC Identity → Build PS Vita Bundles** (`Assets/Editor/ACIDBundleBuild.cs`, batch:
+   `-buildTarget PSP2 -executeMethod ACIDBundleBuild.BuildBatch`): one LZ4 bundle per imported
+   bundle, named by `LocalBundles.BundleKey`, level scenes in their own bundles, plus `bundles.tsv`
+   and the offline data from `../AcierData`, into `Build/PSVitaData/ACID/AcierData`.
+3. **Build PS Vita** for the player, then a VPK: `eboot.bin` (= `PSVita.self`), `sce_sys/`,
+   `sce_module/`, `Media/` from `Build/PSVita`.
+4. On the Vita: install the VPK, copy `Build/PSVitaData/ACID` to `ux0:data/ACID`.
+
+At runtime `LocalBundles.FileSource` opens `ux0:data/ACID/AcierData/Bundles/<key>` with
+`AssetBundle.LoadFromFile` (kept open; LZ4 keeps only headers in memory) and loads assets by their
+project path; scenes load by name after their bundle is open.
+
 ## Not done yet
 
-- **Bundle shaders.** 26 shaders used by the imported bundles exist only there (Animus globe,
-  the `Generated/*` level family, `T4M/4Splat`, skybox, barriers, wind foliage) and need porting
-  like the others.
-- **Rebuilding bundles for PSP2** under their original names (legacy
-  `BuildAssetBundleExplicitAssetNames` / `BuildStreamedSceneAssetBundle`, which 2017.4 still
-  has) and loading them from the local data folder.
+- **Bundle shaders.** `Animus/PrimitiveFloatingFloor` and `Character/BfSkin` (Caribbean) are not
+  ported yet; `Tools/BundleImport/shader_remap.py` points the materials at them once they are.
 - **Physical controls.** Touch works; mapping the Vita buttons/sticks needs an InControl
   device profile.
 - **Memory/performance on hardware.** The `~iPad` UI atlases are 2048² RGBA32. Measure
