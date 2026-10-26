@@ -158,24 +158,22 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
         if os.path.exists(meta):
             os.remove(meta)
 
-    # 1. shaders of this export: GUID -> name
+    # 1. shaders of this export, wherever they sit (Shader/ or a container path such as
+    # Asset_Bundles/shared/shaders/...): GUID -> name. None of them is copied.
     export_shader = {}
-    shader_dir = os.path.join(src_assets, 'Shader')
-    if os.path.isdir(shader_dir):
-        for f in os.listdir(shader_dir):
-            if f.endswith('.shader'):
-                p = os.path.join(shader_dir, f)
-                with open(p, encoding='utf-8', errors='replace') as fh:
-                    m = SHADER_NAME_RE.search(fh.read())
-                guid = read_guid(p + '.meta')
-                if m and guid:
-                    export_shader[guid] = m.group(1)
-                    if shader_ref(m.group(1), proj_shaders, builtin) is None:
-                        keep = os.path.join(args.project, 'Tools', 'ShaderPort', 'bundle_originals',
-                                            m.group(1).replace('/', '_').replace(' ', '_') + '.shader')
-                        if not os.path.exists(keep):
-                            os.makedirs(os.path.dirname(keep), exist_ok=True)
-                            shutil.copyfile(p, keep)
+    shader_files = [os.path.join(d, f) for d, _, fs in os.walk(src_assets) for f in fs if f.endswith('.shader')]
+    for p in shader_files:
+        with open(p, encoding='utf-8', errors='replace') as fh:
+            m = SHADER_NAME_RE.search(fh.read())
+        guid = read_guid(p + '.meta')
+        if m and guid:
+            export_shader[guid] = m.group(1)
+            if shader_ref(m.group(1), proj_shaders, builtin) is None:
+                keep = os.path.join(args.project, 'Tools', 'ShaderPort', 'bundle_originals',
+                                    m.group(1).replace('/', '_').replace(' ', '_') + '.shader')
+                if not os.path.exists(keep):
+                    os.makedirs(os.path.dirname(keep), exist_ok=True)
+                    shutil.copyfile(p, keep)
     lost = None
 
     # 2. copy, rewriting shader references
@@ -187,6 +185,8 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
         out_dir = os.path.join(dst_root, rel_dir) if rel_dir != '.' else dst_root
         os.makedirs(out_dir, exist_ok=True)
         for f in files:
+            if f.endswith(('.shader', '.shader.meta')):
+                continue
             src = os.path.join(d, f)
             dst = os.path.join(out_dir, f)
             if f.endswith(('.mat', '.asset', '.prefab', '.unity', '.controller', '.overrideController')):
@@ -326,6 +326,8 @@ def main():
 
     with open(manifest_path, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump(manifest, fh, indent=1, sort_keys=True)
+    # drop shaders that have been ported since an earlier import
+    shader_log = {g: n for g, n in shader_log.items() if shader_ref(n, proj, builtin) is None}
     with open(shaders_path, 'w', encoding='utf-8', newline='\n') as fh:
         json.dump(shader_log, fh, indent=1, sort_keys=True)
     write_tsv(manifest, os.path.join(import_dir, 'bundles.tsv'))

@@ -1,0 +1,50 @@
+// Ported from the Unity 5.2.3 compiled shader by Tools/ShaderPort/port_shaders.py.
+// Edit Tools/ShaderPort/specs/Shader/Bundle/Animus/BillboardMeshCubemapHorizont.shader.cg, not this file.
+Shader "Animus/BillboardMeshCubemapHorizont" {
+Properties {
+ _MainTex ("Billboard Texture", 2D) = "white" { }
+ _FadeOffset ("Fade Offset", Float) = 0.5
+}
+SubShader { 
+ Tags { "Queue"="Background" "IgnoreProjector"="true" "RenderType"="Transparent" }
+ Pass {
+  Tags { "Queue"="Background" "IgnoreProjector"="true" "RenderType"="Transparent" }
+  ZWrite Off
+  Cull Off
+  Blend SrcAlpha One
+  ColorMask RGB
+  CGPROGRAM
+  #pragma vertex vert
+  #pragma fragment frag
+  #include "UnityCG.cginc"
+  sampler2D _MainTex;
+  float _FadeOffset;
+  struct v2f
+  {
+      float4 pos : SV_POSITION;
+      half4 color : COLOR;
+      half2 uv : TEXCOORD0;
+  };
+  // Horizon band around the camera: slow drift, texcoord1 is the quad corner offset in view space.
+  v2f vert(appdata_full v)
+  {
+      v2f o;
+      float4 wpos = mul(unity_ObjectToWorld, v.vertex);
+      wpos.xyz += _WorldSpaceCameraPos;
+      float4 vpos = mul(UNITY_MATRIX_V, wpos);
+      float t = v.vertex.x * v.vertex.y * v.vertex.z + _Time.z * 0.125;
+      vpos.x += sin(t * 0.5) * 0.25;
+      vpos.y += sin(t) * 0.1;
+      o.color = half4(v.color.rgb, vpos.y + _FadeOffset);
+      o.pos = mul(UNITY_MATRIX_P, vpos + v.texcoord1 * 1.2);
+      o.uv = v.texcoord.xy;
+      return o;
+  }
+  fixed4 frag(v2f i) : SV_Target
+  {
+      return tex2D(_MainTex, i.uv) * i.color;
+  }
+  ENDCG
+ }
+}
+}

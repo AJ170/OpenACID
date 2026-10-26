@@ -226,6 +226,7 @@ def main():
         out_path = os.path.join(ASSETS, rel)
         old = open(out_path, encoding='utf8', errors='replace').read() if os.path.exists(out_path) else None
         if old != out:
+            os.makedirs(os.path.dirname(out_path), exist_ok=True)
             open(out_path, 'w', encoding='utf8', newline='\n').write(out)
         built += 1
     print(f'built {built} shaders, {len(missing)} without spec, {len(errors)} errors')
