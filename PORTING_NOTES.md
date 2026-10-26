@@ -117,7 +117,8 @@ bundles), Unity 5.2 Android ETC2. Pipeline:
    CDN names (`catalogue.bin` maps them). `cache_283_named` is the 2.8.2 cache with the High
    quality bundles of the 2.7.0 cache swapped in, plus the 2.8.3 Mono DLLs in `Managed/`.
 2. `Tools/BundleImport/bundle_index.py`: every bundle's explicit asset names (what the game
-   loads), objects and dependencies (needs UnityPy) -> `Assets/BundleAssets/_import/bundle_index.json`.
+   loads), objects and dependencies (needs UnityPy) -> `cache_283_named/bundle_index.json`
+   (42 MB, kept with the caches).
 3. `Tools/BundleRip`: one AssetRipper export per bundle (a merged rip cannot tell same-path
    assets of different bundles apart). Built against the installed ULegacy AssetRipper DLLs.
 4. `Tools/BundleImport/import_bundles.py`: copies each export to
