@@ -87,14 +87,54 @@ Normal maps are read with `UnpackNormal`; import them as *Normal map* textures.
 | No low-end-device popup (light UI atlases still used) | `Main` |
 | iOS Game Center backend and the logo movie compiled out | `ClientAchievementIOS`, `Main` |
 
+## Offline mode (no servers)
+
+`Assets/Scripts/Assembly-CSharp/Assets/Scripts/Offline/OfflineMode.cs`. What the client needs
+without Ubisoft's servers was worked out by the AC Identity Offline Revival Kit
+(github.com/CROWNZENYTH-70/acid-identity-revival, IL patches for the Android build); this is a
+source reimplementation of it:
+
+- Startup reads the CDN files from a local copy, `OfflineMode.DataRoot`
+  (PS Vita `ux0:data/ACID/AcierData`, editor `../AcierData` next to the project): the layout of
+  the CDN folder (`FirstContact_Android.xml`, `AssetBundleDict_*.xml`, `GameDB_*.bin`,
+  `AssetBundles/`, `RuntimeAssets/`, `Missions/`).
+- A local player profile (one Berserker), assassin class definitions and tutorial mapping
+  replace the server statics; profile requests without a session are dropped
+  (`ProfileManager.GenericDataStoreCall`).
+- `<DataRoot>/boot.txt` (first line, e.g. `Missions/tutorial_0001.bin`) starts in that mission
+  instead of the Animus hub. The kit's mission files (`mission/` in its repo) work with it: its
+  three enemy GUIDs are aliased in `OfflineMode.TryGetGuidAlias`, and offline spawns snap to the
+  navmesh.
+- Bug fixes the kit found: lone NPCs without a formation, crowd bodies missing from the
+  database, parcour cover on NPCs without a patrol, missions without objectives.
+
+## Downloaded content (asset bundles)
+
+Everything in the game except the menus came from 96 CDN bundles (17 levels, 79 content
+bundles), Unity 5.2 Android ETC2. Pipeline:
+
+1. `cache files/cache_named` / `cache_283_named`: the phone caches with the bundles under their
+   CDN names (`catalogue.bin` maps them). `cache_283_named` is the 2.8.2 cache with the High
+   quality bundles of the 2.7.0 cache swapped in, plus the 2.8.3 Mono DLLs in `Managed/`.
+2. `Tools/BundleImport/bundle_index.py`: every bundle's explicit asset names (what the game
+   loads), objects and dependencies (needs UnityPy) -> `Assets/BundleAssets/_import/bundle_index.json`.
+3. `Tools/BundleRip`: one AssetRipper export per bundle (a merged rip cannot tell same-path
+   assets of different bundles apart). Built against the installed ULegacy AssetRipper DLLs.
+4. `Tools/BundleImport/import_bundles.py`: copies each export to
+   `Assets/BundleAssets/<bundle>/` (GUIDs kept), points shader references at the project's or
+   Unity's built-in shader of the same name, and writes `_import/bundles.json` (per bundle: scene
+   or not, every explicit name and its project path). `_import/shaders.json` lists the shaders
+   the project does not have yet; their disassembly is in `Tools/ShaderPort/bundle_originals/`.
+
+`Assets/BundleAssets/` is not in git (rerun step 4 to regenerate); `_import/` is.
 ## Not done yet
 
-- **Server bypass.** Startup downloads the first-contact file, game database and
-  localisation from Ubisoft's servers, and missions/characters/levels come from CDN asset
-  bundles. None of that content is in this rip (only the APK's menus and UI are).
-- **Mission content.** The downloaded bundles were cached on the phone under the game's
-  `persistentDataPath`. They are Android bundles and have to be ripped and rebuilt for PSP2;
-  `GameFolders.GetCurrentAssetbundlePlatform` also needs a PSP2 case.
+- **Bundle shaders.** 26 shaders used by the imported bundles exist only there (Animus globe,
+  the `Generated/*` level family, `T4M/4Splat`, skybox, barriers, wind foliage) and need porting
+  like the others.
+- **Rebuilding bundles for PSP2** under their original names (legacy
+  `BuildAssetBundleExplicitAssetNames` / `BuildStreamedSceneAssetBundle`, which 2017.4 still
+  has) and loading them from the local data folder.
 - **Physical controls.** Touch works; mapping the Vita buttons/sticks needs an InControl
   device profile.
 - **Memory/performance on hardware.** The `~iPad` UI atlases are 2048² RGBA32. Measure
