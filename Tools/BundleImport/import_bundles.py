@@ -368,12 +368,12 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
     for path, result in animator_hierarchy.restore_folder(dst_root):
         print('    %s: %s' % (os.path.basename(path), result))
 
-    # 2c. animator parameter curves (Foot_R_front, IK_footl, ...) the rip drops from AnimationClips
+    # 2c. animator parameter curves (Foot_R_front, IK_footl, ...) the rip drops from AnimationClips; smooth tangents
     if args.bundles:
         names = clip_params.parameter_names(os.path.join(args.project, 'Assets', 'BundleAssets'))
-        clips, curves = clip_params.restore_folder(dst_root, os.path.join(args.bundles, index_entry['rel']), names)
-        if clips:
-            print('    parameter curves: %d added to %d clips' % (curves, clips))
+        clips, curves, smoothed = clip_params.restore_folder(dst_root, os.path.join(args.bundles, index_entry['rel']), names)
+        if clips or smoothed:
+            print('    clips: %d parameter curves added to %d clips, tangents smoothed in %d' % (curves, clips, smoothed))
 
     # 3. explicit asset names -> project paths. A container entry names an object of the bundle; the export names
     # each file after its object (m_Name + extension), so the object's name and type find it. Several entries can

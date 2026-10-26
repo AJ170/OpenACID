@@ -151,29 +151,69 @@ def restore_clip(text, curves):
     return text, len(add)
 
 
+KEY_RE = re.compile(r'(      - time: (\S+)\n        value: (\S+)\n        inSlope: )\S+(\n        outSlope: )\S+(\n)')
+
+
+def smooth_tangents(text, keep_flat):
+    """The rip samples every curve once per frame with flat tangents (inSlope = outSlope = 0), so Unity eases in and
+    out of every key and the motion stutters at the sample rate (the choppy run). Give each key the slope through
+    its neighbours (one-sided at the ends); the samples are dense, so this follows the original curves closely.
+    Curves of animator parameters (keep_flat: Foot_R_front, ...) are steps and stay flat. Returns (text, curves)."""
+    start = text.find('  m_FloatCurves:\n')
+    end = text.find(PPTR_CURVES, start)
+    if start < 0 or end < 0:
+        return text, 0
+    section = text[start:end]
+    parts = re.split(r'(?=^  - curve:\n)', section, flags=re.M)
+    changed = 0
+    for n, part in enumerate(parts):
+        m = re.search(r'^    attribute: (\S+)', part, re.M)
+        if not m or m.group(1) in keep_flat:
+            continue
+        keys = [(float(k.group(2)), float(k.group(3))) for k in KEY_RE.finditer(part)]
+        if len(keys) < 2:
+            continue
+        slopes = []
+        for i in range(len(keys)):
+            a = keys[max(i - 1, 0)]
+            b = keys[min(i + 1, len(keys) - 1)]
+            slopes.append((b[1] - a[1]) / (b[0] - a[0]) if b[0] != a[0] else 0.0)
+        it = iter(slopes)
+
+        def put(k):
+            s = '%.7g' % next(it)
+            return k.group(1) + s + k.group(4) + s + k.group(5)
+        parts[n] = KEY_RE.sub(put, part)
+        changed += 1
+    return text[:start] + ''.join(parts) + text[end:], changed
+
+
 def restore_folder(folder, bundle_path, names=None):
-    """Restore the parameter curves of every .anim in an imported bundle folder. Returns (clips, curves) changed."""
+    """Restore the parameter curves of every .anim in an imported bundle folder and smooth the tangents of the
+    others. Returns (clips with curves added, curves added, clips smoothed)."""
     names = names if names is not None else parameter_names(folder)
-    if not names:
-        return 0, 0
     anims = []
     for d, _, files in os.walk(folder):
         anims += [os.path.join(d, f) for f in files if f.endswith('.anim')]
     if not anims:
-        return 0, 0
-    originals = original_curves(bundle_path, names)
-    clips = added = 0
+        return 0, 0, 0
+    originals = original_curves(bundle_path, names) if names else {}
+    keep_flat = set(names.values())
+    clips = added = smoothed = 0
     for p in anims:
         with open(p, 'rb') as fh:
-            text = fh.read().decode('utf-8', errors='surrogateescape')
+            original_text = text = fh.read().decode('utf-8', errors='surrogateescape')
         m = re.search(r'^  m_Name: (.*)$', text, re.M)
         entry = originals.get(m.group(1).strip()) if m else None
-        if not entry:
-            continue
-        text, n = restore_clip(text, entry[1])
+        if entry:
+            text, n = restore_clip(text, entry[1])
+            if n:
+                clips += 1
+                added += n
+        text, n = smooth_tangents(text, keep_flat)
         if n:
+            smoothed += 1
+        if text != original_text:
             with open(p, 'wb') as fh:
                 fh.write(text.encode('utf-8', errors='surrogateescape'))
-            clips += 1
-            added += n
-    return clips, added
+    return clips, added, smoothed
