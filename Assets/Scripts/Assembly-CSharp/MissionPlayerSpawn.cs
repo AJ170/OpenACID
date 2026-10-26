@@ -11,6 +11,11 @@ public class MissionPlayerSpawn : MissionBase<MissionPlayerSpawnData>
 
 	public override void OnPreActivate()
 	{
+		if (Assets.Scripts.Offline.OfflineMode.Enabled)
+		{
+			// Offline missions are hand-authored with approximate positions: land on the walkable surface.
+			UbiCore.Helpers.SceneTools.SnapToNavMesh(base.transform, -1, 100f);
+		}
 		AvatarData.IAvatarDefinition playerDefinition = UbiCore.Utils.Singleton<AvatarData>.Instance.GetPlayerDefinition();
 		m_playerGO = SpawnHelper.SpawnPlayer(playerDefinition, base.transform);
 	}

@@ -20,9 +20,13 @@ namespace Assets.Scripts.Mission.Logic.Stats
 			{
 				if (_instanceCarrier.GameEntity.GameObjectParent != null)
 				{
+					// A lone NPC (no formation) has no patrol; without this check the whole stats init aborted.
 					MissionNpcFormation component = _instanceCarrier.GameEntity.GameObjectParent.GetComponent<MissionNpcFormation>();
-					EntityId id = component.EntityID.GetEntity<Assets.Scripts.Mission.Logic.Entities.Patrol>().Id;
-					_stats.Set_EntityId(StatTypes.EStatType.Npc_PatrolId, id);
+					if (component != null)
+					{
+						EntityId id = component.EntityID.GetEntity<Assets.Scripts.Mission.Logic.Entities.Patrol>().Id;
+						_stats.Set_EntityId(StatTypes.EStatType.Npc_PatrolId, id);
+					}
 				}
 				_stats.Set_int(StatTypes.EStatType.Npc_AnimatorNpcId, -1);
 				_stats.Set_bool(StatTypes.EStatType.Npc_DidSeeBombExplosion, false);

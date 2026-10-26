@@ -17,6 +17,11 @@ namespace Assets.Scripts.UI.Notifications
 		public override void Init()
 		{
 			base.Init();
+			if (Assets.Scripts.Offline.OfflineMode.Enabled)
+			{
+				// Campaigns come from the server statics.
+				return;
+			}
 			OnProfileUpdated();
 		}
 

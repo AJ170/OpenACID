@@ -369,6 +369,10 @@ namespace Assets.Scripts.Database
 
 		public void ValidateStorageForOldUserOnStartUp()
 		{
+			if (Assets.Scripts.Offline.OfflineMode.Enabled)
+			{
+				return;
+			}
 			if (m_achievementsData.Count == 0 && m_entitlementNotificationData.Count == 0)
 			{
 				Singleton<StateManager>.Instance.ProfileManager.Profile.UpdateLocalStorageForNewProfile();

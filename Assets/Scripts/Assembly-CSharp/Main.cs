@@ -19,6 +19,7 @@ using Assets.Scripts.Mission.Logic.Stats;
 using Assets.Scripts.Mission.UI;
 using Assets.Scripts.Mission.Utilities.AutoUpdating;
 using Assets.Scripts.Native;
+using Assets.Scripts.Offline;
 using Assets.Scripts.Network;
 using Assets.Scripts.Network.Error;
 using Assets.Scripts.Network.Session;
@@ -499,6 +500,11 @@ public class Main : SharedMain, INativeShopMessageHandler
 
 	protected override ulong GetFreeDiskspaceImpl()
 	{
+		if (OfflineMode.Enabled)
+		{
+			// Nothing is downloaded offline; the native query is Android-only (JNI).
+			return ulong.MaxValue;
+		}
 		return NativeTools.GetFreeDiskspace();
 	}
 
@@ -754,7 +760,17 @@ public class Main : SharedMain, INativeShopMessageHandler
 		{
 			yield return new WaitForSeconds(0.5f);
 		}
-		if (IsNetworkEnabled)
+		if (OfflineMode.Enabled)
+		{
+			string bootMission = OfflineMode.BootMission;
+			if (bootMission != null)
+			{
+				UbiCore.Utils.Singleton<UiMain>.Instance.TutorialManager.InitFromProfile();
+				yield return StartCoroutine(UILoadingScreen.Instance.LoadMission(bootMission, false));
+				yield break;
+			}
+		}
+		else if (IsNetworkEnabled)
 		{
 			UbiCore.Utils.Singleton<UiMain>.Instance.TutorialManager.InitFromProfile();
 			TutorialCategory category = UbiCore.Utils.Singleton<UiMain>.Instance.TutorialManager.GetCategory(ETutorialCategory.TutCatIntroMission);
@@ -769,7 +785,7 @@ public class Main : SharedMain, INativeShopMessageHandler
 
 	private bool ShouldStartOnline()
 	{
-		return true;
+		return !OfflineMode.Enabled;
 	}
 
 	private IEnumerator RetrieveDiscoveryService()
@@ -819,7 +835,7 @@ public class Main : SharedMain, INativeShopMessageHandler
 		}
 		else
 		{
-			BaseURL = BuildDefinition.Url;
+			BaseURL = OfflineMode.Enabled ? OfflineMode.DataUrl : BuildDefinition.Url;
 		}
 	}
 
@@ -872,6 +888,15 @@ public class Main : SharedMain, INativeShopMessageHandler
 
 	private IEnumerator DoStaticRequests()
 	{
+		if (OfflineMode.Enabled)
+		{
+			// What GetStatics and the profile request would have returned.
+			TemplateManager templates = Singleton<StateManager>.Instance.TemplateManager;
+			templates.AvatarDefinition = OfflineMode.BuildAvatarClasses();
+			templates.TutorialCategoryMapping = OfflineMode.BuildTutorialMapping();
+			Singleton<StateManager>.Instance.ProfileManager.SetOfflineProfile(OfflineMode.BuildProfile());
+			yield break;
+		}
 		if (!ShouldStartOnline())
 		{
 			yield break;
@@ -932,6 +957,12 @@ public class Main : SharedMain, INativeShopMessageHandler
 
 	private IEnumerator DoAccountRequests()
 	{
+		if (OfflineMode.Enabled)
+		{
+			// "Network enabled" means a player profile exists; offline it is the local one (no session behind it).
+			IsNetworkEnabled = true;
+			yield break;
+		}
 		if (ShouldStartOnline())
 		{
 			WaitForEndOfFrame waitForEnd = new WaitForEndOfFrame();

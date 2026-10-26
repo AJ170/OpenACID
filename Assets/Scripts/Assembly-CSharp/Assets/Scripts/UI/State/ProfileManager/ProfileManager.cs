@@ -782,6 +782,12 @@ namespace Assets.Scripts.UI.State.ProfileManager
 
 		private void GenericDataStoreCall<T>(DelegateAsyncResult<T> delegateAsyncResult, AsyncCallback _callback = null, IAsyncCallbackScheduler _scheduler = null, Action<T> delegateHandleUpdate = null, int _callDepth = 0) where T : IExtensible
 		{
+			if (DataStore == null)
+			{
+				// Offline (Assets.Scripts.Offline.OfflineMode): no server session, the request is dropped.
+				Debug.Log("ProfileManager: no server, skipped " + typeof(T).Name);
+				return;
+			}
 			Main.Instance.StartCoroutine(FetchGenericResponse(delegateAsyncResult, _callback, _scheduler, delegateHandleUpdate, _callDepth));
 		}
 
@@ -1334,7 +1340,17 @@ namespace Assets.Scripts.UI.State.ProfileManager
 
 		public void Update()
 		{
-			DataStore.Update();
+			if (DataStore != null)
+			{
+				DataStore.Update();
+			}
+		}
+
+		// Offline (Assets.Scripts.Offline.OfflineMode): the profile the server would have sent at login.
+		public void SetOfflineProfile(UserProfile _profile)
+		{
+			m_profile = _profile;
+			LastProfileUserId = _profile.id;
 		}
 
 		public bool AbandonUserProfile()

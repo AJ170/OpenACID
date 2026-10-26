@@ -1007,7 +1007,11 @@ namespace Assets.Scripts.Crowd
 			List<GameObject> list = new List<GameObject>();
 			for (int i = 0; i < count; i++)
 			{
-				list.Add(SpawnCrowdCharacter());
+				GameObject character = SpawnCrowdCharacter();
+				if (character != null)
+				{
+					list.Add(character);
+				}
 			}
 			return list;
 		}
@@ -1019,7 +1023,12 @@ namespace Assets.Scripts.Crowd
 			GameDB safeGameDb = Main.SafeGameDb;
 			GameID gameID = safeGameDb.FindGameIdFromGuid(guid);
 			CharacterAppearance appearance = new CharacterAppearance();
-			HumanoidDef item = safeGameDb.GetItem<HumanoidDef>(gameID);
+			HumanoidDef item = GameID.IsValid(gameID) ? safeGameDb.GetItem<HumanoidDef>(gameID) : null;
+			if (item == null)
+			{
+				// A body the game database does not have: skip it (it used to abort the whole mission load).
+				return null;
+			}
 			GameID overridePrefab = ((item.CharType != HumanoidDef.ECharType.Female) ? safeGameDb.FindGameIdFromGuid(CrowdSettings.MalePrefabGuid) : safeGameDb.FindGameIdFromGuid(CrowdSettings.FemalePrefabGuid));
 			Singleton<HumanoidFactory>.Instance.PreCacheHumanoidFromDB(gameID, overridePrefab);
 			Singleton<HumanoidFactory>.Instance.RandomizeHumanoid(item, appearance, false);

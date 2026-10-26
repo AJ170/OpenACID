@@ -68,6 +68,11 @@ public abstract class MissionSpawnEntity<TData> : MissionBase<TData>, IMissionBa
 	public override void OnPreActivate()
 	{
 		Profiling.Start("MissionSpawnEntity::OnPreActivate()", float.MaxValue);
+		if (Assets.Scripts.Offline.OfflineMode.Enabled)
+		{
+			// Offline missions are hand-authored with approximate positions: land on the walkable surface.
+			UbiCore.Helpers.SceneTools.SnapToNavMesh(base.transform, -1, 100f);
+		}
 		base.OnPreActivate();
 		PreCreateEntity();
 	}

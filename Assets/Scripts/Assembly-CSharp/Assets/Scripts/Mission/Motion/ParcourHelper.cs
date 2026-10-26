@@ -334,7 +334,7 @@ namespace Assets.Scripts.Mission.Motion
 
 		public static EEnvironmentInteraction CheckCivilianCovers(PlayerCharacter _playerChar, NavMeshAgent _navMeshAgent, Vector3 _currentPosition, ref Vector3 _targetPosition, ref Entity _targetEntity)
 		{
-			if (_playerChar.GetIsApproachingTarget())
+			if (_navMeshAgent == null || _playerChar.GetIsApproachingTarget())
 			{
 				return EEnvironmentInteraction.Invalid;
 			}
@@ -378,7 +378,13 @@ namespace Assets.Scripts.Mission.Motion
 			{
 				return false;
 			}
+			// Crowd and diverted NPCs can have no patrol (or a patrol without definition / component / formation):
+			// no cover then, instead of an exception every tick.
 			Assets.Scripts.Mission.Logic.Entities.Patrol patrol = npcCharacter.Patrol;
+			if (patrol == null || patrol.PatrolDefinition == null || patrol.PatrolDefinition.Definition == null || patrol.PatrolComponent == null || patrol.PatrolComponent.Formation == null)
+			{
+				return false;
+			}
 			EPatrolType type = patrol.PatrolDefinition.Definition.Type;
 			if (type == EPatrolType.CapturedNpcs)
 			{

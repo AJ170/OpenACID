@@ -457,6 +457,11 @@ namespace Assets.Scripts.UI.Behaviours
 
 		private void SetRank()
 		{
+			if (Assets.Scripts.Offline.OfflineMode.Enabled)
+			{
+				// Heroic ranks come from the server statics.
+				return;
+			}
 			m_rankGameObject.SetActive(m_canSwitchRank);
 			if (!m_canSwitchRank)
 			{

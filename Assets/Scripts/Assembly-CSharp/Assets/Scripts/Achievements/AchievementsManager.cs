@@ -124,8 +124,9 @@ namespace Assets.Scripts.Achievements
 		public void InitStatics()
 		{
 			StateManager instance = Singleton<StateManager>.Instance;
-			if (m_GcAchievementToAcierAchievement.Count != 0)
+			if (m_GcAchievementToAcierAchievement.Count != 0 || instance.TemplateManager.AchievementMapping == null)
 			{
+				// The mapping comes with the server statics; offline there is none.
 				return;
 			}
 			AchievementMapping.Definition[] achievements = instance.TemplateManager.AchievementMapping.achievements;

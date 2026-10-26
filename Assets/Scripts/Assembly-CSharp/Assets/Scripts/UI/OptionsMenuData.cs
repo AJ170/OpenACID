@@ -285,6 +285,12 @@ namespace Assets.Scripts.UI
 
 		private void UpdateMissionTracker()
 		{
+			// A mission without objectives (offline hand-authored missions) has nothing to track.
+			var collected =UbiCore.Utils.Singleton<MissionManager>.Instance.MissionTracker.CollectedObjectiveData;
+			if (collected == null || collected.Count == 0 || collected[collected.Count - 1].ObjectivesBaseData == null || collected[collected.Count - 1].ObjectivesBaseData.Count == 0)
+			{
+				return;
+			}
 			MissionTracker.ObjectiveData objectiveData = UbiCore.Utils.Singleton<MissionManager>.Instance.MissionTracker.CollectedObjectiveData.Last();
 			IObjectiveBase objectiveBase = objectiveData.ObjectivesBaseData.First();
 			for (int i = 0; i < m_trackerGoalContainer.Count; i++)

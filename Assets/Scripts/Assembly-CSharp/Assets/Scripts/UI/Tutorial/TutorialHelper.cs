@@ -194,7 +194,14 @@ namespace Assets.Scripts.UI.Tutorial
 					return entry;
 				}
 			}
-			return null;
+			// A category the mapping does not list (offline mapping, newer categories): no entitlements either way.
+			// Callers read the arrays without a null check.
+			return new TutorialCategoryMapping.Entry
+			{
+				tutorialCategory = _category,
+				grantedEntitlements = new string[0],
+				reqEntitlements = new string[0]
+			};
 		}
 
 		public static bool OwningRequiredEntitlements(ETutorialCategory _category)

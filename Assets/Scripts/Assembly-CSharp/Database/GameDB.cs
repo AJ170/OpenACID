@@ -101,7 +101,8 @@ namespace Database
 
 		public bool TryFindGameIdFromGuid(string _guid, out GameID _gameId)
 		{
-			GameID key = GameID.CreateDummy(_guid);
+			int aliasHash;
+			GameID key = Assets.Scripts.Offline.OfflineMode.TryGetGuidAlias(_guid, out aliasHash) ? GameID.CreateDummy(aliasHash) : GameID.CreateDummy(_guid);
 			DBEntry value;
 			if (m_dictionary.TryGetValue(key, out value))
 			{
@@ -114,7 +115,8 @@ namespace Database
 
 		public GameID FindGameIdFromGuid(string _guid)
 		{
-			GameID key = GameID.CreateDummy(_guid);
+			int aliasHash;
+			GameID key = Assets.Scripts.Offline.OfflineMode.TryGetGuidAlias(_guid, out aliasHash) ? GameID.CreateDummy(aliasHash) : GameID.CreateDummy(_guid);
 			DBEntry value;
 			if (m_dictionary.TryGetValue(key, out value))
 			{
