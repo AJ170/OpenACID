@@ -250,7 +250,8 @@ public class IconDisplay : MonoBehaviour
 		{
 			m_destroyMaterials = true;
 			Renderer component = GetComponent<Renderer>();
-			component.material.CopyPropertiesFromMaterial(GetComponent<Renderer>().sharedMaterial);
+			// Reading .material makes the instance the renderer's shared material, so copying sharedMaterial into it
+			// copied it onto itself: a no-op that Unity 2017 asserts on every frame. Left out.
 			component.material.SetColor(TintColorId, new Color(0.5f, 0.5f, 0.5f, Mathf.Clamp01(_value)));
 		}
 	}

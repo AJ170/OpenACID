@@ -111,6 +111,8 @@ public class AnimationTaskClimb : AnimationTaskBase, IAnimation, IParkourAnimati
 
 	private static MatchTargetWeightMask s_weightMask = new MatchTargetWeightMask(new Vector3(1f, 1f, 1f), 0f);
 
+	private static MatchTargetWeightMask s_heightMask = new MatchTargetWeightMask(new Vector3(0f, 1f, 0f), 0f);
+
 	private Vector3 m_wallPoint = Vector3.zero;
 
 	private bool m_catClimb;
@@ -555,7 +557,9 @@ public class AnimationTaskClimb : AnimationTaskBase, IAnimation, IParkourAnimati
 		AnimatorStateInfo currentAnimatorStateInfo = AnimationController.Animator.GetCurrentAnimatorStateInfo(0);
 		m_askMatch = false;
 		AnimationController.InterruptMatchTarget();
-		AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_weightMask, currentAnimatorStateInfo.normalizedTime % 1f, _matchEnd);
+		// Height only: the climb clips carry the body along the wall themselves, and steering across pulled it into the
+		// building (the hand is still low and behind early in the window, so the gap seems to point into the wall).
+		AnimationController.MatchTarget(m_matchPoint, Quaternion.identity, m_matchBodyPart, s_heightMask, currentAnimatorStateInfo.normalizedTime % 1f, _matchEnd, true);
 		float num = (_matchEnd - currentAnimatorStateInfo.normalizedTime % 1f) * currentAnimatorStateInfo.length;
 		if (Canceled)
 		{
