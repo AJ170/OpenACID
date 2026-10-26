@@ -280,6 +280,10 @@ public class AnimatorStateMachine
 				m_TransitionEventArgs.Transition = value;
 				this.TransitionStarted(this, m_TransitionEventArgs);
 			}
+			else if (Assets.Scripts.Offline.PortDebug.Once(_current.fullPathHash))
+			{
+				Assets.Scripts.Offline.PortDebug.Log(string.Format("unknown transition {0} on {1} layer {2}: {3} -> {4}", _current.fullPathHash, m_Animator.name, _layer, m_AnimatorStateMachineStatic.GetStateNameByNameHash(m_LastCurrentStateInfo[_layer].fullPathHash), m_AnimatorStateMachineStatic.GetStateNameByNameHash(m_Animator.GetNextAnimatorStateInfo(_layer).fullPathHash)));
+			}
 		}
 	}
 

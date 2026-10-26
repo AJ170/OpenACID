@@ -437,6 +437,10 @@ public class AnimatorDataController : MonoBehaviour
 			return;
 		}
 		_event.m_fired = true;
+		if (Assets.Scripts.Offline.PortDebug.Enabled && (_event.m_type == AnimatorEventType.Hit || _event.m_type == AnimatorEventType.Combo || _event.m_type == AnimatorEventType.Parry || _event.m_type == AnimatorEventType.Dodge || _event.m_type == AnimatorEventType.ReactionStart || _event.m_type == AnimatorEventType.TurnEnd || _event.m_type == AnimatorEventType.TaskEnd))
+		{
+			Assets.Scripts.Offline.PortDebug.Log(string.Format("event {0} on {1} ({2} listeners)", _event.m_type, name, m_eventListeners.Count));
+		}
 		m_eventListenersFire.AddRange(m_eventListeners);
 		AnimatorEvent @event = new AnimatorEvent(m_animator, _state.NameHash, _event.m_type, _event.m_blendID, _state.Layer, _event.m_payload);
 		for (int i = 0; i < m_eventListenersFire.Count; i++)

@@ -31,6 +31,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python -I leaves the script folder out
 import animator_hierarchy  # noqa: E402
+import clip_params  # noqa: E402
 
 GUID_RE = re.compile(r'^guid: ([0-9a-f]{32})', re.M)
 SHADER_NAME_RE = re.compile(r'^\s*Shader\s+"([^"]+)"', re.M)
@@ -353,6 +354,13 @@ def import_bundle(args, bundle, index_entry, proj_shaders, builtin, shader_log, 
     # 2b. ripped AnimatorControllers are flat; put their states back into their sub-state machines
     for path, result in animator_hierarchy.restore_folder(dst_root):
         print('    %s: %s' % (os.path.basename(path), result))
+
+    # 2c. animator parameter curves (Foot_R_front, IK_footl, ...) the rip drops from AnimationClips
+    if args.bundles:
+        names = clip_params.parameter_names(os.path.join(args.project, 'Assets', 'BundleAssets'))
+        clips, curves = clip_params.restore_folder(dst_root, os.path.join(args.bundles, index_entry['rel']), names)
+        if clips:
+            print('    parameter curves: %d added to %d clips' % (curves, clips))
 
     # 3. explicit asset names -> project paths. A container entry names an object of the bundle; the export names
     # each file after its object (m_Name + extension), so the object's name and type find it. Several entries can

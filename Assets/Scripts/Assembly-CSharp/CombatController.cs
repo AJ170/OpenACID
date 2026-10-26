@@ -628,6 +628,18 @@ public class CombatController : MonoBehaviour, IEntityRemovedFromListHandler
 
 	private void ScheduleAttacks()
 	{
+		if (Assets.Scripts.Offline.PortDebug.Every("ScheduleAttacks", 3f))
+		{
+			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			sb.AppendFormat("scheduler t={0:F1} last={1:F1} global={2}x{3}", LogicMain.CurrentTime, m_schedulerLastCooldownTime, SchedulerGlobalCooldown, m_schedulerGlobalCooldownMultiplier);
+			for (int n = 1; n < m_participants.Count; n++)
+			{
+				CombatParticipant p = m_participants[n];
+				EnemyCharacter enemy = p.Character as EnemyCharacter;
+				sb.AppendFormat("\n  {0} {1} canAttack={2} scheduled={3} since={4:F1} cooldown={5} delay={6} mult={7} hit={8}", (p.Agent != null) ? p.Agent.name : "?", (p.ActiveBehaviour != null) ? p.ActiveBehaviour.BehaviourType.ToString() : "none", p.CanAttack(), p.SchedulerCanAttack, LogicMain.CurrentTime - p.SchedulerCooldownStartTime, p.Entity.EntityStats.Get_float(StatTypes.EStatType.Character_Conflict_BaseSchedulerCooldown), (enemy != null) ? enemy.GetAttackDelayFactor().ToString() : "no enemy", p.SchedulerCooldownMultiplier, p.AttackHasHit);
+			}
+			Assets.Scripts.Offline.PortDebug.Log(sb.ToString());
+		}
 		if (m_participants.Count <= 1 || LogicMain.CurrentTime - m_schedulerLastCooldownTime < SchedulerGlobalCooldown * m_schedulerGlobalCooldownMultiplier)
 		{
 			return;

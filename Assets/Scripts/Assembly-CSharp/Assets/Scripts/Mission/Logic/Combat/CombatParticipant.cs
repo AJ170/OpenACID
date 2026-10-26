@@ -721,6 +721,10 @@ namespace Assets.Scripts.Mission.Logic.Combat
 
 		public void SwitchBehaviour(ECombatBehaviourType _type, params object[] _params)
 		{
+			if (Assets.Scripts.Offline.PortDebug.Enabled)
+			{
+				Assets.Scripts.Offline.PortDebug.Log(string.Format("combat {0}: {1} -> {2}", (Agent != null) ? Agent.name : "?", (ActiveBehaviour != null) ? ActiveBehaviour.BehaviourType.ToString() : "none", _type));
+			}
 			if (ActiveBehaviour != null)
 			{
 				ActiveBehaviour.End();
