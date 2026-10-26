@@ -33,6 +33,8 @@ public static class ACIDPlayTest
     private static bool s_shotTaken;
     private static string s_lastScenes = string.Empty;
     private static bool s_tapped;
+    private static double s_lastRendererCheck = -10.0;
+    private static readonly System.Collections.Generic.HashSet<int> s_brokenRenderers = new System.Collections.Generic.HashSet<int>();
     private static readonly System.Collections.Generic.Dictionary<int, string> s_animStates = new System.Collections.Generic.Dictionary<int, string>();
 
     static ACIDPlayTest()
@@ -88,6 +90,32 @@ public static class ACIDPlayTest
             {
                 s_animStates[id] = now;
                 Write("anim " + animator.name + " [" + animator.runtimeAnimatorController.name + "] " + now);
+            }
+        }
+    }
+
+    // Renderers with non-finite bounds (the engine's IsFinite(outDistanceForSort) / Invalid AABB assertions name
+    // no object), each logged once with its hierarchy path and position. Checked every 2 s.
+    private static void LogBrokenRenderers()
+    {
+        if (Elapsed() - s_lastRendererCheck < 2.0)
+        {
+            return;
+        }
+        s_lastRendererCheck = Elapsed();
+        foreach (Renderer renderer in UnityEngine.Object.FindObjectsOfType<Renderer>())
+        {
+            Vector3 c = renderer.bounds.center;
+            Vector3 e = renderer.bounds.extents;
+            float sum = c.x + c.y + c.z + e.x + e.y + e.z;
+            if ((float.IsNaN(sum) || float.IsInfinity(sum)) && s_brokenRenderers.Add(renderer.GetInstanceID()))
+            {
+                string path = renderer.name;
+                for (Transform t = renderer.transform.parent; t != null; t = t.parent)
+                {
+                    path = t.name + "/" + path;
+                }
+                Write(string.Format("broken renderer {0} ({1}) position {2} bounds {3}", path, renderer.GetType().Name, renderer.transform.position, renderer.bounds));
             }
         }
     }
@@ -166,6 +194,7 @@ public static class ACIDPlayTest
         if (s_targetSeenAt >= 0f)
         {
             LogCharacterAnimators();
+            LogBrokenRenderers();
         }
         if (targetLoaded && s_targetSeenAt < 0f)
         {

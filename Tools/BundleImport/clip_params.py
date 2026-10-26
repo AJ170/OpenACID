@@ -19,6 +19,7 @@ import zlib
 
 FLOAT_CURVES_RE = re.compile(r'^  m_FloatCurves:( \[\])?\n', re.M)
 PPTR_CURVES = '  m_PPtrCurves:'
+UNSAFE_NAME_RE = re.compile(r'[<>:"/\\|?*]')
 
 
 def parameter_names(folder):
@@ -112,6 +113,8 @@ def original_curves(bundle_path, names, curve_filter=None):
             curves.append((name, list(zip(times, values))))
         if curves:
             out.setdefault(tree['m_Name'], (rate, curves))
+            # the rip writes characters file names can't hold as '_' (deflect_ul_footr>>attacker_ur)
+            out.setdefault(UNSAFE_NAME_RE.sub('_', tree['m_Name']), (rate, curves))
     return out
 
 

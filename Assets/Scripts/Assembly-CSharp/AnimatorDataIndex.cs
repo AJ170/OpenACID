@@ -99,7 +99,12 @@ public class AnimatorDataIndex : ScriptableObject
 		int hashCode = _clip.GetHashCode();
 		if (!m_clipCache.TryGetValue(hashCode, out value))
 		{
-			m_motionIndex.TryGetValue((int)StringCRC32.Compute(_clip.name), out value);
+			if (!m_motionIndex.TryGetValue((int)StringCRC32.Compute(_clip.name), out value) && _clip.name.Contains("__"))
+			{
+				// The rip writes '>' in clip names as '_' (file names can't hold it; the clip takes its file's name):
+				// AC2_xx_h_deflect_ul_footr>>attacker_ur became AC2_xx_h_deflect_ul_footr__attacker_ur.
+				m_motionIndex.TryGetValue((int)StringCRC32.Compute(_clip.name.Replace("__", ">>")), out value);
+			}
 			m_clipCache[hashCode] = value;
 		}
 		return value;

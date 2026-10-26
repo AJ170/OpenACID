@@ -82,7 +82,12 @@ public class ButterflySystem : MonoBehaviour
 		{
 			SetUpSystem();
 		}
+		if (Particles == null)
+		{
+			return;
+		}
 		ButterflyMovement.GetParticles(Particles);
+		ResetBrokenParticles();
 		Vector3 position = Camera.main.transform.position;
 		targetPosition = position + Camera.main.transform.rotation * Vector3.forward * Distance;
 		if (CameraInBounds(position))
@@ -153,6 +158,24 @@ public class ButterflySystem : MonoBehaviour
 			}
 		}
 		ButterflyMovement.SetParticles(Particles, ButterflyQuantity);
+	}
+
+	// Under Unity 2017 the butterfly particles can come out of the simulation as NaN (seen in the editor before the
+	// mission starts), and the butterflies then take NaN positions. Put such particles back on the navmesh.
+	private void ResetBrokenParticles()
+	{
+		for (int i = 0; i < Particles.Length; i++)
+		{
+			Vector3 p = Particles[i].position;
+			Vector3 v = Particles[i].velocity;
+			if (float.IsNaN(p.x + p.y + p.z + v.x + v.y + v.z) || float.IsInfinity(p.x + p.y + p.z + v.x + v.y + v.z))
+			{
+				Particles[i].position = getPointOnNavmesh();
+				Particles[i].velocity = Vector3.zero;
+				Particles[i].startLifetime = ButterflyMovement.startLifetime;
+				Particles[i].remainingLifetime = ButterflyMovement.startLifetime;
+			}
+		}
 	}
 
 	private Vector3 getPointOnNavmesh()
